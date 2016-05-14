@@ -1,0 +1,115 @@
+{
+  "name": "AKUser",
+  "plural": "ak-users",
+  "base": "AKPersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "accountType": {
+      "type": "number",
+      "description": "用户类型：1（普通用户）、2（微信登陆）",
+      "default": 2
+    },
+    "wx_openid": {
+      "type": "string",
+      "description": "微信用户openid"
+    },
+    "wx_unionid": {
+      "type": "string",
+      "description": "微信用户unionid"
+    },
+    "username": {
+      "type": "string",
+      "required": true,
+      "description": "用户名"
+    },
+    "avatar": {
+      "type": "string",
+      "description": "头像"
+    },
+    "tel": {
+      "type": "string",
+      "description": "手机号"
+    },
+    "identity": {
+      "type": "number",
+      "description": "用户身份，0（普通用户）、1（卖家）、2（拍卖师）"
+    },
+    "gender": {
+      "type": "boolean",
+      "description": "性别：true（男）、false（女）"
+    },
+    "country": {
+      "type": "string",
+      "description": "所在国家"
+    },
+    "language": {
+      "type": "string",
+      "description": "语言"
+    },
+    "province": {
+      "type": "string",
+      "description": "所在省"
+    },
+    "city": {
+      "type": "string",
+      "description": "所在市"
+    },
+    "autograph": {
+      "type": "string",
+      "description": "个性签名"
+    },
+    "realname": {
+      "type": "string",
+      "description": "真实姓名"
+    },
+    "score": {
+      "type": "number",
+      "default": 0,
+      "description": "积分"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "ownerProducts": {
+      "type": "hasMany",
+      "model": "AKProduct",
+      "foreignKey": "ownerId"
+    },
+    "auktionatorProducts": {
+      "type": "hasMany",
+      "model": "AKProduct",
+      "foreignKey": "auktionatorId"
+    },
+    "biddenProducts": {
+      "type": "hasMany",
+      "model": "AKProduct",
+      "foreignKey": "bidderId",
+      "through": "AKProductBid"
+    },
+    "auktionatorGames": {
+      "type": "hasMany",
+      "model": "AKGame",
+      "foreignKey": "auktionatorId"
+    },
+    "buyerOrders": {
+      "type": "hasMany",
+      "model": "AKOrder",
+      "foreignKey": "buyerId"
+    },
+    "sellerOrders": {
+      "type": "hasMany",
+      "model": "AKOrder",
+      "foreignKey": "sellerId"
+    },
+    "auktionatorOrders": {
+      "type": "hasMany",
+      "model": "AKOrder",
+      "foreignKey": "auktionatorId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

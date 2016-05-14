@@ -1,0 +1,39 @@
+{
+  "name": "AKRound",
+  "plural": "ak-rounds",
+  "base": "AKPersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "场次名称"
+    },
+    "thumb": {
+      "type": "string",
+      "description": "场次背景图"
+    },
+    "begin": {
+      "type": "number",
+      "required": true,
+      "description": "场次开始时间，0~23小时"
+    },
+    "end": {
+      "type": "number",
+      "required": true,
+      "description": "场次结束时间，0~23小时"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "games": {
+      "type": "hasMany",
+      "model": "AKGame",
+      "foreignKey": "roundId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,30 @@
+{
+  "name": "AKGameSection",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "required": true,
+      "description": "拍品ID"
+    },
+    "thumb": {
+      "type": "string",
+      "required": false,
+      "description": "拍品缩略图"
+    },
+    "order": {
+      "type": "number",
+      "required": true,
+      "description": "拍品顺序",
+      "default": 0
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

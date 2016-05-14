@@ -1,0 +1,66 @@
+{
+  "name": "AKGame",
+  "plural": "ak-games",
+  "base": "AKPersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "dateno": {
+      "type": "string",
+      "description": "拍场日期号，如（20160508）"
+    },
+    "title": {
+      "type": "string",
+      "description": "拍场标题"
+    },
+    "thumb": {
+      "type": "string",
+      "description": "拍场背景图"
+    },
+    "begin": {
+      "type": "number",
+      "required": true,
+      "description": "拍场开始时间，0~23小时"
+    },
+    "end": {
+      "type": "number",
+      "required": true,
+      "description": "拍场结束时间，0~23小时"
+    },
+    "limit": {
+      "type": "number",
+      "required": true,
+      "description": "拍场人数限制",
+      "default": 500
+    }
+  },
+  "validations": [],
+  "relations": {
+    "round": {
+      "type": "belongsTo",
+      "model": "AKRound"
+    },
+    "auktionator": {
+      "type": "belongsTo",
+      "model": "AKUser"
+    },
+    "products": {
+      "type": "hasMany",
+      "model": "AKProduct",
+      "foreignKey": "gameId"
+    },
+    "sections": {
+      "type": "embedsMany",
+      "model": "AKGameSection",
+      "property": "sections",
+      "options": {
+        "validate": true,
+        "forceId": false
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

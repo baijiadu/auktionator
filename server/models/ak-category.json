@@ -1,0 +1,39 @@
+{
+  "name": "AKCategory",
+  "plural": "ak-categories",
+  "base": "AKPersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "description": "分类名称"
+    },
+    "desc": {
+      "type": "string",
+      "description": "分类描述"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "products": {
+      "type": "hasMany",
+      "model": "AKProduct",
+      "foreignKey": "categoryId"
+    },
+    "parent": {
+      "type": "belongsTo",
+      "model": "AKCategory"
+    },
+    "subCategories": {
+      "type": "hasMany",
+      "model": "AKCategory",
+      "foreignKey": "parentId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

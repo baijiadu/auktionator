@@ -1,0 +1,31 @@
+{
+  "name": "AKProductBid",
+  "plural": "ak-product-bids",
+  "base": "AKPersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "price": {
+      "type": "number",
+      "required": true,
+      "description": "出价"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "product": {
+      "type": "belongsTo",
+      "model": "AKProduct",
+      "foreignKey": "productId"
+    },
+    "bidder": {
+      "type": "belongsTo",
+      "model": "AKUser",
+      "foreignKey": "bidderId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

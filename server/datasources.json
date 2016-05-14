@@ -1,0 +1,17 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "transient": {
+    "name": "transient",
+    "connector": "transient"
+  },
+  "mongodb": {
+    "host": "localhost",
+    "port": 27017,
+    "database": "bjd_auktionator",
+    "name": "mongodb",
+    "connector": "mongodb"
+  }
+}

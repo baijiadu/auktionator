@@ -1,0 +1,94 @@
+{
+  "name": "AKProduct",
+  "plural": "ak-products",
+  "base": "AKPersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "num": {
+      "type": "number",
+      "description": "拍卖物品件数",
+      "default": 1
+    },
+    "content": {
+      "type": "string",
+      "required": true,
+      "description": "拍卖物品描述内容"
+    },
+    "thumb": {
+      "type": "string",
+      "required": true,
+      "description": "冗余字段，缩略图用来分享或生成订单"
+    },
+    "uploadImages": {
+      "type": [
+        "object"
+      ],
+      "required": true,
+      "description": "拍卖物品预效果图,支持视频"
+    },
+    "beginningPrice": {
+      "type": "number",
+      "description": "起拍价",
+      "default": 0
+    },
+    "increasePrice": {
+      "type": "number",
+      "description": "加价",
+      "default": 0
+    },
+    "guaranteePrice": {
+      "type": "number",
+      "description": "担保价",
+      "default": 0
+    },
+    "deliveryPrice": {
+      "type": "number",
+      "description": "运费，等于0则免邮",
+      "default": 0
+    },
+    "dealPrice": {
+      "type": "number",
+      "description": "成交价"
+    },
+    "status": {
+      "type": "number",
+      "description": "拍品状态，包括：0（卖家发布成功、拍卖师审核中，默认），1（拍卖师审核通过），2（拍卖师已选择上架），3（竞拍中），4（竞拍成功），10（拍卖师审核不通过），11（拍卖师处理超时，如审核通过后一直不上架），12（无人出价，流拍），20（其他情况）",
+      "default": 0
+    }
+  },
+  "validations": [],
+  "relations": {
+    "category": {
+      "type": "belongsTo",
+      "model": "AKCategory"
+    },
+    "owner": {
+      "type": "belongsTo",
+      "model": "AKUser"
+    },
+    "auktionator": {
+      "type": "belongsTo",
+      "model": "AKUser"
+    },
+    "game": {
+      "type": "belongsTo",
+      "model": "AKGame"
+    },
+    "bidders": {
+      "type": "hasMany",
+      "model": "AKUser",
+      "foreignKey": "productId",
+      "through": "AKProductBid"
+    },
+    "order": {
+      "type": "hasOne",
+      "model": "AKOrder",
+      "foreignKey": "productId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
