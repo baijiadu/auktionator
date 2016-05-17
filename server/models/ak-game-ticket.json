@@ -1,0 +1,43 @@
+{
+  "name": "AKGameTicket",
+  "plural": "ak-game-tickets",
+  "base": "AKPersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "amount": {
+      "type": "number",
+      "required": true
+    },
+    "price": {
+      "type": "number",
+      "required": true
+    },
+    "offPrice": {
+      "type": "number",
+      "default": 0
+    },
+    "offReason": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "game": {
+      "type": "belongsTo",
+      "model": "AKGame"
+    },
+    "buyer": {
+      "type": "belongsTo",
+      "model": "AKUser"
+    },
+    "helpBuyer": {
+      "type": "belongsTo",
+      "model": "AKUser"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

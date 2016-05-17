@@ -1,0 +1,38 @@
+{
+  "name": "AKOrderItem",
+  "plural": "ak-order-items",
+  "base": "AKPersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "price": {
+      "type": "number",
+      "required": true
+    },
+    "num": {
+      "type": "number",
+      "default": 1
+    },
+    "title": {
+      "type": "string"
+    },
+    "thumb": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "order": {
+      "type": "belongsTo",
+      "model": "AKOrder"
+    },
+    "product": {
+      "type": "belongsTo",
+      "model": "AKProduct"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

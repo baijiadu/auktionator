@@ -68,5 +68,21 @@
   "AKOrder": {
     "dataSource": "mongodb",
     "public": true
+  },
+  "AKWhatsUp": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "AKZone": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "AKGameTicket": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "AKOrderItem": {
+    "dataSource": "mongodb",
+    "public": true
   }
 }

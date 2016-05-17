@@ -67,8 +67,8 @@
     },
     "score": {
       "type": "number",
-      "default": 0,
-      "description": "积分"
+      "description": "积分",
+      "default": 0
     }
   },
   "validations": [],
@@ -108,6 +108,16 @@
       "type": "hasMany",
       "model": "AKOrder",
       "foreignKey": "auktionatorId"
+    },
+    "buyerTickets": {
+      "type": "hasMany",
+      "model": "AKGameTicket",
+      "foreignKey": "buyerId"
+    },
+    "helpBuyerTickets": {
+      "type": "hasMany",
+      "model": "AKGameTicket",
+      "foreignKey": "helpBuyerId"
     }
   },
   "acls": [],

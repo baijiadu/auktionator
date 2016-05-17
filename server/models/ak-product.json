@@ -82,11 +82,6 @@
       "model": "AKUser",
       "foreignKey": "productId",
       "through": "AKProductBid"
-    },
-    "order": {
-      "type": "hasOne",
-      "model": "AKOrder",
-      "foreignKey": "productId"
     }
   },
   "acls": [],

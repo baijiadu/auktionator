@@ -37,6 +37,15 @@
     "auktionator": {
       "type": "belongsTo",
       "model": "AKUser"
+    },
+    "game": {
+      "type": "belongsTo",
+      "model": "AKGame"
+    },
+    "items": {
+      "type": "hasMany",
+      "model": "AKOrderItem",
+      "foreignKey": "orderId"
     }
   },
   "acls": [],

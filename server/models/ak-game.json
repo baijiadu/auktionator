@@ -34,6 +34,12 @@
       "required": true,
       "description": "拍场人数限制",
       "default": 500
+    },
+    "ticketPrice": {
+      "type": "number",
+      "required": true,
+      "description": "拍场进场票价，不需要票价则为0，默认为0",
+      "default": 0
     }
   },
   "validations": [],
@@ -41,6 +47,10 @@
     "round": {
       "type": "belongsTo",
       "model": "AKRound"
+    },
+    "zone": {
+      "type": "belongsTo",
+      "model": "AKZone"
     },
     "auktionator": {
       "type": "belongsTo",
@@ -59,6 +69,16 @@
         "validate": true,
         "forceId": false
       }
+    },
+    "tickets": {
+      "type": "hasMany",
+      "model": "AKGameTicket",
+      "foreignKey": "gameId"
+    },
+    "orders": {
+      "type": "hasMany",
+      "model": "AKOrder",
+      "foreignKey": "gameId"
     }
   },
   "acls": [],
