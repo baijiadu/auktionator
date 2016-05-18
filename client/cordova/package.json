@@ -21,8 +21,8 @@
     "ionic-gulp-scripts-copy": "^1.0.1",
     "run-sequence": "1.1.5"
   },
-  "name": "cordova-app",
-  "description": "cordova-app: An Ionic project",
+  "name": "auktionator",
+  "description": "百家渡拍卖师APP",
   "cordovaPlugins": [
     "cordova-plugin-device",
     "cordova-plugin-console",
