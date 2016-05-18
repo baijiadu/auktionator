@@ -1,7 +1,5 @@
 # 拍卖师APP
 
----
-
 ## 环境搭建
 
 - Node.js安装
@@ -30,11 +28,11 @@
     > [参考JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
 - Android SDK安装及配置
-    > [云盘地址](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+    > [云盘地址](http://pan.baidu.com/s/1cwU1g6)
 
         打开环境变量
         1、添加系统变量 ANDROID_HOME=your/sdk/path
-        2、追加%ANDROID_HOME%至Path中，注意‘,’号
+        2、追加 %ANDROID_HOME%`至Path中，注意 , 号
 
 - 添加Android平台
 
