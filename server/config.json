@@ -23,5 +23,20 @@
       "disableStackTrace": false
     }
   },
-  "legacyExplorer": false
+  "legacyExplorer": false,
+  "weixin": {
+    "app": {
+      "appId": "wx3006fc97ebd84399",
+      "appSecret": "54127acff3f0331c0f96e30f4e5ca966"
+    },
+    "payment": {
+      "mchId": "1325298001",
+      "deviceInfo": "WEB",
+      "key": "ShangHaiQianManShiYe20150106QM88"
+    },
+    "android": {
+      "packageName": "com.baijiadu.auction",
+      "appSign": "edccb98999e7d3d9c1e4b34936d45a25"
+    }
+  }
 }
