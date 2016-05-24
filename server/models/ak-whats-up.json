@@ -19,6 +19,22 @@
       "type": "string",
       "required": true,
       "description": "轮播图图片"
+    },
+    "href": {
+      "type": "string",
+      "required": true,
+      "description": "轮播图地址"
+    },
+    "hrefType": {
+      "type": "string",
+      "required": true,
+      "default": "page",
+      "description": "轮播图地址类型，如：http（单独页面）、page（APP内的页面）、cmd（命令）"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "轮播图是否可用"
     }
   },
   "validations": [],

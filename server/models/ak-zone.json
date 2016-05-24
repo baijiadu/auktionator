@@ -16,6 +16,11 @@
       "type": "string",
       "required": true,
       "description": "分区图标"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "分区是否可用"
     }
   },
   "validations": [],

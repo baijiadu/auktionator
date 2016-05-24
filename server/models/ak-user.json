@@ -7,11 +7,6 @@
     "validateUpsert": true
   },
   "properties": {
-    "accountType": {
-      "type": "number",
-      "description": "用户类型：1（普通用户）、2（微信登陆）",
-      "default": 2
-    },
     "wx_openid": {
       "type": "string",
       "description": "微信用户openid"
@@ -22,8 +17,19 @@
     },
     "username": {
       "type": "string",
-      "required": true,
-      "description": "用户名"
+      "description": "用户名，用于登陆"
+    },
+    "password": {
+      "type": "string",
+      "description": "密码，用于登陆"
+    },
+    "nickname": {
+      "type": "string",
+      "description": "用户昵称"
+    },
+    "realname": {
+      "type": "string",
+      "description": "真实姓名"
     },
     "avatar": {
       "type": "string",
@@ -35,7 +41,8 @@
     },
     "identity": {
       "type": "number",
-      "description": "用户身份，0（普通用户）、1（卖家）、2（拍卖师）"
+      "description": "用户身份，0（普通用户）、1（卖家）、2（拍卖师）",
+      "default": 0
     },
     "gender": {
       "type": "boolean",
@@ -61,16 +68,13 @@
       "type": "string",
       "description": "个性签名"
     },
-    "realname": {
-      "type": "string",
-      "description": "真实姓名"
-    },
     "score": {
       "type": "number",
       "description": "积分",
       "default": 0
     }
   },
+  "hidden": ["password", "verificationToken"],
   "validations": [],
   "relations": {
     "ownerProducts": {
