@@ -1,3 +1,13 @@
-.home {
-
+.home-page {
+  .zones {
+    padding: 1rem 0;
+    img {
+      border-radius: 50%;
+      width: 50px;
+    }
+    p {
+      font-size: 12px;
+      margin: 0;
+    }
+  }
 }

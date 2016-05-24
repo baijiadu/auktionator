@@ -2,36 +2,40 @@ import {Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
 import 'rxjs/add/operator/map';
 
-/*
-  Generated class for the WhatsUp provider.
+import Config from '../../config';
+import {LoopbackAPI} from '../loopback-api';
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
 @Injectable()
-export class WhatsUp {
-  static get parameters(){
+export class WhatsUp extends LoopbackAPI {
+  static get parameters() {
     return [[Http]]
   }
 
   constructor(http) {
-    this.http = http;
-    this.data = null;
+    super(http);
+    this.tops = null;
   }
 
-  load() {
-    if (this.data) {
-      return Promise.resolve(this.data);
+  loadTops() {
+    if (this.tops) {
+      return Promise.resolve(this.tops);
     }
 
+    const filter = {
+      where: {enabled: true},
+      limit: Config.whatsupLimit,
+      order: 'id DESC'
+    };
+
     return new Promise(resolve => {
-      this.http.get('path/to/data.json')
+      this.http.get(WhatsUp.URL(WhatsUp.WHATS_UP_URL, null, filter))
         .map(res => res.json())
-        .subscribe(data => {
-          this.data = data;
-          resolve(this.data);
+        .subscribe(whatsups => {
+          this.tops = whatsups;
+          resolve(this.tops);
         });
     });
   }
 }
 
+WhatsUp.WHATS_UP_URL = '/ak-whats-ups';

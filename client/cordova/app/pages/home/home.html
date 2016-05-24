@@ -8,6 +8,20 @@
   <ion-title>拍卖师</ion-title>
 </ion-navbar>
 
-<ion-content padding class="home">
-
+<ion-content>
+  <div class="whats-up">
+    <ion-slides [options]="whatsupOptions">
+      <ion-slide *ngFor="#item of whatsUp.tops" (tap)="whatsupTapped(item)">
+        <img src="{{item.thumb}}"/>
+      </ion-slide>
+    </ion-slides>
+  </div>
+  <div class="zones" padding-top padding-bottom>
+    <ion-slides [options]="{slidesPerView: 4.5, freeMode: true}">
+      <ion-slide *ngFor="#item of zone.zones">
+        <img src="{{item.thumb}}"/>
+        <p>{{item.title}}</p>
+      </ion-slide>
+    </ion-slides>
+  </div>
 </ion-content>
