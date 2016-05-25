@@ -1,7 +1,93 @@
 <ion-navbar *navbar>
-  <ion-title>登录</ion-title>
+  <ion-buttons start>
+    <button dark (tap)="dismiss()">返回</button>
+  </ion-buttons>
+  <ion-title>用户登录</ion-title>
 </ion-navbar>
+<ion-content padding>
+  <div padding>
+    <ion-segment [(ngModel)]="actionType">
+      <ion-segment-button value="login">
+        登录
+      </ion-segment-button>
+      <ion-segment-button value="register">
+        注册
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
-<ion-content padding class="account">
+  <div [hidden]="actionType !== 'login'">
+    <form #loginForm="ngForm" novalidate>
+      <ion-item>
+        <ion-label>账户：</ion-label>
+        <ion-input [(ngModel)]="login.tel" ngControl="loginTel" #loginTel="ngForm" type="tel" required minlength="11" maxlength="11" placeholder="用户名/手机号"></ion-input>
+      </ion-item>
+      <p [hidden]="loginTel.valid || loginTel.pristine" danger padding-left>手机号码很重要哦</p>
 
+      <ion-item>
+        <ion-label>密码：</ion-label>
+        <ion-input [(ngModel)]="login.pwd" ngControl="loginPwd" #loginPwd="ngForm" type="password" required minlength="6" maxlength="22" placeholder="请输入密码"></ion-input>
+      </ion-item>
+      <p [hidden]="loginPwd.valid || loginPwd.pristine" danger padding-left>密码格式不正确</p>
+
+      <ion-item no-lines>
+        <button block type="submit" (tap)="login()" [disabled]="!loginForm.form.valid">登录</button>
+      </ion-item>
+
+      <div class="links">
+        <button class="fr" clear small (tap)="forgetPwd()">忘记密码</button>
+      </div>
+    </form>
+    <ion-card class="third-party">
+      <ion-card-header>第三方账户登录</ion-card-header>
+      <ion-card-content>
+        <ion-row>
+          <ion-col text-center>
+            <button success (tap)="weixinLogin()">微信</button>
+          </ion-col>
+          <ion-col text-center>
+            <button warning (tap)="qqLogin()">QQ</button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div [hidden]="actionType !== 'register'">
+    <form #registerForm="ngForm" novalidate>
+      <ion-item>
+        <ion-label>用户名：</ion-label>
+        <ion-input [(ngModel)]="register.name" ngControl="registerName" #registerName="ngForm" type="text" required minlength="2" maxlength="20"></ion-input>
+      </ion-item>
+      <p [hidden]="registerName.valid || registerName.pristine" danger padding-left>用户名格式不正确</p>
+
+      <ion-item>
+        <ion-label>手机号：</ion-label>
+        <ion-input [(ngModel)]="register.tel" ngControl="registerTel" #registerTel="ngForm" type="tel" required minlength="11" maxlength="11"></ion-input>
+      </ion-item>
+      <p [hidden]="registerTel.valid || registerTel.pristine" danger padding-left>手机号码很重要哦</p>
+
+      <ion-item>
+        <ion-label>验证码：</ion-label>
+        <ion-input [(ngModel)]="register.code" ngControl="registerCode" #registerCode="ngForm" type="number" required minlength="4" maxlength="4"></ion-input>
+        <button item-right [disabled]="!registerTel.valid || verifyCodeProcessing" (tap)="getVerifyCode()">{{!verifyCodeProcessing ? '获取验证码' : verifyCodeCounter + '秒后重试'}}</button>
+      </ion-item>
+      <p [hidden]="registerCode.valid || registerCode.pristine" danger padding-left>验证码是4为纯数字哦</p>
+
+      <ion-item>
+        <ion-label>密码：</ion-label>
+        <ion-input [(ngModel)]="register.pwd" ngControl="registerPwd" #registerPwd="ngForm" type="password" required minlength="6" maxlength="22"></ion-input>
+      </ion-item>
+      <p [hidden]="registerPwd.valid || registerPwd.pristine" danger padding-left>密码格式不正确</p>
+
+      <ion-item no-lines>
+        <button block type="submit" (tap)="register()" [disabled]="!registerForm.form.valid">注册</button>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>我已阅读<span primary>《拍卖师服务条款》</span></ion-label>
+        <ion-checkbox checked="true"></ion-checkbox>
+      </ion-item>
+    </form>
+  </div>
 </ion-content>

@@ -1,7 +1,7 @@
 import {Page, NavController, Platform} from 'ionic-angular';
 
-import {WhatsUp} from '../../providers/whatsup/whatsup';
-import {Zone} from '../../providers/zone/zone';
+import {WhatsUpService} from '../../providers/whatsup/whatsup.service';
+import {ZoneService} from '../../providers/zone/zone.service';
 import Config from '../../config';
 
 @Page({
@@ -9,19 +9,20 @@ import Config from '../../config';
 })
 export class HomePage {
   static get parameters() {
-    return [[NavController], [WhatsUp], [Zone]];
-  };
+    return [[NavController], [WhatsUpService], [ZoneService]];
+  }
 
-  constructor(nav, whatsUp, zone) {
+  constructor(nav, whatsUpService, zoneService) {
     this.nav = nav;
-    this.whatsUp = whatsUp;
+    this.whatsUpService = whatsUpService;
+    this.zoneService = zoneService;
+
     this.whatsupOptions = Config.whatsupOptions;
-    this.zone = zone;
   }
 
   onPageLoaded() {
-    this.whatsUp.loadTops();
-    this.zone.load();
+    this.whatsUpService.loadTops();
+    this.zoneService.load();
   }
 
   whatsupTapped(whatsup) {

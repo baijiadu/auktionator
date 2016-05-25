@@ -11,14 +11,14 @@
 <ion-content>
   <div class="whats-up">
     <ion-slides [options]="whatsupOptions">
-      <ion-slide *ngFor="#item of whatsUp.tops" (tap)="whatsupTapped(item)">
+      <ion-slide *ngFor="#item of whatsUpService.tops" (tap)="whatsupTapped(item)">
         <img src="{{item.thumb}}"/>
       </ion-slide>
     </ion-slides>
   </div>
   <div class="zones" padding-top padding-bottom>
     <ion-slides [options]="{slidesPerView: 4.5, freeMode: true}">
-      <ion-slide *ngFor="#item of zone.zones">
+      <ion-slide *ngFor="#item of zoneService.zones">
         <img src="{{item.thumb}}"/>
         <p>{{item.title}}</p>
       </ion-slide>

@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import {LoopbackAPI} from '../loopback-api';
 
 @Injectable()
-export class Zone extends LoopbackAPI {
+export class ZoneService extends LoopbackAPI {
   static get parameters() {
     return [[Http]]
   }
@@ -26,7 +26,7 @@ export class Zone extends LoopbackAPI {
     };
 
     return new Promise(resolve => {
-      this.http.get(Zone.URL(Zone.ZONE_URL, null, filter))
+      this.http.get(ZoneService.URL(ZoneService.ZONE_URL, null, filter))
         .map(res => res.json())
         .subscribe(zones => {
           this.zones = zones;
@@ -36,4 +36,4 @@ export class Zone extends LoopbackAPI {
   }
 }
 
-Zone.ZONE_URL = '/ak-zones';
+ZoneService.ZONE_URL = '/ak-zones';

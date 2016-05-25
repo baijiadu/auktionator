@@ -6,7 +6,7 @@ import Config from '../../config';
 import {LoopbackAPI} from '../loopback-api';
 
 @Injectable()
-export class WhatsUp extends LoopbackAPI {
+export class WhatsUpService extends LoopbackAPI {
   static get parameters() {
     return [[Http]]
   }
@@ -28,7 +28,7 @@ export class WhatsUp extends LoopbackAPI {
     };
 
     return new Promise(resolve => {
-      this.http.get(WhatsUp.URL(WhatsUp.WHATS_UP_URL, null, filter))
+      this.http.get(WhatsUpService.URL(WhatsUpService.WHATS_UP_URL, null, filter))
         .map(res => res.json())
         .subscribe(whatsups => {
           this.tops = whatsups;
@@ -38,4 +38,4 @@ export class WhatsUp extends LoopbackAPI {
   }
 }
 
-WhatsUp.WHATS_UP_URL = '/ak-whats-ups';
+WhatsUpService.WHATS_UP_URL = '/ak-whats-ups';
