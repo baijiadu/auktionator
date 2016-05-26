@@ -1,5 +1,6 @@
 import {Page, NavController, ViewController, Modal} from 'ionic-angular';
 
+import {UserService} from '../../providers/user/user.service';
 import {ForgetPwdPage} from './forget-pwd';
 
 @Page({
@@ -7,15 +8,17 @@ import {ForgetPwdPage} from './forget-pwd';
 })
 export class LoginPage {
   static get parameters() {
-    return [[NavController], [ViewController]];
+    return [[NavController], [ViewController], [UserService]];
   }
 
-  constructor(nav, viewCtrl) {
+  constructor(nav, viewCtrl, userService) {
     this.nav = nav;
     this.viewCtrl = viewCtrl;
+    this.userService = userService;
+
     this.actionType = 'login';
-    this.login = {};
-    this.register = {};
+    this.loginData = {};
+    this.registerData = {};
     this.verifyCodeProcessing = false;
   }
 
@@ -32,7 +35,12 @@ export class LoginPage {
   }
 
   login() {
+    const {account, pwd} = this.loginData;
 
+    this.userService.login(account, pwd)
+      .then((user) => {
+        console.log('登录成功');
+      })
   }
 
   register() {

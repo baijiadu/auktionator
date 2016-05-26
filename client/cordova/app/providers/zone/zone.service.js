@@ -1,6 +1,5 @@
 import {Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
-import 'rxjs/add/operator/map';
 
 import {LoopbackAPI} from '../loopback-api';
 
@@ -25,14 +24,10 @@ export class ZoneService extends LoopbackAPI {
       order: 'id ASC'
     };
 
-    return new Promise(resolve => {
-      this.http.get(ZoneService.URL(ZoneService.ZONE_URL, null, filter))
-        .map(res => res.json())
-        .subscribe(zones => {
-          this.zones = zones;
-          resolve(this.zones);
-        });
-    });
+    return this.get(ZoneService.ZONE_URL, null, filter)
+      .then(zones => {
+        this.zones = zones;
+      });
   }
 }
 
