@@ -45,7 +45,10 @@ WXOpen.sign = function (param, key) {
   return md5(querystring).toUpperCase();
 };
 
-WXOpen.prototype.mobileAuth = function (code, cb) {
+/*
+ * 用户首次授权获取用户信息
+ */
+WXOpen.prototype.auth = function (code, cb) {
   var appId = this.appId;
   var appSecret = this.appSecret;
 
@@ -122,7 +125,106 @@ WXOpen.prototype.mobileAuth = function (code, cb) {
     }]
   }, function (err, results) {
     if (err) return cb(err);
-    cb(null, results.getUserInfo);
+
+    cb(null, {
+      userInfo: results.getUserInfo,
+      accessToken: results.verifyRefreshToken
+    });
+  });
+}
+
+/*
+ * 为了定时刷新access_token时的调用，30天
+ */
+WXOpen.prototype.refreshToken = function (refreshToken, cb) {
+  var appId = this.appId;
+  var appSecret = this.appSecret;
+
+  request.get({
+    url: WX_URL.snsapi_base.refresh_token,
+    qs: {
+      appid: appId,
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken
+    },
+    json: true
+  }, function (err, res, body) {
+    if (err) return cb(err);
+    if (body.errcode) return cb(body);
+    cb(null, body);
+  });
+}
+
+/*
+ * 当用户已经授权过，只需要使用accessToken来获取用户信息
+ * accessToken
+ *  - access_token
+ *  - openid
+ *  - refresh_token
+ */
+WXOpen.prototype.getUserInfo = function (accessToken, cb) {
+  var appId = this.appId;
+  var appSecret = this.appSecret;
+
+  async.auto({
+    verifyAccessToken: function (cb) {
+      request.get({
+        url: WX_URL.snsapi_base.auth,
+        qs: {
+          access_token: accessToken.access_token,
+          openid: accessToken.openid
+        },
+        json: true
+      }, function (err, res, body) {
+        if (err) return cb(err);
+        cb(null, body);
+      });
+    },
+    verifyRefreshToken: ['verifyAccessToken', function (cb, results) {
+      var verifyAccessToken = results.verifyAccessToken;
+
+      if (verifyAccessToken.errcode) {
+        request.get({
+          url: WX_URL.snsapi_base.refresh_token,
+          qs: {
+            appid: appId,
+            grant_type: 'refresh_token',
+            refresh_token: accessToken.refresh_token
+          },
+          json: true
+        }, function (err, res, body) {
+          if (err) return cb(err);
+          if (body.errcode) return cb(body);
+          cb(null, body);
+        });
+      } else {
+        cb(null, accessToken);
+      }
+    }],
+    getUserInfo: ['verifyRefreshToken', function (cb, results) {
+      var accessToken = results.verifyRefreshToken;
+
+      request.get({
+        url: WX_URL.snsapi_userinfo.userinfo,
+        qs: {
+          access_token: accessToken.access_token,
+          openid: accessToken.openid,
+          lang: 'zh_CN' // 语言为中文简体
+        },
+        json: true
+      }, function (err, res, body) {
+        if (err) return cb(err);
+        if (body.errcode) return cb(body);
+        cb(null, body);
+      });
+    }]
+  }, function (err, results) {
+    if (err) return cb(err);
+
+    cb(null, {
+      userInfo: results.getUserInfo,
+      accessToken: results.verifyRefreshToken,
+    });
   });
 }
 

@@ -15,9 +15,25 @@
       "type": "string",
       "description": "微信用户unionid"
     },
+    "wx_access_token": {
+      "type": "string",
+      "description": "微信调用凭证"
+    },
+    "wx_refresh_token": {
+      "type": "string",
+      "description": "微信刷新凭证"
+    },
+    "wx_refresh_token_modified": {
+      "type": "date",
+      "description": "微信刷新凭证修改日期"
+    },
     "username": {
       "type": "string",
       "description": "用户名，用于登陆"
+    },
+    "tel": {
+      "type": "string",
+      "description": "手机号"
     },
     "password": {
       "type": "string",
@@ -27,21 +43,13 @@
       "type": "string",
       "description": "用户昵称"
     },
-    "realname": {
-      "type": "string",
-      "description": "真实姓名"
-    },
     "avatar": {
       "type": "string",
       "description": "头像"
     },
-    "tel": {
-      "type": "string",
-      "description": "手机号"
-    },
     "identity": {
       "type": "number",
-      "description": "用户身份，0（普通用户）、1（卖家）、2（拍卖师）",
+      "description": "用户身份，0（普通用户）、1（买卖综合用户）、2（拍卖师）",
       "default": 0
     },
     "gender": {
@@ -63,6 +71,10 @@
     "city": {
       "type": "string",
       "description": "所在市"
+    },
+    "realname": {
+      "type": "string",
+      "description": "真实姓名"
     },
     "autograph": {
       "type": "string",
