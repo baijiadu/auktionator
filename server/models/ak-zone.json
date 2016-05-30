@@ -19,8 +19,8 @@
     },
     "enabled": {
       "type": "boolean",
-      "default": true,
-      "description": "分区是否可用"
+      "description": "分区是否可用",
+      "default": true
     }
   },
   "validations": [],

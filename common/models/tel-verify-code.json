@@ -1,0 +1,34 @@
+{
+  "name": "TelVerifyCode",
+  "plural": "tel-verify-codes",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "required": true,
+      "description": "手机号为id"
+    },
+    "code": {
+      "type": "string",
+      "required": true,
+      "description": "验证码"
+    },
+    "exp": {
+      "type": "number",
+      "default": 1800,
+      "description": "有效期，默认为半小时"
+    },
+    "created": {
+      "type": "date",
+      "defaultFn": "now"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

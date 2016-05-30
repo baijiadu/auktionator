@@ -84,5 +84,9 @@
   "AKOrderItem": {
     "dataSource": "mongodb",
     "public": true
+  },
+  "TelVerifyCode": {
+    "dataSource": "mongodb",
+    "public": false
   }
 }

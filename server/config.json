@@ -38,5 +38,9 @@
       "packageName": "com.baijiadu.auction",
       "appSign": "edccb98999e7d3d9c1e4b34936d45a25"
     }
+  },
+  "alidayu": {
+    "appkey": "23370126",
+    "appsecret": "6ab8182732cd5ba6c9f6ac7b7cfe7901"
   }
 }

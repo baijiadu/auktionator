@@ -6,6 +6,10 @@
   "options": {
     "validateUpsert": true
   },
+  "hidden": [
+    "password",
+    "verificationToken"
+  ],
   "properties": {
     "wx_openid": {
       "type": "string",
@@ -86,7 +90,6 @@
       "default": 0
     }
   },
-  "hidden": ["password", "verificationToken"],
   "validations": [],
   "relations": {
     "ownerProducts": {
