@@ -41,10 +41,10 @@
       <ion-card-content>
         <ion-row>
           <ion-col text-center>
-            <button success (tap)="weixinLogin()">微信</button>
+            <button success (tap)="thirdPartyAuth('weixin')" [disabled]="!weixinInstalled">微信</button>
           </ion-col>
           <ion-col text-center>
-            <button warning (tap)="qqLogin()">QQ</button>
+            <button warning (tap)="thirdPartyAuth('qq')">QQ</button>
           </ion-col>
         </ion-row>
       </ion-card-content>
@@ -54,12 +54,6 @@
   <div [hidden]="actionType !== 'register'">
     <form #registerForm="ngForm" novalidate>
       <ion-item>
-        <ion-label>用户名：</ion-label>
-        <ion-input [(ngModel)]="registerData.name" ngControl="registerName" #registerName="ngForm" type="text" required minlength="2" maxlength="20"></ion-input>
-      </ion-item>
-      <p [hidden]="registerName.valid || registerName.pristine" danger padding-left>用户名格式不正确</p>
-
-      <ion-item>
         <ion-label>手机号：</ion-label>
         <ion-input [(ngModel)]="registerData.tel" ngControl="registerTel" #registerTel="ngForm" type="tel" required minlength="11" maxlength="11"></ion-input>
       </ion-item>
@@ -67,10 +61,16 @@
 
       <ion-item>
         <ion-label>验证码：</ion-label>
-        <ion-input [(ngModel)]="registerData.code" ngControl="registerCode" #registerCode="ngForm" type="number" required minlength="4" maxlength="4"></ion-input>
+        <ion-input [(ngModel)]="registerData.code" ngControl="registerCode" #registerCode="ngForm" type="number" required minlength="6" maxlength="6"></ion-input>
         <button item-right [disabled]="!registerTel.valid || verifyCodeProcessing" (tap)="getVerifyCode()">{{!verifyCodeProcessing ? '获取验证码' : verifyCodeCounter + '秒后重试'}}</button>
       </ion-item>
-      <p [hidden]="registerCode.valid || registerCode.pristine" danger padding-left>验证码是4为纯数字哦</p>
+      <p [hidden]="registerCode.valid || registerCode.pristine" danger padding-left>验证码是6位纯数字哦</p>
+
+      <ion-item>
+        <ion-label>用户名：</ion-label>
+        <ion-input [(ngModel)]="registerData.name" ngControl="registerName" #registerName="ngForm" type="text" required minlength="2" maxlength="20"></ion-input>
+      </ion-item>
+      <p [hidden]="registerName.valid || registerName.pristine" danger padding-left>用户名格式不正确</p>
 
       <ion-item>
         <ion-label>密码：</ion-label>

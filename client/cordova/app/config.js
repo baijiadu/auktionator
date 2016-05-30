@@ -12,7 +12,7 @@ const Config = {
   get host() { // 服务器地址
     return Config[Config.env + 'Host'];
   },
-  devHost: 'http://192.168.0.103:3000', // 开发环境服务器地址
+  devHost: 'http://192.168.0.102:3000', // 开发环境服务器地址
   stagingHost: 'http://www.baijiadu.com:3010', // 测试环境服务器地址
   prodHost: 'http://www.baijiadu.com:3020', // 正式环境服务器地址
   whatsupLimit: 5, // 首页轮播大小

@@ -1,6 +1,7 @@
-import {Injectable} from 'angular2/core';
-import {Http, Response, Headers, RequestOptions} from 'angular2/http';
+import {Injectable} from '@angular/core';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 
 import Config from '../config';
 
@@ -13,12 +14,12 @@ export class LoopbackAPI {
     return new Promise((resolve, reject) => {
       this.http.get(LoopbackAPI.URL(url, params, filter))
         .map(res => res.json())
-        //.catch((err) => {
-        //  console.error(err);
-        //  reject(err);
-        //})
+        .do(res => this.handleSuccess(res))
         .subscribe(data => {
           resolve(data);
+        }, err => {
+          this.handleError(err);
+          reject(err);
         })
     });
   }
@@ -29,14 +30,26 @@ export class LoopbackAPI {
     return new Promise((resolve, reject) => {
       this.http.post(LoopbackAPI.URL(url), JSON.stringify(body), options)
         .map(res => res.json())
-        //.catch((err) => {
-        //  console.error(err);
-        //  reject(err);
-        //})
+        .do(res => this.handleSuccess(res))
         .subscribe(data => {
           resolve(data);
+        }, err => {
+          this.handleError(err);
+          reject(err);
         })
     });
+  }
+
+  handleSuccess(res) {
+    console.group('访问Loopback API成功');
+    console.log('返回数据：', res);
+    console.groupEnd();
+  }
+
+  handleError(err) {
+    console.group('访问Loopback API异常');
+    console.error('错误信息：', err);
+    console.groupEnd();
   }
 
   static URL(url, params = null, filter = null) {

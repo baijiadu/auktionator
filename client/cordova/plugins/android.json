@@ -24,6 +24,13 @@
         },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.baijiadu.auction"
+        },
+        "cordova-plugin-wechat": {
+            "WECHATAPPID": "wx3006fc97ebd84399",
+            "PACKAGE_NAME": "com.baijiadu.auction"
+        },
+        "cordova-plugin-x-toast": {
+            "PACKAGE_NAME": "com.baijiadu.auction"
         }
     },
     "dependent_plugins": {}

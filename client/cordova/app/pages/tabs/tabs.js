@@ -1,4 +1,4 @@
-import {ViewChild} from 'angular2/core';
+import {ViewChild} from '@angular/core';
 import {Page, NavController, Events, Modal} from 'ionic-angular';
 
 import {HomePage} from '../home/home';

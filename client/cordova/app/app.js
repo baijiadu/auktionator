@@ -7,6 +7,7 @@ import Config from './config';
 import {UserService} from './providers/user/user.service'
 import {WhatsUpService} from './providers/whatsup/whatsup.service'
 import {ZoneService} from './providers/zone/zone.service'
+import {LocalService} from './providers/storage/local.service'
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
@@ -15,7 +16,7 @@ import {ZoneService} from './providers/zone/zone.service'
     tabbarPlacement: 'bottom',
     tabSubPages: true
   }, // http://ionicframework.com/docs/v2/api/config/Config/
-  providers: [WhatsUpService, ZoneService, UserService],
+  providers: [WhatsUpService, ZoneService, UserService, LocalService],
 })
 export class MyApp {
   static get parameters() {
