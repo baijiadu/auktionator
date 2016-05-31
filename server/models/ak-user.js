@@ -176,6 +176,29 @@ module.exports = function (AkUser) {
     }
   });
 
+  AkUser.autoLogin = function (tel, done) {
+    AkUser.findOne({
+      where: {
+        tel: tel
+      }
+    }, function (err, user) {
+      if (err) return done({status: 500, message: '服务器内部错误', code: 100});
+      if (!user) return done({status: 400, message: '用户不存在', code: 101});
+      done(null, user);
+    });
+  };
+  AkUser.remoteMethod('autoLogin', {
+    http: {path: '/login/auto', verb: 'post'},
+    accepts: [
+      {arg: 'tel', type: 'string', required: true}
+    ],
+    description: '进入APP自动登录',
+    returns: {
+      arg: 'user',
+      type: 'object'
+    }
+  });
+
   AkUser.register = function (username, tel, password, code, done) {
     if (!/^\w{2,19}$/.test(username)) return done({status: 400, message: '用户名格式不正确', code: 100});
     if (!/^1[3|4|5|7|8]\d{9}$/.test(tel)) return done({status: 400, message: '手机号格式不正确', code: 101});
