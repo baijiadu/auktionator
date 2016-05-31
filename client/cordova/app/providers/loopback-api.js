@@ -17,9 +17,9 @@ export class LoopbackAPI {
         .do(res => this.handleSuccess(res))
         .subscribe(data => {
           resolve(data);
-        }, err => {
-          this.handleError(err);
-          reject(err);
+        }, res => {
+          this.handleError(res);
+          reject(JSON.parse(res._body).error);
         })
     });
   }
@@ -33,9 +33,9 @@ export class LoopbackAPI {
         .do(res => this.handleSuccess(res))
         .subscribe(data => {
           resolve(data);
-        }, err => {
-          this.handleError(err);
-          reject(err);
+        }, res => {
+          this.handleError(res);
+          reject(JSON.parse(res._body).error);
         })
     });
   }
@@ -46,9 +46,10 @@ export class LoopbackAPI {
     console.groupEnd();
   }
 
-  handleError(err) {
+  handleError(res) {
     console.group('访问Loopback API异常');
-    console.error('错误信息：', err);
+    console.error('URL：', res.url);
+    console.error('错误信息：', res._body);
     console.groupEnd();
   }
 

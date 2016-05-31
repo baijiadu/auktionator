@@ -7,7 +7,6 @@ import Config from './config';
 import {UserService} from './providers/user/user.service'
 import {WhatsUpService} from './providers/whatsup/whatsup.service'
 import {ZoneService} from './providers/zone/zone.service'
-import {LocalService} from './providers/storage/local.service'
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
@@ -16,7 +15,7 @@ import {LocalService} from './providers/storage/local.service'
     tabbarPlacement: 'bottom',
     tabSubPages: true
   }, // http://ionicframework.com/docs/v2/api/config/Config/
-  providers: [WhatsUpService, ZoneService, UserService, LocalService],
+  providers: [WhatsUpService, ZoneService, UserService],
 })
 export class MyApp {
   static get parameters() {
@@ -28,8 +27,6 @@ export class MyApp {
     this.platform = platform;
 
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
     });
   }

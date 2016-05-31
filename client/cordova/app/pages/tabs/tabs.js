@@ -1,6 +1,7 @@
 import {ViewChild} from '@angular/core';
 import {Page, NavController, Events, Modal} from 'ionic-angular';
 
+import Mixins from '../../mixins';
 import {HomePage} from '../home/home';
 import {FavoritePage} from '../favorite/favorite';
 import {DiscoveryPage} from '../discovery/discovery';
@@ -8,6 +9,7 @@ import {MyPage} from '../my/my';
 import {LoginPage} from '../account/login';
 
 import {UserService} from '../../providers/user/user.service';
+import AKStorage from '../../ak-storage';
 
 @Page({
   templateUrl: 'build/pages/tabs/tabs.html',
@@ -33,6 +35,12 @@ export class TabsPage {
   }
 
   onPageLoaded() {
+    // 用户进入APP自动登陆
+    AKStorage.loadCurrentUser().then(user => {
+      if (user && user.tel) this.userService.autoLogin(user.tel);
+    })
+
+    // 订阅用户登录的事件
     this.events.subscribe('user:login', (data) => {
       this.showLoginPage(data && data.length ? data[0] : data);
     });
@@ -53,7 +61,7 @@ export class TabsPage {
   initTab2Page() {
     if (!this.tab2Root) {
       this.tab2Root = FavoritePage;
-      this.mainTabs.select(1);
+      setTimeout(() => this.mainTabs.select(1));
     }
   }
 
@@ -72,7 +80,7 @@ export class TabsPage {
   initTab4Page() {
     if (!this.tab4Root) {
       this.tab4Root = MyPage;
-      this.mainTabs.select(3);
+      setTimeout(() => this.mainTabs.select(3));
     }
   }
 

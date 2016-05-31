@@ -1,6 +1,6 @@
 import {Page, NavController, ViewController} from 'ionic-angular';
-import {Toast} from 'ionic-native';
 
+import Mixins from '../../mixins';
 import {UserService} from '../../providers/user/user.service';
 
 @Page({
@@ -28,10 +28,10 @@ export class VerifyTelPage {
 
     this.userService.generateVerifyCode(tel).then(
       () => {
-        Toast.showLongBottom('验证码已发送至手机，30分钟内有效');
+        Mixins.toast('验证码已发送至手机，30分钟内有效');
         this.startVerifyCodeInterval();
       },
-      err => Toast.showLongBottom(err.message || '未知错误，请稍后重试'));
+      err => Mixins.toastAPIError(err));
   }
 
   startVerifyCodeInterval() {
@@ -56,11 +56,11 @@ export class VerifyTelPage {
 
   submit() {
     const {tel, code} = this.verifyTelData;
-    if (!/^1[3|4|5|7|8]\d{9}$/.test(tel)) return Toast.showLongBottom('手机号格式不正确');
-    if (!/^\d{6}$/.test(code)) return Toast.showLongBottom('验证码格式不正确');
+    if (!/^1[3|4|5|7|8]\d{9}$/.test(tel)) return Mixins.toast('手机号格式不正确');
+    if (!/^\d{6}$/.test(code)) return Mixins.toast('验证码格式不正确');
 
     this.userService.matchVerifyCode(tel, code).then(
       ts => this.viewCtrl.dismiss(tel),
-      err => Toast.showLongBottom(err.message || '未知错误，请稍后重试'));
+      err => Mixins.toastAPIError(err));
   }
 }

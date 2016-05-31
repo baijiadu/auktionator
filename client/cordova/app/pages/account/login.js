@@ -1,8 +1,8 @@
-import {Page, NavController, ViewController, Modal} from 'ionic-angular';
-import {Toast} from 'ionic-native';
+import {Page, NavController, ViewController, Modal, Loading} from 'ionic-angular';
 
+import Mixins from '../../mixins';
 import {UserService} from '../../providers/user/user.service';
-import {LocalService} from '../../providers/storage/local.service';
+import AKStorage from '../../ak-storage';
 import {ForgetPwdPage} from './forget-pwd';
 import {VerifyTelPage} from './verify-tel';
 
@@ -11,14 +11,13 @@ import {VerifyTelPage} from './verify-tel';
 })
 export class LoginPage {
   static get parameters() {
-    return [[NavController], [ViewController], [UserService], [LocalService]];
+    return [[NavController], [ViewController], [UserService]];
   }
 
-  constructor(nav, viewCtrl, userService, localService) {
+  constructor(nav, viewCtrl, userService) {
     this.nav = nav;
     this.viewCtrl = viewCtrl;
     this.userService = userService;
-    this.localService = localService;
 
     this.actionType = 'login';
     this.loginData = {};
@@ -34,7 +33,7 @@ export class LoginPage {
     Wechat.isInstalled(installed => {
       this.weixinInstalled = !!installed;
     }, reason => {
-      Toast.showLongBottom('微信未安装');
+      //Mixins.toast('微信未安装');
     })
   }
 
@@ -59,24 +58,24 @@ export class LoginPage {
   login() {
     const {account, pwd} = this.loginData;
 
-    if (!(/^1[3|4|5|7|8]\d{9}$/.test(account) || /^\w{2,19}$/.test(account))) return Toast.showLongBottom('账户格式不正确');
-    if (!/^[a-zA-Z]\w{5,17}$/.test(pwd)) return Toast.showLongBottom('密码格式不正确');
+    if (!(/^1[3|4|5|7|8]\d{9}$/.test(account) || /^\w{2,19}$/.test(account))) return Mixins.toast('账户格式不正确');
+    if (!/^[a-zA-Z]\w{5,17}$/.test(pwd)) return Mixins.toast('密码格式不正确');
 
     this.userService.login(account, pwd).then(
       user => this.viewCtrl.dismiss(user),
-      err => Toast.showLongBottom(err.message || '未知错误，请稍后重试'));
+      err => Mixins.toastAPIError(err));
   }
 
   register() {
     const {name, tel, code, pwd} = this.registerData;
-    if (!/^1[3|4|5|7|8]\d{9}$/.test(tel)) return Toast.showLongBottom('手机号格式不正确');
-    if (!/^\d{6}$/.test(code)) return Toast.showLongBottom('验证码格式不正确');
-    if (!/^\w{2,19}$/.test(name)) return Toast.showLongBottom('用户名格式不正确');
-    if (!/^[a-zA-Z]\w{5,17}$/.test(pwd)) return Toast.showLongBottom('密码格式不正确');
+    if (!/^1[3|4|5|7|8]\d{9}$/.test(tel)) return Mixins.toast('手机号格式不正确');
+    if (!/^\d{6}$/.test(code)) return Mixins.toast('验证码格式不正确');
+    if (!/^\w{2,19}$/.test(name)) return Mixins.toast('用户名格式不正确');
+    if (!/^[a-zA-Z]\w{5,17}$/.test(pwd)) return Mixins.toast('密码格式不正确');
 
     this.userService.register(name, tel, pwd, code).then(
       user => this.viewCtrl.dismiss(user),
-      err => Toast.showLongBottom(err.message || '未知错误，请稍后重试'));
+      err => Mixins.toastAPIError(err));
   }
 
   getVerifyCode() {
@@ -84,10 +83,10 @@ export class LoginPage {
 
     this.userService.generateVerifyCode(tel).then(
       () => {
-        Toast.showLongBottom('验证码已发送至手机，30分钟内有效');
+        Mixins.toast('验证码已发送至手机，30分钟内有效');
         this.startVerifyCodeInterval();
       },
-      err => Toast.showLongBottom(err.message || '未知错误，请稍后重试'));
+      err => Mixins.toastAPIError(err));
   }
 
   startVerifyCodeInterval() {
@@ -107,21 +106,26 @@ export class LoginPage {
   }
 
   thirdPartyAuth(platform) {
-    this.localService.getThirdParties().then(thirdParties => {
-      if (thirdParties && !!thirdParties.find((tp) => tp.name === platform)) {
-        this.thirdPartyHasAuthed(platform);
+    AKStorage.getThirdParties().then(thirdParties => {
+      let thirdParty = thirdParties ? thirdParties.find(tp => tp.name === platform) : null;
+
+      if (thirdParty) {
+        this.thirdPartyHasAuthed(thirdParty);
       } else {
         this.thirdPartyNotAuthed(platform);
       }
     })
   }
 
-  thirdPartyHasAuthed(platform) {
-    switch (platform) {
+  thirdPartyHasAuthed(thirdParty) {
+    switch (thirdParty.name) {
       case 'weixin':
-
+        this.userService.weixinLogin(thirdParty.openid).then(
+          user => this.viewCtrl.dismiss(user),
+          err => Mixins.toastAPIError(err));
         break;
       case 'qq':
+        // TODO
         break;
       default:
         break;
@@ -131,17 +135,32 @@ export class LoginPage {
   thirdPartyNotAuthed(platform) {
     this.showVerifyTelPage(tel => {
       if (tel) {
+        let loading = Loading.create({
+          content: "跳转中..."
+        });
+        this.nav.present(loading);
+
         switch (platform) {
           case 'weixin':
-            Wechat.auth("snsapi_userinfo", res => {
+            Wechat.auth('snsapi_userinfo', '_' + Date.now(), res => {
+              loading.dismiss();
               this.userService.weixinAuth(res.code, tel).then(
-                user => this.viewCtrl.dismiss(user),
-                err => Toast.showLongBottom(err.message || '未知错误，请稍后重试'));
+                user => {
+                  this.viewCtrl.dismiss(user);
+                  // 保存微信第三方登录相关信息
+                  AKStorage.upsertThirdParty({
+                    name: 'weixin',
+                    openid: user.wx_openid,
+                    unionid: user.wx_unionid,
+                  });
+                },
+                err => Mixins.toastAPIError(err));
             }, reason => {
-              Toast.showLongBottom(reason);
+              Mixins.toast(reason);
             });
             break;
           case 'qq':
+            // TODO
             break;
           default:
             break;
