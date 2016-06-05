@@ -53,6 +53,16 @@
       "type": "number",
       "description": "成交价"
     },
+    "minPrice": {
+      "type": "number",
+      "description": "保底价",
+      "default": 0
+    },
+    "maxPrice": {
+      "type": "number",
+      "description": "一口价",
+      "default": 0
+    },
     "status": {
       "type": "number",
       "description": "拍品状态，包括：0（卖家发布成功、拍卖师审核中，默认），1（拍卖师审核通过），2（拍卖师已选择上架），3（竞拍中），4（竞拍成功），10（拍卖师审核不通过），11（拍卖师处理超时，如审核通过后一直不上架），12（无人出价，流拍），20（其他情况）",

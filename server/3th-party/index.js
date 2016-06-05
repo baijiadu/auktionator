@@ -1,6 +1,8 @@
+var qiniu = require("qiniu");
 var WXOpen = require('./weixin/wxopen');
 var TopClient = require('./alidayu/topClient').TopClient;
 var Config = require('../config.json');
+var Util = require('../utils/util');
 
 var thirdParties = {};
 
@@ -32,6 +34,17 @@ var alidayu = thirdParties.alidayu = {
       cb(null);
     })
   }
-}
+};
+
+qiniu.conf.ACCESS_KEY = Config.qiniu.AccessKey;
+qiniu.conf.SECRET_KEY = Config.qiniu.SecretKey;
+
+var __qiniu = thirdParties.qiniu = {
+  uptoken: function () {
+    var key = Util.generateRandomStr(7) + new Date().getTime();
+    var putPolicy = new qiniu.rs.PutPolicy(Config.qiniu.bucket + ":" + key);
+    return putPolicy.token();
+  }
+};
 
 module.exports = thirdParties;

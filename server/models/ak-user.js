@@ -16,7 +16,7 @@ module.exports = function (AkUser) {
     }
 
     wxOpen.auth(code, function (err, data) {
-      if (err || !data) return done({status: 500, message: '授权失败', code: 100 });
+      if (err || !data) return done({status: 500, message: '授权失败', code: 100});
 
       var userInfo = data.userInfo;
       var accessToken = data.accessToken;
@@ -88,48 +88,48 @@ module.exports = function (AkUser) {
     });
 
     /*
-    async.auto({
-      findByOpenId: function (cb) {
-        AkUser.findOne({
-          where: {
-            wx_openid: openid
-          }
-        }, cb);
-      },
-      getUserInfo: ['findByOpenId', function (cb, results) {
-        var user = results.findByOpenId;
-        if (!user) return cb({status: 400, message: '用户不存在', code: 100});
+     async.auto({
+     findByOpenId: function (cb) {
+     AkUser.findOne({
+     where: {
+     wx_openid: openid
+     }
+     }, cb);
+     },
+     getUserInfo: ['findByOpenId', function (cb, results) {
+     var user = results.findByOpenId;
+     if (!user) return cb({status: 400, message: '用户不存在', code: 100});
 
-        WXOpen.getUserInfo({
-          openid: user.wx_openid,
-          access_token: user.wx_access_token,
-          refresh_token: user.wx_refresh_token,
-        }, cb);
-      }],
-      updateAccessToken: ['findByOpenId', 'getUserInfo', function (cb, results) {
-        var data = results.getUserInfo;
-        if (!data) return done({status: 500, message: '授权失败', code: 101 });
+     WXOpen.getUserInfo({
+     openid: user.wx_openid,
+     access_token: user.wx_access_token,
+     refresh_token: user.wx_refresh_token,
+     }, cb);
+     }],
+     updateAccessToken: ['findByOpenId', 'getUserInfo', function (cb, results) {
+     var data = results.getUserInfo;
+     if (!data) return done({status: 500, message: '授权失败', code: 101 });
 
-        var userInfo = data.userInfo;
-        var accessToken = data.accessToken;
-        if (!userInfo || !accessToken) return done({status: 400, message: '获取用户信息失败', code: 102});
+     var userInfo = data.userInfo;
+     var accessToken = data.accessToken;
+     if (!userInfo || !accessToken) return done({status: 400, message: '获取用户信息失败', code: 102});
 
-        var user = results.findByOpenId;
-        if (accessToken.expires_in || accessToken.scope) {
-          // 刷新过token
-          user.updateAttributes({
-            wx_access_token: accessToken.access_token,
-            wx_refresh_token: accessToken.refresh_token,
-          }, cb);
-        } else {
-          cb(null, user);
-        }
-      }]
-    }, function (err, results) {
-      if (err) return done({status: 500, message: '数据保存失败', code: 'database error'});
-      done(null, results.createOrUpdate);
-    });
-    */
+     var user = results.findByOpenId;
+     if (accessToken.expires_in || accessToken.scope) {
+     // 刷新过token
+     user.updateAttributes({
+     wx_access_token: accessToken.access_token,
+     wx_refresh_token: accessToken.refresh_token,
+     }, cb);
+     } else {
+     cb(null, user);
+     }
+     }]
+     }, function (err, results) {
+     if (err) return done({status: 500, message: '数据保存失败', code: 'database error'});
+     done(null, results.createOrUpdate);
+     });
+     */
   };
   AkUser.remoteMethod('weixinLogin', {
     http: {path: '/weixin/login', verb: 'post'},
@@ -146,11 +146,11 @@ module.exports = function (AkUser) {
   AkUser.login = function (account, password, done) {
     var where = {};
     if (/^1[3|4|5|7|8]\d{9}$/.test(account)) {
-      where = { tel: account };
+      where = {tel: account};
     } else if (/^\w{2,19}$/.test(account)) {
-      where = { username: account };
+      where = {username: account};
     } else {
-      return done({status: 400, message: '账户格式不正确', code: 100})
+      return done({status: 400, message: '账户格式不正确', code: 100});
     }
     if (!/^[a-zA-Z]\w{5,17}$/.test(password)) return done({status: 400, message: '密码格式不正确', code: 103});
 
@@ -347,7 +347,11 @@ module.exports = function (AkUser) {
         if (telVerifyCode.code !== code) return cb({status: 400, message: '验证码不正确', code: 103});
 
         var now = new Date();
-        if (now - telVerifyCode.created >= telVerifyCode.exp * 1000) return cb({status: 400, message: '验证码已过期，请重新获取', code: 104});
+        if (now - telVerifyCode.created >= telVerifyCode.exp * 1000) return cb({
+          status: 400,
+          message: '验证码已过期，请重新获取',
+          code: 104
+        });
 
         cb(null, telVerifyCode);
       }]
@@ -367,6 +371,19 @@ module.exports = function (AkUser) {
     returns: {
       arg: 'ts',
       type: 'number'
+    }
+  });
+
+  AkUser.qiniuUptoken = function (done) {
+    done(null, thirdParties.qiniu.uptoken());
+  };
+  AkUser.remoteMethod('qiniuUptoken', {
+    http: {path: '/qiniu/uptoken', verb: 'get'},
+    accepts: [],
+    description: '获取七牛上传token',
+    returns: {
+      arg: 'uptoken',
+      type: 'string'
     }
   });
 };

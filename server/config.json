@@ -42,5 +42,10 @@
   "alidayu": {
     "appkey": "23370126",
     "appsecret": "6ab8182732cd5ba6c9f6ac7b7cfe7901"
+  },
+  "qiniu": {
+    "AccessKey": "dTCDULTZM5MlAgj9vhDp7UCcAXLWDAAR8jKqxbu2",
+    "SecretKey": "gnFq2TpvIcBIHLTG1R8kmO57hkdfKai2wOqoLwcz",
+    "bucket": "auktionator"
   }
 }
