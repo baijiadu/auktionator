@@ -11,6 +11,8 @@
   <allow-intent href="sms:*"/>
   <allow-intent href="mailto:*"/>
   <allow-intent href="geo:*"/>
+  <allow-navigation href="*"/>
+  <allow-navigation href="file://*/*"/>
   <platform name="android">
     <allow-intent href="market:*"/>
   </platform>
@@ -25,7 +27,7 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreenDelay" value="1000"/>
   <preference name="FadeSplashScreenDuration" value="1000"/>
-  <preference name="xwalkVersion" value="xwalk_core_library_beta:18+"/>
+  <preference name="xwalkVersion" value="18+"/>
   <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect"/>
   <preference name="xwalkMode" value="embedded"/>
   <preference name="xwalkMultipleApk" value="true"/>
@@ -42,5 +44,7 @@
   <plugin name="cordova-plugin-wechat" spec="~1.1.4">
     <variable name="WECHATAPPID" value="wx3006fc97ebd84399"/>
   </plugin>
-  <plugin name="cordova-plugin-crosswalk-webview" spec="~1.7.0"/>
+  <plugin name="cordova-plugin-image-picker" spec="~1.1.1"/>
+  <plugin name="cordova-plugin-crosswalk-webview" spec="~1.7.2"/>
+  <plugin name="cordova-plugin-file" spec="~4.2.0"/>
 </widget>

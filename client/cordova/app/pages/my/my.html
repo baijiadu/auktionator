@@ -32,7 +32,7 @@
 
     <ion-item-group *ngIf="user?.identity === 1">
       <ion-item-divider></ion-item-divider>
-      <button ion-item>
+      <button ion-item [navPush]="productPublishPage">
         <ion-icon name="camera" item-left></ion-icon>
         发布拍品
       </button>

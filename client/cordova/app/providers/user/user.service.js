@@ -66,6 +66,11 @@ export class UserService extends LoopbackAPI {
       });
   }
 
+  // 入驻成为商家
+  beSeller() {
+    return this.updateAttribute({identity: 1});
+  }
+
   generateVerifyCode(tel) {
     return this.post(UserService.GENERATE_VERIFY_CODE, {tel});
   }
@@ -73,12 +78,63 @@ export class UserService extends LoopbackAPI {
   matchVerifyCode(tel, code) {
     return this.post(UserService.MATCH_VERIFY_CODE, {tel, code});
   }
+
+  qiniuUptoken() {
+    return this.get(UserService.QINIU_UPTOKEN);
+  }
+
+  queryAuktionators(keyword = '', page = 1) {
+    let filter = {
+      fields: {
+        id: true,
+        avatar: true,
+        score: true,
+        nickname: true,
+        username: true,
+      },
+      where: {identity: 2},
+      limit: Config.pageSize,
+      skip: (page - 1) * Config.pageSize,
+      order: ['score DESC', 'id ASC'],
+    };
+
+    if (keyword) {
+      filter.where = {
+        identity: 2,
+        or: [{nickname: {like: keyword}}, {username: {like: keyword}}]
+      }
+    }
+    return this.get(UserService.USERS, null, filter);
+  }
+
+  updateAttribute(attributes = {}) {
+    const {id} = this.currentUser;
+    return this.put(UserService.USER, attributes, {id})
+      .then(user => {
+        Object.keys(attributes).forEach(name => this.currentUser[name] = user[name]);
+        AKStorage.saveCurrentUser(this.currentUser);
+        return user;
+      });
+  }
 }
 
-UserService.WEIXIN_AUTH = '/ak-users/weixin/auth';
-UserService.WEIXIN_LOGIN = '/ak-users/weixin/login';
-UserService.USER_LOGIN = '/ak-users/login';
-UserService.USER_REGISTER = '/ak-users/register';
-UserService.USER_LOGIN_AUTO = '/ak-users/login/auto';
-UserService.GENERATE_VERIFY_CODE = '/ak-users/verify-code/g';
-UserService.MATCH_VERIFY_CODE = '/ak-users/verify-code/m';
+UserService
+  .WEIXIN_AUTH = '/ak-users/weixin/auth';
+UserService
+  .WEIXIN_LOGIN = '/ak-users/weixin/login';
+UserService
+  .USER_LOGIN = '/ak-users/login';
+UserService
+  .USER_REGISTER = '/ak-users/register';
+UserService
+  .USER_LOGIN_AUTO = '/ak-users/login/auto';
+UserService
+  .GENERATE_VERIFY_CODE = '/ak-users/verify-code/g';
+UserService
+  .MATCH_VERIFY_CODE = '/ak-users/verify-code/m';
+UserService
+  .USERS = '/ak-users';
+UserService
+  .USER = '/ak-users/{id}';
+UserService
+  .QINIU_UPTOKEN = '/ak-users/qiniu/uptoken';

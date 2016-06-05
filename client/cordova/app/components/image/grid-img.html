@@ -1,0 +1,10 @@
+<template ngFor [ngForOf]="imgs" let-i="index">
+  <ion-row *ngIf="(i % 4 === 0)">
+    <template ngFor let-cell [ngForOf]="imgs" let-j="index">
+      <ion-col center width-25 *ngIf="j >= i && j < i + 4">
+        <ion-icon gray class="del-btn" name="close-circle" *ngIf="editable" (click)="delImg(j)"></ion-icon>
+        <img src="{{cell.thumb}}" (click)="previewImg(j)"/>
+      </ion-col>
+    </template>
+  </ion-row>
+</template>

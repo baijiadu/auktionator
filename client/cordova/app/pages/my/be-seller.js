@@ -1,5 +1,6 @@
 import {Page, NavController} from 'ionic-angular';
 
+import Mixins from '../../mixins';
 import {UserService} from '../../providers/user/user.service';
 
 @Page({
@@ -15,5 +16,11 @@ export class BeSellerPage {
     this.userService = userService;
 
     this.user = this.userService.currentUser;
+  }
+
+  approve() {
+    this.userService.beSeller().then(
+      user => this.nav.pop(),
+      err => Mixins.toastAPIError(err));
   }
 }

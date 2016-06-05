@@ -44,6 +44,23 @@ export class TabsPage {
     this.events.subscribe('user:login', (data) => {
       this.showLoginPage(data && data.length ? data[0] : data);
     });
+
+    // 订阅用户注销的事件
+    this.events.subscribe('user:logout', () => {
+      this.userService.currentUser = null;
+      AKStorage.saveCurrentUser(null);
+      this.mainTabs.select(0);
+      // 清除
+      [1, 3].forEach(index => {
+        const tab = this.mainTabs.getByIndex(index);
+        const length = tab.length();
+
+        if (length > 0) {
+          tab.popToRoot();
+          this['tab' + (index + 1) + 'Root'] = null;
+        }
+      });
+    });
   }
 
   favorite() {

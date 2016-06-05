@@ -4,6 +4,7 @@ import {UserService} from '../../providers/user/user.service';
 import {SettingsPage} from '../settings/settings';
 import {BeSellerPage} from './be-seller';
 import {BeAuktionatorPage} from './be-auktionator';
+import {ProductPublishPage} from '../product/publish';
 
 @Page({
   templateUrl: 'build/pages/my/my.html',
@@ -22,5 +23,8 @@ export class MyPage {
     this.settingsPage = SettingsPage;
     this.beSellerPage = BeSellerPage;
     this.beAuktionatorPage = BeAuktionatorPage;
+
+    // 卖家
+    this.productPublishPage = ProductPublishPage;
   }
 }

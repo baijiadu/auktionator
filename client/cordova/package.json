@@ -36,7 +36,6 @@
     "cordova-plugin-whitelist",
     "ionic-plugin-keyboard",
     "cordova-plugin-x-toast",
-    "cordova-plugin-crosswalk-webview",
     "cordova-plugin-console",
     {
       "variables": {
@@ -44,7 +43,10 @@
       },
       "locator": "cordova-plugin-wechat",
       "id": "cordova-plugin-wechat"
-    }
+    },
+    "cordova-plugin-image-picker",
+    "cordova-plugin-crosswalk-webview",
+    "cordova-plugin-file"
   ],
   "cordovaPlatforms": [
     "android"

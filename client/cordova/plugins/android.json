@@ -7,19 +7,23 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-crosswalk-webview": {
-            "PACKAGE_NAME": "com.baijiadu.auction"
-        },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "com.baijiadu.auction"
         },
         "cordova-plugin-device": {
             "PACKAGE_NAME": "com.baijiadu.auction"
         },
+        "cordova-plugin-image-picker": {
+            "PACKAGE_NAME": "com.baijiadu.auction"
+        },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.baijiadu.auction"
         },
         "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.baijiadu.auction"
+        },
+        "cordova-plugin-wechat": {
+            "WECHATAPPID": "wx3006fc97ebd84399",
             "PACKAGE_NAME": "com.baijiadu.auction"
         },
         "cordova-plugin-whitelist": {
@@ -31,10 +35,16 @@
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.baijiadu.auction"
         },
-        "cordova-plugin-wechat": {
-            "WECHATAPPID": "wx3006fc97ebd84399",
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "com.baijiadu.auction"
+        },
+        "cordova-plugin-file": {
             "PACKAGE_NAME": "com.baijiadu.auction"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.baijiadu.auction"
+        }
+    }
 }

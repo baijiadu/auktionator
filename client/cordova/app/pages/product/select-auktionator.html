@@ -1,0 +1,23 @@
+<ion-navbar *navbar>
+  <ion-title>选择拍卖师</ion-title>
+</ion-navbar>
+
+<ion-content>
+  <ion-searchbar [(ngModel)]="keyword" (input)="queryAuktionators($event)" (cancel)="cancelSearch($event)"></ion-searchbar>
+  <ion-list>
+    <button ion-item *ngFor="let item of auktionators" (tap)="select(item)">
+      <ion-avatar item-left>
+        <img src="{{item.avatar}}"/>
+      </ion-avatar>
+      <h3>{{item.nickname || item.username}}</h3>
+      <p>{{item.score}}</p>
+    </button>
+  </ion-list>
+
+  <ion-infinite-scroll (infinite)="doInfinite($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="数据加载中...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

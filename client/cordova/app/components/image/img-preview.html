@@ -1,0 +1,13 @@
+<ion-toolbar>
+  <ion-title>
+    图片预览
+  </ion-title>
+  <ion-buttons end>
+    <button dark (click)="dismiss()">关闭</button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-slides pager initialSlide="initial">
+  <ion-slide *ngFor="let item of imgs">
+    <img src="{{item.normal}}"/>
+  </ion-slide>
+</ion-slides>
