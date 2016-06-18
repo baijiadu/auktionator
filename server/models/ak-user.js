@@ -374,15 +374,19 @@ module.exports = function (AkUser) {
     }
   });
 
-  AkUser.qiniuUptoken = function (done) {
-    done(null, thirdParties.qiniu.uptoken());
+  AkUser.qiniuUptoken = function (key, done) {
+    done(null, thirdParties.qiniu.upToken(key));
   };
   AkUser.remoteMethod('qiniuUptoken', {
-    http: {path: '/qiniu/uptoken', verb: 'get'},
-    accepts: [],
+    http: {path: '/qiniu/uptoken', verb: 'post'},
+    accepts: [{
+      arg: 'key',
+      type: 'string',
+      required: true
+    }],
     description: '获取七牛上传token',
     returns: {
-      arg: 'uptoken',
+      arg: 'token',
       type: 'string'
     }
   });

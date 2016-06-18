@@ -40,8 +40,7 @@ qiniu.conf.ACCESS_KEY = Config.qiniu.AccessKey;
 qiniu.conf.SECRET_KEY = Config.qiniu.SecretKey;
 
 var __qiniu = thirdParties.qiniu = {
-  uptoken: function () {
-    var key = Util.generateRandomStr(7) + new Date().getTime();
+  upToken: function (key) {
     var putPolicy = new qiniu.rs.PutPolicy(Config.qiniu.bucket + ":" + key);
     return putPolicy.token();
   }
