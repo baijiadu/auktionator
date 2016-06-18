@@ -1,9 +1,10 @@
-import {Page, NavController} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
+import {Component} from '@angular/core';
 
 import Mixins from '../../mixins';
 import {UserService} from '../../providers/user/user.service';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/my/be-seller.html',
 })
 export class BeSellerPage {

@@ -1,6 +1,7 @@
-import {Page, NavController, Events, Alert} from 'ionic-angular';
+import {NavController, Events, Alert} from 'ionic-angular';
+import {Component} from '@angular/core';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/settings/settings.html',
 })
 export class SettingsPage {

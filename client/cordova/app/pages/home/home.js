@@ -1,10 +1,11 @@
-import {Page, NavController, Platform} from 'ionic-angular';
+import {NavController, Platform} from 'ionic-angular';
+import {Component} from '@angular/core';
 
 import {WhatsUpService} from '../../providers/whatsup/whatsup.service';
 import {ZoneService} from '../../providers/zone/zone.service';
 import Config from '../../config';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/home/home.html',
 })
 export class HomePage {
@@ -20,7 +21,7 @@ export class HomePage {
     this.whatsupOptions = Config.whatsupOptions;
   }
 
-  onPageLoaded() {
+  ionViewLoaded() {
     this.whatsUpService.loadTops();
     this.zoneService.load();
   }

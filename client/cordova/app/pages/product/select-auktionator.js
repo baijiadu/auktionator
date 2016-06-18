@@ -1,10 +1,11 @@
-import {Page, NavController, ViewController} from 'ionic-angular';
+import {NavController, ViewController} from 'ionic-angular';
+import {Component} from '@angular/core';
 
 import Mixins from '../../mixins';
 import Config from '../../config';
 import {UserService} from '../../providers/user/user.service';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/product/select-auktionator.html'
 })
 export class SelectAuktionatorPage {
@@ -60,7 +61,7 @@ export class SelectAuktionatorPage {
       err => Mixins.toastAPIError(err))
   }
 
-  select(auktionator) {
+  dismiss(auktionator = null) {
     this.viewCtrl.dismiss(auktionator);
   }
 }

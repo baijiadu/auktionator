@@ -1,9 +1,10 @@
-import {Page, NavController, ViewController} from 'ionic-angular';
+import {NavController, ViewController} from 'ionic-angular';
+import {Component} from '@angular/core';
 
 import Mixins from '../../mixins';
 import {UserService} from '../../providers/user/user.service';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/account/verify-tel.html',
 })
 export class VerifyTelPage {

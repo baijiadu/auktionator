@@ -1,11 +1,14 @@
-import {Page, ViewController, NavParams} from 'ionic-angular';
+import {ViewController, NavParams} from 'ionic-angular';
+import {Component} from '@angular/core';
 
 import Mixins from '../../mixins';
 import QiniuUtil from '../../qiniu-util';
+import Util from '../../util';
 import Config from '../../config';
+
 import {UserService} from '../../providers/user/user.service';
 
-@Page({
+@Component({
   templateUrl: 'build/components/image/uploading.html',
 })
 
@@ -26,53 +29,63 @@ export class UploadingPage {
     this.errCount = 0;
     this.results = [];
 
-    //this.userService.qiniuUptoken().then(uptoken => this.startUpload(uptoken), err => Mixins.toastAPIError(err));
-    this.startUpload('');
+    this.startUpload();
   }
 
-  startUpload(uptoken) {
+  startUpload() {
     for (let i = 0; i < this.files.length; i++) {
-      loadImage(
-        this.files[i],
-        canvas => {
-          const width = canvas.width;
-          const height = canvas.height;
+      ((file) => {
+        const key = Util.generateRandomStr() + '_' + new Date().getTime();
+        this.userService.qiniuUptoken(key).then(data => {
+          const uptoken = data.token;
+          loadImage(
+            file,
+            canvas => {
+              const width = canvas.width;
+              const height = canvas.height;
 
-          QiniuUtil.putb64(uptoken, canvas.toDataURL('image/jpeg', 1), blkRet => {
-            const normal = Config.qiniu.url + blkRet.key;
+              canvas.toBlob(blob => {
+                const size = blob.size;
 
-            this.results.push({
-              normal,
-              thumb: normal + '-' + Config.qiniu.styles['product.thumb'],
-              width: width,
-              height: height,
-            });
-            this.suucessCount++;
+                QiniuUtil.uploadBlob(blob, key, uptoken).then(blkRet => {
+                  const normal = Config.qiniu.url + blkRet.key;
 
-            if (this.index >= this.amount) {
-              this.done();
-            } else {
-              this.index++;
+                  this.results.push({
+                    normal,
+                    thumb: normal + '-' + Config.qiniu.styles['product.thumb'],
+                    width,
+                    height,
+                    size,
+                  });
+                  this.suucessCount++;
+
+                  if (this.index >= this.amount) {
+                    this.done();
+                  } else {
+                    this.index++;
+                  }
+                  return blkRet;
+                }, err => {
+                  this.errCount++;
+                  if (this.index >= this.amount) {
+                    this.done();
+                  } else {
+                    this.index++;
+                  }
+                  return err;
+                });
+              }, 'image/jpeg');
+            }, {
+              maxWidth: 540,
+              maxHeight: 960,
+              minWidth: 360,
+              minHeight: 640,
+              canvas: true,
+              crossOrigin: true,
             }
-            return blkRet;
-          }, err => {
-            this.errCount++;
-            if (this.index >= this.amount) {
-              this.done();
-            } else {
-              this.index++;
-            }
-            return err;
-          });
-        }, {
-          maxWidth: 540,
-          maxHeight: 960,
-          minWidth: 360,
-          minHeight: 640,
-          canvas: true,
-          crossOrigin: true,
-        }
-      );
+          );
+        }, err => Mixins.toastAPIError(err));
+      })(this.files[i]);
     }
   }
 

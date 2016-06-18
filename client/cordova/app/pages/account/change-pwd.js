@@ -1,6 +1,7 @@
-import {Page, NavController, ViewController} from 'ionic-angular';
+import {NavController, ViewController} from 'ionic-angular';
+import {Component} from '@angular/core';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/account/change-pwd.html',
 })
 export class ChangePwdPage {

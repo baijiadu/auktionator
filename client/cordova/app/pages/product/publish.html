@@ -1,38 +1,53 @@
-<!--
-  Generated template for the FavoritePage page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-navbar *navbar>
   <ion-title>发布拍品</ion-title>
+  <!--<ion-buttons end>-->
+    <!--<button (tap)="onSubmit()">-->
+      <!--<ion-icon name="done-all"></ion-icon>-->
+      <!--提交-->
+    <!--</button>-->
+  <!--</ion-buttons>-->
 </ion-navbar>
 
 <ion-content>
   <form #publishForm="ngForm" novalidate>
-    <ion-list>
-      <ion-list-header>拍品介绍</ion-list-header>
-
-      <ion-item>
-        <ion-textarea [(ngModel)]="product.content" ngControl="content" #content="ngForm" placeholder="来几句话描述下你拍品吧（20~2000）..." required minlength="20" maxlength="2000"></ion-textarea>
+    <ion-item-group>
+      <ion-list-header>拍品信息</ion-list-header>
+      <ion-item class="p-content">
+        <ion-textarea [(ngModel)]="product.content" ngControl="content" #content="ngForm" required minlength="20" maxlength="2000" placeholder="拍品描述"></ion-textarea>
       </ion-item>
       <!--<p [hidden]="content.valid || content.pristine" danger padding-left>当前描述有人可能看不懂哦</p>-->
-
-      <grid-img editable="true" [imgs]="product.uploadImages" (deleted)="delUploadImage($event)"></grid-img>
+      <div padding>
+        <grid-img editable="true" [imgs]="product.uploadImages" (deleted)="delUploadImage($event)"></grid-img>
+      </div>
       <ion-item class="upload-inputs">
         <ion-thumbnail item-left>
           <input type="file" (change)="pickImage($event)" multiple [disabled]="product.uploadImages.length >= 8"/>
           <img src="img/upload.png">
         </ion-thumbnail>
-        <h3 dark>已上传 {{product.uploadImages.length}}/{{uploadImageLimit}}</h3>
+        <h3>拍品效果图</h3>
+        <p>已上传 {{product.uploadImages.length}}/{{uploadImageLimit}}</p>
       </ion-item>
       <!--<p [hidden]="!isSubmiting || product.uploadImages.length > 0" danger padding-left>至少需要上传一张图哦</p>-->
+      <ion-item>
 
+        <ion-label>起拍价</ion-label>
+        <ion-input [(ngModel)]="product.beginningPrice" ngControl="beginningPrice" type="number" #beginningPrice="ngForm" required></ion-input>
+      </ion-item>
+      <!--<p [hidden]="beginningPrice.valid || beginningPrice.pristine" danger padding-left>起拍价不能为空哦</p>-->
+      <ion-item>
+        <ion-label>加价幅度</ion-label>
+        <ion-input [(ngModel)]="product.increasePrice" ngControl="increasePrice" type="number" #increasePrice="ngForm" required></ion-input>
+      </ion-item>
+      <!--<p [hidden]="increasePrice.valid || increasePrice.pristine" danger padding-left>加价幅度不能为空哦</p>-->
+    </ion-item-group>
+
+    <ion-item-group>
+      <!--<ion-item-divider></ion-item-divider>-->
+      <ion-list-header>拍卖师</ion-list-header>
       <a ion-item detail-push (tap)="selectAuktionator()" [hidden]="selectedAuktionator">
-        <ion-icon name="heart" item-left></ion-icon>
+        <!--<ion-icon name="person" item-left></ion-icon>-->
         选择拍卖师
       </a>
-
       <button ion-item (tap)="selectAuktionator()" [hidden]="!selectedAuktionator">
         <ion-avatar item-left>
           <img src="{{selectedAuktionator?.avatar}}"/>
@@ -40,44 +55,34 @@
         <h3>{{selectedAuktionator?.nickname || selectedAuktionator?.username}}</h3>
         <p>{{selectedAuktionator?.score}}</p>
       </button>
+    </ion-item-group>
 
-      <ion-list-header>详细信息</ion-list-header>
-      <ion-item>
-        <ion-label>起拍价</ion-label>
-        <ion-input [(ngModel)]="product.beginningPrice" ngControl="beginningPrice" type="number" placeholder="输入起拍金额" #beginningPrice="ngForm" required></ion-input>
-      </ion-item>
-      <!--<p [hidden]="beginningPrice.valid || beginningPrice.pristine" danger padding-left>起拍价不能为空哦</p>-->
-
-      <ion-item>
-        <ion-label>加价幅度</ion-label>
-        <ion-input [(ngModel)]="product.increasePrice" ngControl="increasePrice" type="number" placeholder="输入加价金额" #increasePrice="ngForm" required></ion-input>
-      </ion-item>
-      <!--<p [hidden]="increasePrice.valid || increasePrice.pristine" danger padding-left>加价幅度不能为空哦</p>-->
-
-      <ion-list-header>可选设置</ion-list-header>
-
+    <ion-item-group>
+      <!--<ion-item-divider></ion-item-divider>-->
+      <ion-list-header>其他设置</ion-list-header>
       <ion-item>
         <ion-label>保证金</ion-label>
         <ion-input [(ngModel)]="product.guaranteePrice" ngControl="guaranteePrice" type="number" #guaranteePrice="ngForm" placeholder="0"></ion-input>
       </ion-item>
-
-      <ion-list-header>其他高级设置</ion-list-header>
-
       <ion-item>
         <ion-label>一口价</ion-label>
         <ion-input [(ngModel)]="product.maxPrice" ngControl="maxPrice" type="number" #maxPrice="ngForm" placeholder="0"></ion-input>
+        <ion-icon name="help" item-right></ion-icon>
       </ion-item>
-      <p dark padding-left>出价达到或超过此价格立即成交（无一口价请设0元）</p>
-
+      <!--<p light padding-left>出价达到或超过此价格立即成交（无一口价请设0元）</p>-->
       <ion-item>
         <ion-label>保底价</ion-label>
         <ion-input [(ngModel)]="product.minPrice" ngControl="minPrice" type="number" #minPrice="ngForm" placeholder="0"></ion-input>
+        <ion-icon name="help" item-right></ion-icon>
       </ion-item>
-      <p dark padding-left>提供此拍品的保底价格（无保底价请设0元）</p>
+      <!--<p light padding-left>提供此拍品的保底价格（无保底价请设0元）</p>-->
+    </ion-item-group>
 
-      <ion-item>
-        <button block secondary type="submit" (click)="onSubmit()" [disabled]="isSubmiting || !publishForm.form.valid">确认发布</button>
-      </ion-item>
-    </ion-list>
+    <ion-item-group>
+      <!--<ion-item-divider></ion-item-divider>-->
+      <div padding>
+        <button  block secondary type="submit" (click)="onSubmit()" [disabled]="isSubmiting || !publishForm.form.valid">确认发布</button>
+      </div>
+    </ion-item-group>
   </form>
 </ion-content>

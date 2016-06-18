@@ -9,7 +9,6 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-divider></ion-item-divider>
     <a ion-item (click)="showUserInfo()" detail-push>
       <ion-thumbnail item-left>
         <img src="{{user?.avatar || 'img/default_avatar_128x128.png'}}">
@@ -21,7 +20,7 @@
     <ion-item-group>
       <ion-item-divider></ion-item-divider>
       <button ion-item>
-        <ion-icon name="list" item-left></ion-icon>
+        <ion-icon name="list-box" item-left></ion-icon>
         我的订单
       </button>
       <button ion-item>
@@ -36,20 +35,24 @@
         <ion-icon name="camera" item-left></ion-icon>
         发布拍品
       </button>
-      <button ion-item>
-        <ion-icon name="leaf" item-left></ion-icon>
+      <button ion-item [navPush]="ownerProductsPage">
+        <ion-icon name="hammer" item-left></ion-icon>
         拍品管理
       </button>
     </ion-item-group>
 
     <ion-item-group *ngIf="user?.identity === 2">
       <ion-item-divider></ion-item-divider>
+      <button ion-item [navPush]="akProductsPage">
+        <ion-icon name="hammer" item-left></ion-icon>
+        拍品管理
+      </button>
       <button ion-item>
-        <ion-icon name="leaf" item-left></ion-icon>
+        <ion-icon name="hand" item-left></ion-icon>
         拍场管理
       </button>
       <button ion-item>
-        <ion-icon name="calendar" item-left></ion-icon>
+        <ion-icon name="stats" item-left></ion-icon>
         订单统计
       </button>
     </ion-item-group>
@@ -57,15 +60,15 @@
     <ion-item-group>
       <ion-item-divider></ion-item-divider>
       <button ion-item *ngIf="user?.identity == 0" [navPush]="beSellerPage">
-        <ion-icon name="leaf" item-left></ion-icon>
+        <ion-icon name="flame" item-left></ion-icon>
         商家入驻
       </button>
       <button ion-item *ngIf="user?.identity !== 2" [navPush]="beAuktionatorPage">
-        <ion-icon name="leaf" item-left></ion-icon>
+        <ion-icon name="hand" item-left></ion-icon>
         成为拍卖师
       </button>
       <button ion-item>
-        <ion-icon name="leaf" item-left></ion-icon>
+        <ion-icon name="help-circle" item-left></ion-icon>
         使用帮助
       </button>
     </ion-item-group>

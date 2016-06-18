@@ -1,5 +1,5 @@
-import {ViewChild} from '@angular/core';
-import {Page, NavController, Events, Modal} from 'ionic-angular';
+import {ViewChild, Component} from '@angular/core';
+import {NavController, Events, Modal} from 'ionic-angular';
 
 import Mixins from '../../mixins';
 import {HomePage} from '../home/home';
@@ -11,7 +11,7 @@ import {LoginPage} from '../account/login';
 import {UserService} from '../../providers/user/user.service';
 import AKStorage from '../../ak-storage';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/tabs/tabs.html',
   queries: {
     mainTabs: new ViewChild('mainTabs')
@@ -34,7 +34,7 @@ export class TabsPage {
     this.events = events;
   }
 
-  onPageLoaded() {
+  ionViewLoaded() {
     // 用户进入APP自动登陆
     AKStorage.loadCurrentUser().then(user => {
       if (user && user.tel) this.userService.autoLogin(user.tel);

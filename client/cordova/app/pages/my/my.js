@@ -1,12 +1,15 @@
-import {Page, NavController} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
+import {Component} from '@angular/core';
 
 import {UserService} from '../../providers/user/user.service';
 import {SettingsPage} from '../settings/settings';
 import {BeSellerPage} from './be-seller';
 import {BeAuktionatorPage} from './be-auktionator';
 import {ProductPublishPage} from '../product/publish';
+import {OwnerProductsPage} from '../product/owner-products';
+import {AkProductsPage} from '../product/ak-products';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/my/my.html',
 })
 export class MyPage {
@@ -26,5 +29,7 @@ export class MyPage {
 
     // 卖家
     this.productPublishPage = ProductPublishPage;
+    this.ownerProductsPage = OwnerProductsPage;
+    this.akProductsPage = AkProductsPage;
   }
 }

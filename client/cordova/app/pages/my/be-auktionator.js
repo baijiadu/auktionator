@@ -1,8 +1,9 @@
-import {Page, NavController} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
+import {Component} from '@angular/core';
 
 import {UserService} from '../../providers/user/user.service';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/my/be-auktionator.html',
 })
 export class BeAuktionatorPage {

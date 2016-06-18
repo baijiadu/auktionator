@@ -1,0 +1,41 @@
+<ion-navbar *navbar>
+  <ion-title>拍品管理</ion-title>
+</ion-navbar>
+
+<ion-content>
+  <div padding>
+    <ion-segment [(ngModel)]="statusName" (ionChange)="statusesChanged($event)">
+      <ion-segment-button value="all">
+        全部
+      </ion-segment-button>
+      <ion-segment-button value="processing">
+        处理中
+      </ion-segment-button>
+      <ion-segment-button value="online">
+        进行中
+      </ion-segment-button>
+      <ion-segment-button value="ended">
+        已结束
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <ion-list>
+    <ion-item *ngFor="let item of products" (tap)="showDetail(item)">
+      <ion-thumbnail item-left>
+        <img src="{{item.thumb}}"/>
+      </ion-thumbnail>
+      <h2>{{item.auktionator?.username || item.auktionator?.nickname}}</h2>
+      <h3>{{item.content}}</h3>
+      <!--<p>{{item.created | str2date | date: "MM/dd HH:mm:ss"}}</p>-->
+      <p>{{item.created}} | {{item.status}}</p>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="products.length > 20 && !noMore">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="数据加载中...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

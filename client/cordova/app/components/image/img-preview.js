@@ -1,6 +1,7 @@
-import {Page, ViewController, NavParams} from 'ionic-angular';
+import {ViewController, NavParams} from 'ionic-angular';
+import {Component} from '@angular/core';
 
-@Page({
+@Component({
   templateUrl: 'build/components/image/img-preview.html',
 })
 

@@ -79,8 +79,8 @@ export class UserService extends LoopbackAPI {
     return this.post(UserService.MATCH_VERIFY_CODE, {tel, code});
   }
 
-  qiniuUptoken() {
-    return this.get(UserService.QINIU_UPTOKEN);
+  qiniuUptoken(key) {
+    return this.post(UserService.QINIU_UPTOKEN, {key});
   }
 
   queryAuktionators(keyword = '', page = 1) {

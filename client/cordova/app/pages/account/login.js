@@ -1,4 +1,5 @@
-import {Page, NavController, ViewController, Modal, Loading} from 'ionic-angular';
+import {NavController, ViewController, Modal, Loading} from 'ionic-angular';
+import {Component} from '@angular/core';
 
 import Mixins from '../../mixins';
 import {UserService} from '../../providers/user/user.service';
@@ -6,7 +7,7 @@ import AKStorage from '../../ak-storage';
 import {ForgetPwdPage} from './forget-pwd';
 import {VerifyTelPage} from './verify-tel';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/account/login.html',
 })
 export class LoginPage {
@@ -29,7 +30,7 @@ export class LoginPage {
     this.weixinInstalled = false;
   }
 
-  onPageDidEnter() {
+  ionViewDidEnter() {
     Wechat.isInstalled(installed => {
       this.weixinInstalled = !!installed;
     }, reason => {

@@ -1,4 +1,9 @@
 .product-publish-page {
+  .p-content {
+    textarea {
+      height: 90px;
+    }
+  }
   .upload-inputs {
     input {
       position: absolute;

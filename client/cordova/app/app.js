@@ -1,5 +1,6 @@
-import {App, Platform} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
+import {Component} from '@angular/core';
+import {ionicBootstrap, Platform} from 'ionic-angular';
 
 import {TabsPage} from './pages/tabs/tabs';
 import Config from './config';
@@ -9,14 +10,9 @@ import {WhatsUpService} from './providers/whatsup/whatsup.service'
 import {ZoneService} from './providers/zone/zone.service'
 import {ProductService} from './providers/product/product.service'
 
-@App({
+@Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
   prodMode: Config.isProd,
-  config: {
-    tabbarPlacement: 'bottom',
-    tabSubPages: true
-  }, // http://ionicframework.com/docs/v2/api/config/Config/
-  providers: [WhatsUpService, ZoneService, UserService, ProductService],
 })
 export class MyApp {
   static get parameters() {
@@ -32,3 +28,8 @@ export class MyApp {
     });
   }
 }
+
+ionicBootstrap(MyApp, [WhatsUpService, ZoneService, UserService, ProductService], {
+  tabbarPlacement: 'bottom',
+  tabSubPages: true,
+});

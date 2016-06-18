@@ -1,14 +1,16 @@
-import {Page, NavController, Modal, Loading, Events} from 'ionic-angular';
+import {NavController, Modal, Loading, Events} from 'ionic-angular';
+import {Component} from '@angular/core';
 
 import Mixins from '../../mixins';
 import Config from '../../config';
 import {GridImg} from '../../components/image/grid-img';
 import {UploadingPage} from '../../components/image/uploading';
 import {SelectAuktionatorPage} from './select-auktionator';
+import {OwnerProductsPage} from './owner-products';
 import {UserService} from '../../providers/user/user.service';
 import {ProductService} from '../../providers/product/product.service';
 
-@Page({
+@Component({
   templateUrl: 'build/pages/product/publish.html',
   directives: [GridImg],
 })
@@ -35,14 +37,14 @@ export class ProductPublishPage {
 
   pickImage(e) {
     const remain = this.uploadImageLimit - this.product.uploadImages.length;
-
-    if (remain > 0) {
-      let modal = Modal.create(UploadingPage, {files: e.target.files});
+    let files = e.target.files;
+    if (remain > 0 && files.length > 0) {
+      let modal = Modal.create(UploadingPage, {files: files});
       let uploadImages = this.product.uploadImages;
-      modal.onDismiss(data => {
+      modal.onDismiss((data) => {
         if (data) {
-          uploadImages.push.apply(uploadImages, data.results);
           if (data.errCount > 0) Mixins.toast(data.errCount + '张图片上传失败');
+          uploadImages.push.apply(uploadImages, data.results);
         }
       });
       this.nav.present(modal);
@@ -81,17 +83,20 @@ export class ProductPublishPage {
     let loading = Loading.create({
       content: '发布中...'
     });
-
     this.nav.present(loading);
-    this.productService.publish(this.product).then(
-      product => {
-        loading.dismiss();
-        this.events.publish('product:created', product);
-        Mixins.toast('拍品发布成功，请耐心等待拍卖师的审核');
-        this.nav.pop();
-      }, err => {
-        Mixins.toastAPIError(err);
-        loading.dismiss();
-      });
+
+    setTimeout(() => {
+      this.productService.publish(this.product).then(
+        product => {
+          loading.dismiss();
+          this.events.publish('product:created', product);
+          Mixins.toast('拍品发布成功，请耐心等待拍卖师的审核');
+          this.nav.push(OwnerProductsPage, {statusName: 'processing'});
+          setTimeout(() => this.nav.remove(this.nav.length() - 2), 600);
+        }, err => {
+          Mixins.toastAPIError(err);
+          loading.dismiss();
+        });
+    }, 1000);
   }
 }
