@@ -1,7 +1,7 @@
 <ion-navbar *navbar>
   <ion-title>发布拍品</ion-title>
   <!--<ion-buttons end>-->
-    <!--<button (tap)="onSubmit()">-->
+    <!--<button (click)="onSubmit()">-->
       <!--<ion-icon name="done-all"></ion-icon>-->
       <!--提交-->
     <!--</button>-->
@@ -44,11 +44,11 @@
     <ion-item-group>
       <!--<ion-item-divider></ion-item-divider>-->
       <ion-list-header>拍卖师</ion-list-header>
-      <a ion-item detail-push (tap)="selectAuktionator()" [hidden]="selectedAuktionator">
+      <a ion-item detail-push (click)="selectAuktionator()" [hidden]="selectedAuktionator">
         <!--<ion-icon name="person" item-left></ion-icon>-->
         选择拍卖师
       </a>
-      <button ion-item (tap)="selectAuktionator()" [hidden]="!selectedAuktionator">
+      <button ion-item (click)="selectAuktionator()" [hidden]="!selectedAuktionator">
         <ion-avatar item-left>
           <img src="{{selectedAuktionator?.avatar}}"/>
         </ion-avatar>

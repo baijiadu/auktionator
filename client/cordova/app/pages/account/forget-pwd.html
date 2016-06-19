@@ -15,7 +15,7 @@
     <ion-item>
       <ion-label>验证码：</ion-label>
       <ion-input [(ngModel)]="forgetPwd.code" ngControl="code" #code="ngForm" type="number" required minlength="4" maxlength="4"></ion-input>
-      <button item-right [disabled]="!tel.valid || verifyCodeProcessing" (tap)="getVerifyCode()">{{!verifyCodeProcessing ? '获取验证码' : verifyCodeCounter + '秒后重试'}}</button>
+      <button item-right [disabled]="!tel.valid || verifyCodeProcessing" (click)="getVerifyCode()">{{!verifyCodeProcessing ? '获取验证码' : verifyCodeCounter + '秒后重试'}}</button>
     </ion-item>
     <p [hidden]="code.valid || code.pristine" danger padding-left>验证码是4为纯数字哦</p>
 

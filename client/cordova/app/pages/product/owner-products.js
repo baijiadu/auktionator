@@ -79,7 +79,7 @@ export class OwnerProductsPage {
   }
 
   statusesChanged(segment) {
-    this.noMore = true;
+    this.noMore = false;
     this.products = [];
     this.loadProducts();
   }

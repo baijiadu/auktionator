@@ -2,26 +2,26 @@
   <ion-title>拍品管理</ion-title>
 </ion-navbar>
 
-<ion-content>
-  <div padding>
-    <ion-segment [(ngModel)]="statusName" (ionChange)="statusesChanged($event)">
-      <ion-segment-button value="all">
-        全部
-      </ion-segment-button>
-      <ion-segment-button value="pending">
-        未处理
-      </ion-segment-button>
-      <ion-segment-button value="online">
-        待上架
-      </ion-segment-button>
-      <ion-segment-button value="ended">
-        已结束
-      </ion-segment-button>
-    </ion-segment>
-  </div>
+<ion-toolbar padding>
+  <ion-segment [(ngModel)]="statusName" (ionChange)="statusesChanged($event)">
+    <ion-segment-button value="all">
+      全部
+    </ion-segment-button>
+    <ion-segment-button value="pending">
+      未处理
+    </ion-segment-button>
+    <ion-segment-button value="online">
+      待上架
+    </ion-segment-button>
+    <ion-segment-button value="ended">
+      已结束
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
 
+<ion-content>
   <ion-list>
-    <ion-item *ngFor="let item of products" (tap)="showDetail(item)">
+    <ion-item *ngFor="let item of products" (click)="showDetail(item)">
       <ion-thumbnail item-left>
         <img src="{{item.thumb}}"/>
       </ion-thumbnail>

@@ -47,8 +47,6 @@ export class TabsPage {
 
     // 订阅用户注销的事件
     this.events.subscribe('user:logout', () => {
-      this.userService.currentUser = null;
-      AKStorage.saveCurrentUser(null);
       this.mainTabs.select(0);
       // 清除
       [1, 3].forEach(index => {
@@ -60,6 +58,9 @@ export class TabsPage {
           this['tab' + (index + 1) + 'Root'] = null;
         }
       });
+
+      this.userService.currentUser = null;
+      AKStorage.saveCurrentUser(null);
     });
   }
 

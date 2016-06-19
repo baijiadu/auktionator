@@ -72,6 +72,14 @@
         使用帮助
       </button>
     </ion-item-group>
+
+    <ion-item-group *ngIf="user?.identity === 3" [navPush]="manageUsersPage">
+      <ion-item-divider></ion-item-divider>
+      <button ion-item>
+        <ion-icon name="person" item-left></ion-icon>
+        用户管理
+      </button>
+    </ion-item-group>
   </ion-list>
 
 </ion-content>

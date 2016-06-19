@@ -14,7 +14,7 @@ import {ProductService} from './providers/product/product.service'
   template: '<ion-nav [root]="rootPage"></ion-nav>',
   prodMode: Config.isProd,
 })
-export class MyApp {
+export class AuktionatorApp {
   static get parameters() {
     return [[Platform]];
   }
@@ -25,11 +25,15 @@ export class MyApp {
 
     platform.ready().then(() => {
       StatusBar.styleDefault();
+
+      if (window.plugins && window.plugins.jPushPlugin) {
+        window.plugins.jPushPlugin.init();
+      }
     });
   }
 }
 
-ionicBootstrap(MyApp, [WhatsUpService, ZoneService, UserService, ProductService], {
+ionicBootstrap(AuktionatorApp, [WhatsUpService, ZoneService, UserService, ProductService], {
   tabbarPlacement: 'bottom',
   tabSubPages: true,
 });

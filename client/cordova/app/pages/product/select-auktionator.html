@@ -1,6 +1,6 @@
 <ion-navbar *navbar>
   <ion-buttons start>
-    <button dark (tap)="dismiss()">返回</button>
+    <button dark (click)="dismiss()">返回</button>
   </ion-buttons>
   <ion-title>选择拍卖师</ion-title>
 </ion-navbar>
@@ -8,7 +8,7 @@
 <ion-content>
   <ion-searchbar [(ngModel)]="keyword" (ionInput)="queryAuktionators($event)" (ionCancel)="cancelSearch($event)" placeholder="输入拍卖师名称进行查找" cancelButtonText="取消"></ion-searchbar>
   <ion-list>
-    <button ion-item *ngFor="let item of auktionators" (tap)="dismiss(item)">
+    <button ion-item *ngFor="let item of auktionators" (click)="dismiss(item)">
       <ion-avatar item-left>
         <img src="{{item.avatar}}"/>
       </ion-avatar>

@@ -8,6 +8,7 @@ import {BeAuktionatorPage} from './be-auktionator';
 import {ProductPublishPage} from '../product/publish';
 import {OwnerProductsPage} from '../product/owner-products';
 import {AkProductsPage} from '../product/ak-products';
+import {ManageUsersPage} from '../admin/manage-users';
 
 @Component({
   templateUrl: 'build/pages/my/my.html',
@@ -31,5 +32,6 @@ export class MyPage {
     this.productPublishPage = ProductPublishPage;
     this.ownerProductsPage = OwnerProductsPage;
     this.akProductsPage = AkProductsPage;
+    this.manageUsersPage = ManageUsersPage;
   }
 }

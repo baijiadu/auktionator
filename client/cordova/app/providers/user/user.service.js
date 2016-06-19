@@ -68,7 +68,7 @@ export class UserService extends LoopbackAPI {
 
   // 入驻成为商家
   beSeller() {
-    return this.updateAttribute({identity: 1});
+    return this.updateCurrentUserAttributes({identity: 1});
   }
 
   generateVerifyCode(tel) {
@@ -107,7 +107,7 @@ export class UserService extends LoopbackAPI {
     return this.get(UserService.USERS, null, filter);
   }
 
-  updateAttribute(attributes = {}) {
+  updateCurrentUserAttributes(attributes = {}) {
     const {id} = this.currentUser;
     return this.put(UserService.USER, attributes, {id})
       .then(user => {
@@ -115,6 +115,37 @@ export class UserService extends LoopbackAPI {
         AKStorage.saveCurrentUser(this.currentUser);
         return user;
       });
+  }
+
+  updateAttribute(user, attributes = {}) {
+    const {id} = user;
+    return this.put(UserService.USER, attributes, {id});
+  }
+
+  loadUsersByIdentities(identities = null, sinceId = null) {
+    let filter = {
+      fields: {
+        id: true,
+        username: true,
+        nickname: true,
+        avatar: true,
+        tel: true,
+        identity: true,
+        created: true,
+      },
+      where: {},
+      limit: Config.pageSize,
+      order: ['id ASC']
+    };
+
+    if (identities) {
+      filter.where.identity = {inq: identities};
+    }
+
+    if (sinceId) {
+      filter.where.id = {lt: sinceId};
+    }
+    return this.get(UserService.USERS, null, filter);
   }
 }
 

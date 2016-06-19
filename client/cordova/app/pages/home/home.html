@@ -11,7 +11,7 @@
 <ion-content>
   <div class="whats-up">
     <ion-slides [options]="whatsupOptions">
-      <ion-slide *ngFor="let item of whatsUpService.tops" (tap)="whatsupTapped(item)">
+      <ion-slide *ngFor="let item of whatsUpService.tops" (click)="whatsupTapped(item)">
         <img src="{{item.thumb}}"/>
       </ion-slide>
     </ion-slides>

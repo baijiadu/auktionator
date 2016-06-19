@@ -4,7 +4,7 @@
   </ion-buttons>
   <ion-title>验证手机号</ion-title>
 </ion-navbar>
-<ion-content padding>
+<ion-content>
   <form #form="ngForm" novalidate>
     <ion-item>
       <ion-label>手机号：</ion-label>
@@ -15,7 +15,7 @@
     <ion-item>
       <ion-label>验证码：</ion-label>
       <ion-input [(ngModel)]="verifyTelData.code" ngControl="code" #code="ngForm" type="number" required minlength="6" maxlength="6"></ion-input>
-      <button item-right [disabled]="!tel.valid || verifyCodeProcessing" (tap)="getVerifyCode()">{{!verifyCodeProcessing ? '获取验证码' : verifyCodeCounter + '秒后重试'}}</button>
+      <button item-right [disabled]="!tel.valid || verifyCodeProcessing" (click)="getVerifyCode()">{{!verifyCodeProcessing ? '获取验证码' : verifyCodeCounter + '秒后重试'}}</button>
     </ion-item>
     <p [hidden]="code.valid || code.pristine" danger padding-left>验证码是6位纯数字哦</p>
 

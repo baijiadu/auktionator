@@ -1,21 +1,22 @@
 <ion-navbar *navbar>
   <ion-buttons start>
-    <button dark (tap)="dismiss()">返回</button>
+    <button dark (click)="dismiss()">返回</button>
   </ion-buttons>
   <ion-title>用户登录</ion-title>
 </ion-navbar>
-<ion-content padding>
-  <div padding>
-    <ion-segment [(ngModel)]="actionType">
-      <ion-segment-button value="login">
-        登录
-      </ion-segment-button>
-      <ion-segment-button value="register">
-        注册
-      </ion-segment-button>
-    </ion-segment>
-  </div>
 
+<ion-toolbar padding>
+  <ion-segment [(ngModel)]="actionType">
+    <ion-segment-button value="login">
+      登录
+    </ion-segment-button>
+    <ion-segment-button value="register">
+      注册
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+
+<ion-content>
   <div [hidden]="actionType !== 'login'">
     <form #loginForm="ngForm" novalidate>
       <ion-item>
@@ -29,11 +30,11 @@
       </ion-item>
 
       <ion-item no-lines>
-        <button block type="submit" (tap)="login()" [disabled]="!loginForm.form.valid">登录</button>
+        <button block type="submit" (click)="login()" [disabled]="!loginForm.form.valid">登录</button>
       </ion-item>
 
       <div class="links">
-        <button class="fr" clear small (tap)="forgetPwd()">忘记密码</button>
+        <button class="fr" clear small (click)="forgetPwd()">忘记密码</button>
       </div>
     </form>
     <ion-card class="third-party">
@@ -41,10 +42,10 @@
       <ion-card-content>
         <ion-row>
           <ion-col text-center>
-            <button success (tap)="thirdPartyAuth('weixin')" [disabled]="!weixinInstalled">微信</button>
+            <button success (click)="thirdPartyAuth('weixin')" [disabled]="!weixinInstalled">微信</button>
           </ion-col>
           <ion-col text-center>
-            <button warning (tap)="thirdPartyAuth('qq')">QQ</button>
+            <button warning (click)="thirdPartyAuth('qq')">QQ</button>
           </ion-col>
         </ion-row>
       </ion-card-content>
@@ -62,7 +63,7 @@
       <ion-item>
         <ion-label>验证码：</ion-label>
         <ion-input [(ngModel)]="registerData.code" ngControl="registerCode" #registerCode="ngForm" type="number" required minlength="6" maxlength="6"></ion-input>
-        <button item-right [disabled]="!registerTel.valid || verifyCodeProcessing" (tap)="getVerifyCode()">{{!verifyCodeProcessing ? '获取验证码' : verifyCodeCounter + '秒后重试'}}</button>
+        <button item-right [disabled]="!registerTel.valid || verifyCodeProcessing" (click)="getVerifyCode()">{{!verifyCodeProcessing ? '获取验证码' : verifyCodeCounter + '秒后重试'}}</button>
       </ion-item>
       <p [hidden]="registerCode.valid || registerCode.pristine" danger padding-left>验证码是6位纯数字哦</p>
 
@@ -79,7 +80,7 @@
       <p [hidden]="registerPwd.valid || registerPwd.pristine" danger padding-left>密码格式不正确</p>
 
       <ion-item no-lines>
-        <button block type="submit" (tap)="register()" [disabled]="!registerForm.form.valid">注册</button>
+        <button block type="submit" (click)="register()" [disabled]="!registerForm.form.valid">注册</button>
       </ion-item>
 
       <ion-item>

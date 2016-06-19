@@ -1,0 +1,60 @@
+<ion-navbar *navbar>
+  <ion-title>用户管理</ion-title>
+</ion-navbar>
+
+<ion-toolbar padding>
+  <ion-segment [(ngModel)]="identityName" (ionChange)="identitiesChanged($event)">
+    <ion-segment-button value="all">
+      全部
+    </ion-segment-button>
+    <ion-segment-button value="buyer">
+      买家
+    </ion-segment-button>
+    <ion-segment-button value="seller">
+      卖家
+    </ion-segment-button>
+    <ion-segment-button value="auktionator">
+      拍卖师
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+
+<ion-content>
+  <ion-list [virtualScroll]="users">
+    <ion-item-sliding *virtualItem="let item" [ngSwitch]="item.identity" #slidingItem>
+      <ion-item>
+        <ion-avatar item-left>
+          <ion-img [src]="item.avatar"></ion-img>
+        </ion-avatar>
+        <h2>{{item.nickname || item.username}}</h2>
+        <h3 *ngSwitchWhen="0">买家</h3>
+        <h3 *ngSwitchWhen="1">卖家</h3>
+        <h3 *ngSwitchWhen="2">拍卖师</h3>
+        <h3 *ngSwitchWhen="3">管理员</h3>
+        <p>{{item.tel}}</p>
+      </ion-item>
+
+      <ion-item-options *ngSwitchWhen="0" icon-left>
+        <button primary (click)="identityChanged(slidingItem, item, 1)">
+          <ion-icon name="cart"></ion-icon>
+          卖家
+        </button>
+        <button secondary (click)="identityChanged(slidingItem, item, 2)">
+          <ion-icon name="hammer"></ion-icon>
+          拍卖师
+        </button>
+        <button danger (click)="identityChanged(slidingItem, item, 3)">
+          <ion-icon name="contacts"></ion-icon>
+          管理员
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="users.length > 20 && !noMore">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="数据加载中...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

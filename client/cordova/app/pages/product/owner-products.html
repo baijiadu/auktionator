@@ -2,28 +2,40 @@
   <ion-title>拍品管理</ion-title>
 </ion-navbar>
 
-<ion-content>
-  <div padding>
-    <ion-segment [(ngModel)]="statusName" (ionChange)="statusesChanged($event)">
-      <ion-segment-button value="all">
-        全部
-      </ion-segment-button>
-      <ion-segment-button value="processing">
-        处理中
-      </ion-segment-button>
-      <ion-segment-button value="online">
-        进行中
-      </ion-segment-button>
-      <ion-segment-button value="ended">
-        已结束
-      </ion-segment-button>
-    </ion-segment>
-  </div>
+<ion-toolbar padding>
+  <ion-segment [(ngModel)]="statusName" (ionChange)="statusesChanged($event)">
+    <ion-segment-button value="all">
+      全部
+    </ion-segment-button>
+    <ion-segment-button value="processing">
+      处理中
+    </ion-segment-button>
+    <ion-segment-button value="online">
+      进行中
+    </ion-segment-button>
+    <ion-segment-button value="ended">
+      已结束
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
 
-  <ion-list>
-    <ion-item *ngFor="let item of products" (tap)="showDetail(item)">
+<ion-content>
+  <!--<ion-list>-->
+    <!--<ion-item *ngFor="let item of products" (click)="showDetail(item)">-->
+      <!--<ion-thumbnail item-left>-->
+        <!--<img src="{{item.thumb}}"/>-->
+      <!--</ion-thumbnail>-->
+      <!--<h2>{{item.auktionator?.username || item.auktionator?.nickname}}</h2>-->
+      <!--<h3>{{item.content}}</h3>-->
+      <!--&lt;!&ndash;<p>{{item.created | str2date | date: "MM/dd HH:mm:ss"}}</p>&ndash;&gt;-->
+      <!--<p>{{item.created}} | {{item.status}}</p>-->
+    <!--</ion-item>-->
+  <!--</ion-list>-->
+
+  <ion-list [virtualScroll]="products">
+    <ion-item *virtualItem="let item">
       <ion-thumbnail item-left>
-        <img src="{{item.thumb}}"/>
+        <ion-img [src]="item.thumb"></ion-img>
       </ion-thumbnail>
       <h2>{{item.auktionator?.username || item.auktionator?.nickname}}</h2>
       <h3>{{item.content}}</h3>

@@ -76,7 +76,7 @@ export class AkProductsPage {
   }
 
   statusesChanged(segment) {
-    this.noMore = true;
+    this.noMore = false;
     this.products = [];
     this.loadProducts();
   }
