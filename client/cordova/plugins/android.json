@@ -40,6 +40,10 @@
         },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "com.baijiadu.auction"
+        },
+        "cn.jpush.phonegap.JPushPlugin": {
+            "API_KEY": "a94e0480938648913f966492",
+            "PACKAGE_NAME": "com.baijiadu.auction"
         }
     },
     "dependent_plugins": {

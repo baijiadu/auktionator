@@ -47,4 +47,7 @@
   <plugin name="cordova-plugin-image-picker" spec="~1.1.1"/>
   <plugin name="cordova-plugin-crosswalk-webview" spec="~1.7.2"/>
   <plugin name="cordova-plugin-file" spec="~4.2.0"/>
+  <plugin name="cn.jpush.phonegap.JPushPlugin" spec="~2.2.0">
+    <variable name="API_KEY" value="a94e0480938648913f966492"/>
+  </plugin>
 </widget>

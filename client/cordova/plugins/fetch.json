@@ -96,5 +96,15 @@
         },
         "is_top_level": false,
         "variables": {}
+    },
+    "cn.jpush.phonegap.JPushPlugin": {
+        "source": {
+            "type": "registry",
+            "id": "jpush-phonegap-plugin"
+        },
+        "is_top_level": true,
+        "variables": {
+            "API_KEY": "a94e0480938648913f966492"
+        }
     }
 }
