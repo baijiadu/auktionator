@@ -47,5 +47,9 @@
     "AccessKey": "dTCDULTZM5MlAgj9vhDp7UCcAXLWDAAR8jKqxbu2",
     "SecretKey": "gnFq2TpvIcBIHLTG1R8kmO57hkdfKai2wOqoLwcz",
     "bucket": "auktionator"
+  },
+  "jpush": {
+    "appKey": "a94e0480938648913f966492",
+    "masterSecret": "abbae1a6ce038a748fbac69b"
   }
 }

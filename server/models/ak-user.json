@@ -49,7 +49,8 @@
     },
     "avatar": {
       "type": "string",
-      "description": "头像"
+      "description": "头像",
+      "default": "http://o90y24fg0.bkt.clouddn.com/default_avatar_128x128.png"
     },
     "identity": {
       "type": "number",
