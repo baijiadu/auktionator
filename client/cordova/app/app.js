@@ -1,6 +1,6 @@
 import {StatusBar} from 'ionic-native';
 import {Component} from '@angular/core';
-import {ionicBootstrap, Platform} from 'ionic-angular';
+import {ionicBootstrap, Platform, Events} from 'ionic-angular';
 
 import {TabsPage} from './pages/tabs/tabs';
 import Config from './config';
@@ -16,20 +16,67 @@ import {ProductService} from './providers/product/product.service'
 })
 export class AuktionatorApp {
   static get parameters() {
-    return [[Platform]];
+    return [[Platform], [Events]];
   }
 
-  constructor(platform) {
+  constructor(platform, events) {
     this.rootPage = TabsPage;
     this.platform = platform;
+    this.events = events;
 
     platform.ready().then(() => {
       StatusBar.styleDefault();
 
-      if (window.plugins && window.plugins.jPushPlugin) {
-        window.plugins.jPushPlugin.init();
-      }
+      this.handleJPush();
     });
+  }
+
+  handleJPush() {
+    if (window.plugins && window.plugins.jPushPlugin) {
+      let jPushPlugin = window.plugins.jPushPlugin;
+      jPushPlugin.init();
+      jPushPlugin.setDebugMode(true);
+
+      // 登陆
+      this.events.subscribe('user:logged', (data) => {
+        const {id} = data[0];
+        jPushPlugin.setAlias(id);
+      });
+
+      // 注销
+      this.events.subscribe('user:logout', () => {
+        jPushPlugin.setAlias('');
+      });
+
+      // 获取注册ID
+      jPushPlugin.getRegistrationID(data => {
+        console.log('jpush.getRegistrationID', data);
+      });
+
+      // 打开通知栏，可用于打开指定页面等等
+      document.addEventListener("jpush.openNotification", (event) => {
+        let data;
+
+        if(this.platform.is('android')) {
+          data = jPushPlugin.openNotification;
+        } else if (this.platform.is('ios')) {
+          data = event;
+        }
+        console.log('jpush.openNotification', data);
+      }, false);
+
+      // 接收到通知消息，可用于增加消息数量等等
+      document.addEventListener("jpush.receiveNotification", (event) => {
+        let data;
+
+        if(this.platform.is('android')) {
+          data = jPushPlugin.receiveNotification;
+        } else if (this.platform.is('ios')) {
+          data = event;
+        }
+        console.log('jpush.receiveNotification', data);
+      }, false);
+    }
   }
 }
 

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
+import {Events} from 'ionic-angular';
 
 import Config from '../../config';
 import AKStorage from '../../ak-storage';
@@ -8,62 +9,50 @@ import {LoopbackAPI} from '../loopback-api';
 @Injectable()
 export class UserService extends LoopbackAPI {
   static get parameters() {
-    return [[Http]]
+    return [[Http], [Events]]
   }
 
-  constructor(http) {
+  constructor(http, events) {
     super(http);
+    this.events = events;
     this.currentUser = null;
   }
 
   // 微信授权登陆
   weixinAuth(code, tel = null) {
     return this.post(UserService.WEIXIN_AUTH, {code, tel})
-      .then(data => {
-        this.currentUser = data.user;
-        AKStorage.saveCurrentUser(this.currentUser);
-        return data.user;
-      });
+      .then(data => this.afterLogin(data));
   }
 
   // 微信已授权，快速登陆
   weixinLogin(openid) {
     return this.post(UserService.WEIXIN_LOGIN, {openid})
-      .then(data => {
-        this.currentUser = data.user;
-        AKStorage.saveCurrentUser(this.currentUser);
-        return data.user;
-      });
+      .then(data => this.afterLogin(data));
   }
 
   // 账户，密码登陆
   login(account, password) {
     return this.post(UserService.USER_LOGIN, {account, password})
-      .then(data => {
-        this.currentUser = data.user;
-        AKStorage.saveCurrentUser(this.currentUser);
-        return data.user;
-      });
+      .then(data => this.afterLogin(data));
   }
 
   // 自动登录
   autoLogin(tel) {
     return this.post(UserService.USER_LOGIN_AUTO, {tel})
-      .then(data => {
-        this.currentUser = data.user;
-        AKStorage.saveCurrentUser(this.currentUser);
-        return data.user;
-      });
+      .then(data => this.afterLogin(data));
   }
 
   // 注册
   register(username, tel, password, code) {
     return this.post(UserService.USER_REGISTER, {username, tel, password, code})
-      .then(data => {
-        this.currentUser = data.user;
-        AKStorage.saveCurrentUser(this.currentUser);
-        return data.user;
-      });
+      .then(data => this.afterLogin(data));
+  }
+
+  afterLogin(data) {
+    this.currentUser = data.user;
+    AKStorage.saveCurrentUser(this.currentUser);
+    this.events.publish('user:logged', data.user);
+    return data.user;
   }
 
   // 入驻成为商家
