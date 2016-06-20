@@ -5,8 +5,9 @@ var bcrypt = require('bcrypt-nodejs');
 
 var Util = require('../utils/util');
 var thirdParties = require('../3th-party');
-var wxOpen = thirdParties.wxOpen;
+var WXOpen = thirdParties.WXOpen;
 var alidayu = thirdParties.alidayu;
+var qiniu = thirdParties.qiniu;
 
 module.exports = function (AkUser) {
   AkUser.weixinAuth = function (code, tel, done) {
@@ -15,7 +16,7 @@ module.exports = function (AkUser) {
       tel = null;
     }
 
-    wxOpen.auth(code, function (err, data) {
+    WXOpen.auth(code, function (err, data) {
       if (err || !data) return done({status: 500, message: '授权失败', code: 100});
 
       var userInfo = data.userInfo;
@@ -375,7 +376,7 @@ module.exports = function (AkUser) {
   });
 
   AkUser.qiniuUptoken = function (key, done) {
-    done(null, thirdParties.qiniu.upToken(key));
+    done(null, qiniu.upToken(key));
   };
   AkUser.remoteMethod('qiniuUptoken', {
     http: {path: '/qiniu/uptoken', verb: 'post'},

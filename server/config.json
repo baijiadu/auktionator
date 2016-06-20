@@ -41,7 +41,8 @@
   },
   "alidayu": {
     "appkey": "23370126",
-    "appsecret": "6ab8182732cd5ba6c9f6ac7b7cfe7901"
+    "appsecret": "6ab8182732cd5ba6c9f6ac7b7cfe7901",
+    "REST_URL": "http://gw.api.taobao.com/router/rest"
   },
   "qiniu": {
     "AccessKey": "dTCDULTZM5MlAgj9vhDp7UCcAXLWDAAR8jKqxbu2",
