@@ -6,6 +6,7 @@ import {TabsPage} from './pages/tabs/tabs';
 import Config from './config';
 
 import {UserService} from './providers/user/user.service'
+import {Notification} from './providers/notification'
 import {WhatsUpService} from './providers/whatsup/whatsup.service'
 import {ZoneService} from './providers/zone/zone.service'
 import {ProductService} from './providers/product/product.service'
@@ -16,13 +17,14 @@ import {ProductService} from './providers/product/product.service'
 })
 export class AuktionatorApp {
   static get parameters() {
-    return [[Platform], [Events]];
+    return [[Platform], [Events], [Notification]];
   }
 
-  constructor(platform, events) {
+  constructor(platform, events, notification) {
     this.rootPage = TabsPage;
     this.platform = platform;
     this.events = events;
+    this.notification = notification;
 
     platform.ready().then(() => {
       StatusBar.styleDefault();
@@ -62,7 +64,7 @@ export class AuktionatorApp {
         } else if (this.platform.is('ios')) {
           data = event;
         }
-        console.log('jpush.openNotification', data);
+        this.events.publish('openNotification', data);
       }, false);
 
       // 接收到通知消息，可用于增加消息数量等等
@@ -74,13 +76,13 @@ export class AuktionatorApp {
         } else if (this.platform.is('ios')) {
           data = event;
         }
-        console.log('jpush.receiveNotification', data);
+        this.events.publish('receiveNotification', data);
       }, false);
     }
   }
 }
 
-ionicBootstrap(AuktionatorApp, [WhatsUpService, ZoneService, UserService, ProductService], {
+ionicBootstrap(AuktionatorApp, [WhatsUpService, ZoneService, UserService, ProductService, Notification], {
   tabbarPlacement: 'bottom',
   tabSubPages: true,
 });

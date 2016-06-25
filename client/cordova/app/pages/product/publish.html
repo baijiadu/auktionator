@@ -1,5 +1,9 @@
 <ion-navbar *navbar>
-  <ion-title>发布拍品</ion-title>
+  <ion-buttons start *ngIf="isEdit">
+    <button dark (click)="dismiss()">取消</button>
+  </ion-buttons>
+
+  <ion-title *ngIf="isEdit">{{isEdit ? '编辑拍品' : '发布拍品'}}</ion-title>
   <!--<ion-buttons end>-->
     <!--<button (click)="onSubmit()">-->
       <!--<ion-icon name="done-all"></ion-icon>-->
@@ -17,17 +21,17 @@
       </ion-item>
       <!--<p [hidden]="content.valid || content.pristine" danger padding-left>当前描述有人可能看不懂哦</p>-->
       <div padding>
-        <grid-img editable="true" [imgs]="product.uploadImages" (deleted)="delUploadImage($event)"></grid-img>
+        <grid-img [editable]="true" [imgs]="product.uploadImages" (deleted)="delUploadImage($event)"></grid-img>
       </div>
-      <ion-item class="upload-inputs">
+      <ion-item class="upload-item">
         <ion-thumbnail item-left>
-          <input type="file" (change)="pickImage($event)" multiple [disabled]="product.uploadImages.length >= 8"/>
+          <input class="upload-file" type="file" (change)="pickImage($event)" multiple [disabled]="product.uploadImages.length >= 8"/>
           <img src="img/upload.png">
         </ion-thumbnail>
         <h3>拍品效果图</h3>
         <p>已上传 {{product.uploadImages.length}}/{{uploadImageLimit}}</p>
       </ion-item>
-      <!--<p [hidden]="!isSubmiting || product.uploadImages.length > 0" danger padding-left>至少需要上传一张图哦</p>-->
+      <!--<p [hidden]="product.uploadImages.length > 0" danger padding-left>至少需要上传一张图哦</p>-->
       <ion-item>
 
         <ion-label>起拍价</ion-label>
@@ -43,7 +47,7 @@
 
     <ion-item-group>
       <!--<ion-item-divider></ion-item-divider>-->
-      <ion-list-header>拍卖师</ion-list-header>
+      <ion-list-header>拍卖师<span *ngIf="isEdit" dark>（不能修改）</span></ion-list-header>
       <a ion-item detail-push (click)="selectAuktionator()" [hidden]="selectedAuktionator">
         <!--<ion-icon name="person" item-left></ion-icon>-->
         选择拍卖师
@@ -81,7 +85,7 @@
     <ion-item-group>
       <!--<ion-item-divider></ion-item-divider>-->
       <div padding>
-        <button  block secondary type="submit" (click)="onSubmit()" [disabled]="isSubmiting || !publishForm.form.valid">确认发布</button>
+        <button  block secondary type="submit" (click)="onSubmit()" [disabled]="!publishForm.form.valid">{{isEdit ? '提交修改' : '确认发布'}}</button>
       </div>
     </ion-item-group>
   </form>

@@ -38,6 +38,7 @@
       <button ion-item [navPush]="ownerProductsPage">
         <ion-icon name="hammer" item-left></ion-icon>
         拍品管理
+        <ion-badge item-right danger [hidden]="notification.ownerProductCount <= 0">{{notification.ownerProductCount}}</ion-badge>
       </button>
     </ion-item-group>
 
@@ -46,6 +47,7 @@
       <button ion-item [navPush]="akProductsPage">
         <ion-icon name="hammer" item-left></ion-icon>
         拍品管理
+        <ion-badge item-right danger [hidden]="notification.akProductCount <= 0">{{notification.akProductCount}}</ion-badge>
       </button>
       <button ion-item>
         <ion-icon name="hand" item-left></ion-icon>

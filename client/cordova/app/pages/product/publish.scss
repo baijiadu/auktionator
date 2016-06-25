@@ -4,14 +4,18 @@
       height: 90px;
     }
   }
-  .upload-inputs {
-    input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      opacity: 0;
+  .upload-item {
+    ion-thumbnail {
+      position: relative;
+      overflow: hidden;
     }
+  }
+  .upload-file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
   }
 }

@@ -7,6 +7,8 @@ import {FavoritePage} from '../favorite/favorite';
 import {DiscoveryPage} from '../discovery/discovery';
 import {MyPage} from '../my/my';
 import {LoginPage} from '../account/login';
+import {AkProductsPage} from '../product/ak-products';
+import {OwnerProductsPage} from '../product/owner-products';
 
 import {UserService} from '../../providers/user/user.service';
 import AKStorage from '../../ak-storage';
@@ -18,16 +20,15 @@ import AKStorage from '../../ak-storage';
   }
 })
 export class TabsPage {
-
   static get parameters() {
     return [[NavController], [UserService], [Events]];
   }
 
   constructor(nav, userService, events) {
     this.tab1Root = HomePage;
-    this.tab2Root = null;
+    this.tab2Root = FavoritePage;
     this.tab3Root = DiscoveryPage;
-    this.tab4Root = null;
+    this.tab4Root = MyPage;
 
     this.nav = nav;
     this.userService = userService;
@@ -47,20 +48,52 @@ export class TabsPage {
 
     // 订阅用户注销的事件
     this.events.subscribe('user:logout', () => {
-      this.mainTabs.select(0);
+      this.mainTabs.select(TabsPage.HOME_TAB_INDEX);
       // 清除
-      [1, 3].forEach(index => {
+      [TabsPage.FAVORITE_TAB_INDEX, TabsPage.MY_TAB_INDEX].forEach(index => {
         const tab = this.mainTabs.getByIndex(index);
         const length = tab.length();
 
-        if (length > 0) {
+        if (length > 1) {
           tab.popToRoot();
-          this['tab' + (index + 1) + 'Root'] = null;
         }
       });
 
       this.userService.currentUser = null;
-      AKStorage.saveCurrentUser(null);
+    });
+
+    this.events.subscribe('openNotification', (data) => {
+      const {extras} = data[0];
+
+      switch (extras.code) {
+        case '100': // 拍卖师收到拍品审核请求
+          this.mainTabs.select(TabsPage.MY_TAB_INDEX);
+          setTimeout(() => {
+            const tab = this.mainTabs.getByIndex(TabsPage.MY_TAB_INDEX);
+
+            if (tab.length() > 1) {
+              tab.popToRoot().then(() => tab.push(AkProductsPage, {statusName: 'pending'}));
+            } else {
+              tab.push(AkProductsPage, {statusName: 'pending'});
+            }
+          });
+          break;
+        case '101': // 卖家收到拍品审核通过
+        case '102': // 卖家收到拍品审核不通过
+          this.mainTabs.select(TabsPage.MY_TAB_INDEX);
+          setTimeout(() => {
+            const statusName = extras.code === '101' ? 'processing' : 'ended';
+            const tab = this.mainTabs.getByIndex(TabsPage.MY_TAB_INDEX);
+
+            if (tab.length() > 1) {
+              tab.popToRoot().then(() => tab.push(OwnerProductsPage, {statusName: statusName}));
+            } else {
+              tab.push(OwnerProductsPage, {statusName: statusName});
+            }
+          });
+          break;
+          break;
+      }
     });
   }
 
@@ -68,18 +101,9 @@ export class TabsPage {
     if (!this.userService.currentUser) {
       // 未登录
       this.events.publish('user:login', (user) => {
-        if (!user) this.mainTabs.select(0);
-        else this.initTab2Page();
+        if (!user) this.mainTabs.select(TabsPage.HOME_TAB_INDEX);
+        else this.mainTabs.select(TabsPage.FAVORITE_TAB_INDEX);
       });
-    } else {
-      this.initTab2Page();
-    }
-  }
-
-  initTab2Page() {
-    if (!this.tab2Root) {
-      this.tab2Root = FavoritePage;
-      setTimeout(() => this.mainTabs.select(1));
     }
   }
 
@@ -87,18 +111,9 @@ export class TabsPage {
     if (!this.userService.currentUser) {
       // 未登录
       this.events.publish('user:login', (user) => {
-        if (!user) this.mainTabs.select(0);
-        else this.initTab4Page();
+        if (!user) this.mainTabs.select(TabsPage.HOME_TAB_INDEX);
+        else this.mainTabs.select(TabsPage.MY_TAB_INDEX);
       });
-    } else {
-      this.initTab4Page();
-    }
-  }
-
-  initTab4Page() {
-    if (!this.tab4Root) {
-      this.tab4Root = MyPage;
-      setTimeout(() => this.mainTabs.select(3));
     }
   }
 
@@ -111,3 +126,7 @@ export class TabsPage {
     this.nav.present(modal);
   }
 }
+
+TabsPage.HOME_TAB_INDEX = 0;
+TabsPage.FAVORITE_TAB_INDEX = 1;
+TabsPage.MY_TAB_INDEX = 3;

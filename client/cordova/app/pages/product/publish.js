@@ -1,4 +1,4 @@
-import {NavController, Modal, Loading, Events} from 'ionic-angular';
+import {NavController, Modal, Loading, Events, NavParams, ViewController} from 'ionic-angular';
 import {Component} from '@angular/core';
 
 import Mixins from '../../mixins';
@@ -16,23 +16,36 @@ import {ProductService} from '../../providers/product/product.service';
 })
 export class ProductPublishPage {
   static get parameters() {
-    return [[NavController], [UserService], [ProductService], [Events]];
+    return [[NavController], [UserService], [ProductService], [Events], [NavParams], [ViewController]];
   }
 
-  constructor(nav, userService, productService, events) {
+  constructor(nav, userService, productService, events, params, viewCtrl) {
     this.nav = nav;
     this.userService = userService;
     this.productService = productService;
     this.events = events;
+    this.viewCtrl = viewCtrl;
 
-    this.user = this.userService.currentUser;
-    this.product = {
-      uploadImages: [],
-    };
+    this.product = params.get('product') || {
+        ownerId: this.user.id,
+        status: 0,
+        uploadImages: [],
+      };
 
     this.selectedAuktionator = null;
-    this.isSubmiting = false;
+    if (this.product.auktionator) {
+      this.selectedAuktionator = this.product.auktionator; // format
+      delete this.product.auktionator;
+    }
     this.uploadImageLimit = Config.productPublishImageLimit;
+  }
+
+  get user() {
+    return this.userService.currentUser;
+  }
+
+  get isEdit() {
+    return !!this.product.id;
   }
 
   pickImage(e) {
@@ -56,6 +69,7 @@ export class ProductPublishPage {
   }
 
   selectAuktionator() {
+    if (this.isEdit) return;
     let modal = Modal.create(SelectAuktionatorPage);
     modal.onDismiss(auktionator => {
       if (auktionator) {
@@ -76,27 +90,45 @@ export class ProductPublishPage {
     if (!increasePrice) return Mixins.toast('请设置加价幅度');
 
     this.product.thumb = uploadImages[0].thumb;
-    this.product.status = 0;
-    this.product.ownerId = this.user.id;
     this.product.auktionatorId = this.selectedAuktionator.id;
 
     let loading = Loading.create({
-      content: '发布中...'
+      content: this.isEdit ? '提交中...' : '发布中...'
     });
     this.nav.present(loading);
 
     setTimeout(() => {
-      this.productService.publish(this.product).then(
-        product => {
-          loading.dismiss();
-          this.events.publish('product:created', product);
-          Mixins.toast('拍品发布成功，请耐心等待拍卖师的审核');
-          this.nav.push(OwnerProductsPage, {statusName: 'processing'});
-          setTimeout(() => this.nav.remove(this.nav.length() - 2), 600);
-        }, err => {
-          Mixins.toastAPIError(err);
-          loading.dismiss();
-        });
+      if (this.isEdit) {
+        this.productService.update(this.product).then(
+          product => {
+            loading.dismiss();
+
+            setTimeout(() => {
+              this.dismiss(product);
+              Mixins.toast('拍品保存成功');
+            });
+          }, err => {
+            Mixins.toastAPIError(err);
+            loading.dismiss();
+          });
+      } else {
+        this.productService.publish(this.product).then(
+          product => {
+            loading.dismiss();
+
+            this.events.publish('product:created', product);
+            this.nav.push(OwnerProductsPage, {statusName: 'processing'}).then(() => {
+              Mixins.toast('拍品发布成功，请耐心等待拍卖师的审核');
+              this.nav.remove(this.nav.length() - 2);
+            });
+          }, err => {
+            Mixins.toastAPIError(err);
+            loading.dismiss();
+          });
+      }
     }, 1000);
+  }
+  dismiss(product = null) {
+    this.viewCtrl.dismiss(product);
   }
 }

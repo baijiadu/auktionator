@@ -1,86 +1,77 @@
-import {NavController, NavParams} from 'ionic-angular';
-import {Component} from '@angular/core';
+import {NavController, NavParams, Modal} from 'ionic-angular';
+import {ViewChild, Component} from '@angular/core';
 
+import {StatusesList} from '../statuses-list';
 import Mixins from '../../mixins';
-import Config from '../../config';
+
+import {Notification} from '../../providers/notification';
 import {UserService} from '../../providers/user/user.service';
 import {ProductService} from '../../providers/product/product.service';
-
 //import {Str2DatePipe} from '../../pipes/str2date';
+
+import {ProductPublishPage} from './publish';
+import {ProductDetailPage} from './product-detail';
 
 @Component({
   templateUrl: 'build/pages/product/owner-products.html',
-  //pipes: [Str2DatePipe]
+  //queries: {
+  //  statusesSlide: new ViewChild('statusesSlide')
+  //},
+  //pipes: [Str2DatePipe],
 })
-export class OwnerProductsPage {
+export class OwnerProductsPage extends StatusesList {
   static get parameters() {
-    return [[NavController], [UserService], [ProductService], [NavParams]];
+    return [[NavController], [UserService], [ProductService], [NavParams], [Notification]];
   }
 
-  constructor(nav, userService, productService, params) {
+  constructor(nav, userService, productService, params, notification) {
+    super([{
+      name: 'all',
+      statuses: null,
+    }, {
+      name: 'processing',
+      statuses: [0, 1],
+    }, {
+      name: 'online',
+      statuses: [2, 3],
+    }, {
+      name: 'ended',
+      statuses: [4, 10, 11, 12],
+    }], params.get('statusName'));
+
     this.nav = nav;
     this.userService = userService;
     this.productService = productService;
+    this.notification = notification;
 
     this.user = this.userService.currentUser;
-    this.products = [];
-    this.statusName = params.get('statusName') || 'all';
-    this.noMore = false;
   }
 
-  ionViewLoaded() {
-    this.loadProducts();
+  delegateLoad(statuses, refresh) {
+    const lastOne = this.statusList[this.statusList.length - 1];
+    return this.productService.ownerProducts(this.user.id, statuses, !refresh && lastOne ? lastOne.id : null);
   }
 
-  doInfinite(infiniteScroll) {
-    const lastProduct = this.products[this.products.length - 1];
-
-    if (lastProduct) {
-      setTimeout(() => {
-        this.loadProducts(lastProduct.id).then(
-          products => {
-            if (products.length >= Config.pageSize) {
-              infiniteScroll.complete();
-            }
-          }, err => infiniteScroll.complete());
-      }, 500);
-    }
+  ionViewDidEnter() {
+    // 清除数量
+    this.notification.reset('ownerProductCount');
   }
 
-  loadProducts(sinceId = null) {
-    let statuses = null;
+  editProduct(slidingItem, product) {
+    slidingItem.close();
 
-    switch (this.statusName) {
-      case 'processing':
-        statuses= [0, 1, 10, 11];
-        break;
-      case 'online':
-        statuses= [2, 3, 10, 11];
-        break;
-      case 'ended':
-        statuses= [4, 12];
-        break;
-      case 'all':
-      default:
-        statuses = null;
-        break;
-    }
-
-    return this.productService.ownerProducts(this.user.id, statuses, sinceId).then(products => {
-      this.products.push.apply(this.products, products);
-      if (products.length < Config.pageSize) {
-        this.noMore = true;
-      }
-      return products;
-    }, err => {
-      Mixins.toastAPIError(err)
-      return err;
-    });
+    this.productService.editProduct(product.id).then((p) => {
+      let modal = Modal.create(ProductPublishPage, {product: p});
+      modal.onDismiss(newProduct => {
+        if (newProduct) {
+          product = newProduct;
+        }
+      });
+      this.nav.present(modal);
+    }, err => Mixins.toastAPIError(err));
   }
 
-  statusesChanged(segment) {
-    this.noMore = false;
-    this.products = [];
-    this.loadProducts();
+  showDetail(product) {
+    this.nav.push(ProductDetailPage, {product});
   }
 }

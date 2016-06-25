@@ -1,0 +1,74 @@
+<ion-navbar *navbar>
+  <ion-title>拍品详细</ion-title>
+</ion-navbar>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="下拉刷新"
+      refreshingSpinner="circles"
+      refreshingText="拼命加载中...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card class="product-detail">
+    <ion-item>
+      <ion-avatar item-left>
+        <img class="avatar" src="{{product.owner?.avatar}}">
+      </ion-avatar>
+      <h2>{{product.owner?.username}}</h2>
+    </ion-item>
+
+    <ion-card-content>
+      <p class="content">{{product.content}}</p>
+      <grid-img [editable]="false" [imgs]="product.uploadImages"></grid-img>
+    </ion-card-content>
+
+    <ion-item class="opt4">
+      <ion-row center class="r1">
+        <ion-col><button small clear dark block>起：￥{{product.beginningPrice}}元</button></ion-col>
+        <ion-col><button small clear dark block>加：￥{{product.increasePrice}}元</button></ion-col>
+        <ion-col><button small clear dark block>保：￥{{product.guaranteePrice}}元</button></ion-col>
+      </ion-row>
+      <ion-row center class="r2" *ngIf="product.dealPrice || product.referencePrice">
+        <ion-col *ngIf="product.maxPrice"><button small clear dark block>一口：￥{{product.maxPrice}}元</button></ion-col>
+        <ion-col *ngIf="product.minPrice"><button small clear dark block>保底：￥{{product.minPrice}}元</button></ion-col>
+      </ion-row>
+    </ion-item>
+
+    <!--<ion-list inset [hidden]="product._bidInfo.length <= 0" class="opt5">-->
+      <!--<template ngFor #bi [ngForOf]="product._bidInfo" #i="index">-->
+        <!--<template [ngIf]="i < (product._bidInfoShowIndex || 3)">-->
+          <!--<ion-item>-->
+            <!--<ion-avatar item-left>-->
+              <!--<img src="{{bi.avatar}}">-->
+            <!--</ion-avatar>-->
+            <!--<h2>{{bi.username}}</h2>-->
+            <!--<h3>￥{{bi.price}}</h3>-->
+            <!--<p>{{bi.created | str2date | date: "MM/dd HH:mm:ss"}}</p>-->
+            <!--<div item-right [ngSwitch]="i === 0">-->
+              <!--<template [ngIf]="i === 0">-->
+                <!--<template [ngIf]="acApp.now - (product.blockingTime | str2date) < 0 && product.status === 'online'">-->
+                  <!--<div class="bid-status bid-highest"></div>-->
+                <!--</template>-->
+                <!--<template [ngIf]="acApp.now - (product.blockingTime | str2date) > 0 || product.status === 'over'">-->
+                  <!--<div class="bid-status bid-success"></div>-->
+                <!--</template>-->
+              <!--</template>-->
+              <!--<template [ngIf]="i != 0">-->
+                <!--<div class="bid-status bid-out"></div>-->
+              <!--</template>-->
+            <!--</div>-->
+          <!--</ion-item>-->
+        <!--</template>-->
+        <!--<template [ngIf]="i === (product._bidInfoShowIndex || 3)">-->
+          <!--<ion-list-header (click)="showMoreBidInfo(product)" text-center>查看更多（{{product._bidInfoShowIndex || 3}}/{{product._bidInfo?.length}}）</ion-list-header>-->
+        <!--</template>-->
+      <!--</template>-->
+      <!--<template [ngIf]="(product._bidInfoShowIndex || 3) >= product._bidInfo?.length">-->
+        <!--<ion-list-header text-center>共{{product._bidInfo?.length}}人出价</ion-list-header>-->
+      <!--</template>-->
+    <!--</ion-list>-->
+  </ion-card>
+</ion-content>

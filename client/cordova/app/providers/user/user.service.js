@@ -12,10 +12,19 @@ export class UserService extends LoopbackAPI {
     return [[Http], [Events]]
   }
 
+  get currentUser() {
+    return this.__currentUser;
+  }
+
+  set currentUser(user) {
+    this.__currentUser = user;
+    AKStorage.saveCurrentUser(user);
+  }
+
   constructor(http, events) {
     super(http);
     this.events = events;
-    this.currentUser = null;
+    this.__currentUser = null;
   }
 
   // 微信授权登陆
@@ -50,7 +59,6 @@ export class UserService extends LoopbackAPI {
 
   afterLogin(data) {
     this.currentUser = data.user;
-    AKStorage.saveCurrentUser(this.currentUser);
     this.events.publish('user:logged', data.user);
     return data.user;
   }
@@ -100,14 +108,15 @@ export class UserService extends LoopbackAPI {
     const {id} = this.currentUser;
     return this.put(UserService.USER, attributes, {id})
       .then(user => {
-        Object.keys(attributes).forEach(name => this.currentUser[name] = user[name]);
-        AKStorage.saveCurrentUser(this.currentUser);
+        let currentUser = this.currentUser;
+
+        Object.keys(attributes).forEach(name => currentUser[name] = user[name]);
+        this.currentUser = currentUser;
         return user;
       });
   }
 
-  updateAttribute(user, attributes = {}) {
-    const {id} = user;
+  updateAttribute(id, attributes = {}) {
     return this.put(UserService.USER, attributes, {id});
   }
 

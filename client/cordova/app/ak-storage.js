@@ -6,6 +6,7 @@ const AKStorage = {
   // 以下是Keys
   THIRD_PARTY: 'AK_' + 'THIRD_PARTY',
   CURRENT_USER: 'AK_' + 'CURRENT_USER',
+  NOTIFICATION_DATA: 'AK_' + 'NOTIFICATION_DATA',
 
   // 以下是接口
   // 获取所有第三方登录记录
@@ -43,6 +44,16 @@ const AKStorage = {
   loadCurrentUser() {
     if (store.currentUser) return Promise.resolve(store.currentUser);
     return local.getJson(AKStorage.CURRENT_USER).then(value => store.currentUser = value);
+  },
+
+  loadNotificationData() {
+    if (store.notificationData) return Promise.resolve(store.notificationData);
+    return local.getJson(AKStorage.NOTIFICATION_DATA).then(value => store.notificationData = value);
+  },
+
+  saveNotificationData(data = null) {
+    if (data) local.setJson(AKStorage.NOTIFICATION_DATA, data);
+    else local.remove(AKStorage.NOTIFICATION_DATA);
   }
 };
 

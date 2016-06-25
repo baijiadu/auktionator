@@ -2,6 +2,8 @@ import {NavController} from 'ionic-angular';
 import {Component} from '@angular/core';
 
 import {UserService} from '../../providers/user/user.service';
+import {Notification} from '../../providers/notification';
+
 import {SettingsPage} from '../settings/settings';
 import {BeSellerPage} from './be-seller';
 import {BeAuktionatorPage} from './be-auktionator';
@@ -15,14 +17,13 @@ import {ManageUsersPage} from '../admin/manage-users';
 })
 export class MyPage {
   static get parameters() {
-    return [[NavController], [UserService]];
+    return [[NavController], [UserService], [Notification]];
   }
 
-  constructor(nav, userService) {
+  constructor(nav, userService, notification) {
     this.nav = nav;
     this.userService = userService;
-
-    this.user = this.userService.currentUser;
+    this.notification = notification;
 
     this.settingsPage = SettingsPage;
     this.beSellerPage = BeSellerPage;
@@ -33,5 +34,9 @@ export class MyPage {
     this.ownerProductsPage = OwnerProductsPage;
     this.akProductsPage = AkProductsPage;
     this.manageUsersPage = ManageUsersPage;
+  }
+
+  get user() {
+    return this.userService.currentUser;
   }
 }

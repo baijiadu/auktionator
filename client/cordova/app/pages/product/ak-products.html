@@ -3,7 +3,7 @@
 </ion-navbar>
 
 <ion-toolbar padding>
-  <ion-segment [(ngModel)]="statusName" (ionChange)="statusesChanged($event)">
+  <ion-segment [(ngModel)]="statusName" (ionChange)="statusChanged()">
     <ion-segment-button value="all">
       全部
     </ion-segment-button>
@@ -18,21 +18,48 @@
     </ion-segment-button>
   </ion-segment>
 </ion-toolbar>
+<ion-content *ngFor="let statusData of statusesData" [hidden]="statusData.name !== statusName">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="下拉刷新"
+      refreshingSpinner="circles"
+      refreshingText="拼命加载中...">
+    </ion-refresher-content>
+  </ion-refresher>
 
-<ion-content>
   <ion-list>
-    <ion-item *ngFor="let item of products" (click)="showDetail(item)">
-      <ion-thumbnail item-left>
-        <img src="{{item.thumb}}"/>
-      </ion-thumbnail>
-      <h2>{{item.owner?.username || item.owner?.nickname}}</h2>
-      <h3>{{item.content}}</h3>
-      <!--<p>{{item.created | str2date | date: "MM/dd HH:mm:ss"}}</p>-->
-      <p>{{item.created}} | {{item.status}}</p>
-    </ion-item>
+    <ion-item-sliding *ngFor="let item of statusData.list" [ngSwitch]="item.status" #slidingItem>
+      <ion-item (click)="showDetail(item)">
+        <ion-thumbnail item-left>
+          <img src="{{item.thumb}}"/>
+        </ion-thumbnail>
+        <h2>{{item.owner?.username || item.owner?.nickname}}</h2>
+        <h3>{{item.content}}</h3>
+        <!--<p>{{item.created | str2date | date: "MM/dd HH:mm:ss"}}</p>-->
+        <p>{{item.created}} | {{item.status}}</p>
+      </ion-item>
+      <ion-item-options *ngSwitchWhen="0" icon-left>
+        <button secondary (click)="auditStatus(slidingItem, item, 1)">
+          <ion-icon name="hammer"></ion-icon>
+          同意
+        </button>
+        <button danger (click)="auditStatus(slidingItem, item, 10)">
+          <ion-icon name="contacts"></ion-icon>
+          拒绝
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="products.length > 20 && !noMore">
+  <!--<div>-->
+    <!--<ion-slides #statusesSlide [options]="statusesSlideOptions" (ionDidChange)="onStatusesSlideChanged()">-->
+      <!--<ion-slide *ngFor="let statusData of statusesData">-->
+        <!---->
+      <!--</ion-slide>-->
+    <!--</ion-slides>-->
+  <!--</div>-->
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [hidden]="!infiniteEnabled">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
       loadingText="数据加载中...">
