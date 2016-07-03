@@ -87,6 +87,6 @@
   },
   "TelVerifyCode": {
     "dataSource": "mongodb",
-    "public": false
+    "public": true
   }
 }

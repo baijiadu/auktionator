@@ -4,7 +4,7 @@
     "connector": "mongodb",
     "host": "localhost",
     "port": 27017,
-    "database": "bjd_auktionator",
+    "database": "baijiadu",
     "username": "baijiadu",
     "password": "bjd147258369"
   }

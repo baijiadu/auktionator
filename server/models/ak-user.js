@@ -375,20 +375,31 @@ module.exports = function (AkUser) {
     }
   });
 
-  AkUser.qiniuUptoken = function (key, done) {
-    done(null, qiniu.upToken(key));
+  AkUser.qiniuUptoken = function (count, done) {
+    var tokens = [], key;
+    for (var i = 0; i < count; i++) {
+      key = Util.generateRandomStr() + '_' + new Date().getTime();
+      tokens.push({
+        key: key,
+        token: qiniu.upToken(key),
+      });
+    }
+    done(null, tokens);
   };
   AkUser.remoteMethod('qiniuUptoken', {
     http: {path: '/qiniu/uptoken', verb: 'post'},
     accepts: [{
-      arg: 'key',
-      type: 'string',
-      required: true
+      arg: 'count',
+      type: 'number',
+      required: false,
+      default: 1,
     }],
-    description: '获取七牛上传token',
+    description: '获取七牛上传token，可同时生成多个',
     returns: {
-      arg: 'token',
-      type: 'string'
+      arg: 'tokens',
+      type: [
+        "object"
+      ],
     }
   });
 };

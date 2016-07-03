@@ -13,14 +13,18 @@
     },
     "thumb": {
       "type": "string",
-      "required": false,
-      "description": "拍品缩略图"
-    },
-    "order": {
-      "type": "number",
       "required": true,
-      "description": "拍品顺序",
-      "default": 0
+      "description": "冗余字段，缩略图"
+    },
+    "begin": {
+      "type": "number",
+      "required": false,
+      "description": "某拍品开拍时间，0~23小时，可选"
+    },
+    "end": {
+      "type": "number",
+      "required": false,
+      "description": "某拍品开拍时间，0~23小时，可选"
     }
   },
   "validations": [],

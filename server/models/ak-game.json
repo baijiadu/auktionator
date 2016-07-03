@@ -7,17 +7,29 @@
     "validateUpsert": true
   },
   "properties": {
-    "dateno": {
+    "gameNo": {
       "type": "string",
-      "description": "拍场日期号，如（20160508）"
+      "required": true,
+      "description": "拍场编号"
+    },
+    "dateNo": {
+      "type": "string",
+      "required": true,
+      "description": "拍场日期号，如（2016-05-08）"
     },
     "title": {
       "type": "string",
+      "required": true,
       "description": "拍场标题"
     },
-    "thumb": {
+    "content": {
       "type": "string",
-      "description": "拍场背景图"
+      "required": true,
+      "description": "拍场说明"
+    },
+    "cover": {
+      "type": "string",
+      "description": "拍场封面图"
     },
     "begin": {
       "type": "number",
@@ -27,18 +39,24 @@
     "end": {
       "type": "number",
       "required": true,
-      "description": "拍场结束时间，0~23小时"
+      "description": "拍场结束时间，0~23小时，可选"
     },
     "limit": {
       "type": "number",
-      "required": true,
+      "required": false,
       "description": "拍场人数限制",
       "default": 500
     },
     "ticketPrice": {
       "type": "number",
-      "required": true,
+      "required": false,
       "description": "拍场进场票价，不需要票价则为0，默认为0",
+      "default": 0
+    },
+    "status": {
+      "type": "number",
+      "description": "拍品状态，包括：0（编辑状态，默认），1（已发布，未开始），2（进行中），3（已结束），10（被中断），20（其他情况）",
+      "required": true,
       "default": 0
     }
   },

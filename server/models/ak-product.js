@@ -9,13 +9,13 @@ module.exports = function(AkProduct) {
 
       switch (product.status) {
         case 0: // 创建
-          thirdParties.JPush.notificationAuktionatorCheckProduct(product.auktionatorId);
+          thirdParties.JPush.notificationAuktionatorCheckProduct(product);
           break;
         case 1: // 拍卖师审核通过
-          thirdParties.JPush.notificationSellerProductPassed(product.ownerId);
+          thirdParties.JPush.notificationSellerProductPassed(product);
           break;
         case 10: // 拍卖师审核不通过
-          thirdParties.JPush.notificationSellerProductRejected(product.ownerId);
+          thirdParties.JPush.notificationSellerProductRejected(product);
           break;
       }
     } else {
