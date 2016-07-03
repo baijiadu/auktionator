@@ -1,0 +1,82 @@
+<ion-navbar *navbar>
+  <ion-buttons start>
+    <button dark (click)="dismiss()">取消</button>
+  </ion-buttons>
+
+  <ion-title>{{isEdit ? '编辑拍场' : '发布拍场'}}</ion-title>
+</ion-navbar>
+
+<ion-content>
+  <form #publishForm="ngForm" novalidate>
+    <ion-item-group>
+      <ion-list-header>基本信息</ion-list-header>
+      <ion-item>
+        <ion-label>拍场标题</ion-label>
+        <ion-input [(ngModel)]="game.title" ngControl="title" type="text" #title="ngForm"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>拍场说明</ion-label>
+        <ion-textarea [(ngModel)]="game.content" ngControl="content" #content="ngForm" required></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>开拍时间</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="game.dateNo" cancelText="取消" doneText="完成"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-range [(ngModel)]="dateRange" min="6" max="24" step="1" snaps="true" debounce="true" dualKnobs="true" (ionChange)="dateRangeChanged($event)">
+          <ion-label range-left small>{{game.begin}}点</ion-label>
+          <ion-label range-right small>{{game.end}}点</ion-label>
+        </ion-range>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-list-header>拍品信息</ion-list-header>
+      <div padding [hidden]="game._sections.length <= 0">
+        <grid-img [editable]="true" [imgs]="game._sections" (onDeleted)="delProduct($event)" (onPreview)="showProductDetail($event)"></grid-img>
+      </div>
+
+      <button ion-item (click)="selectProduct()">
+        选择拍品
+      </button>
+    </ion-item-group>
+
+    <ion-item-group [hidden]="game._sections.length <= 0">
+      <ion-list-header>设置封面</ion-list-header>
+      <ion-grid padding>
+        <ion-row class="covers">
+          <ion-col width-67 center>
+            <div class="cover cover-lg" (click)="selectCover('lg')">
+              <button [hidden]="covers.lg" outline dark block>
+                <ion-icon name="add"></ion-icon>封面1
+              </button>
+              <img src="{{covers.lg}}" *ngIf="covers.lg">
+            </div>
+          </ion-col>
+          <ion-col width-33 center>
+            <div class="cover cover-sm" (click)="selectCover('sm1')">
+              <button [hidden]="covers.sm1" outline dark block>
+                <ion-icon name="add"></ion-icon>封面2
+              </button>
+              <img src="{{covers.sm1}}" *ngIf="covers.sm1">
+            </div>
+            <div class="cover cover-sm" (click)="selectCover('sm2')">
+              <button [hidden]="covers.sm2" outline dark block>
+                <ion-icon name="add"></ion-icon>封面3
+              </button>
+              <img src="{{covers.sm2}}" *ngIf="covers.sm2">
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item-group>
+
+    <ion-item-group>
+      <div padding>
+        <button  block secondary type="submit" (click)="onSubmit()" [disabled]="!publishForm.form.valid">{{isEdit ? '提交修改' : '确认发布'}}</button>
+      </div>
+    </ion-item-group>
+  </form>
+</ion-content>

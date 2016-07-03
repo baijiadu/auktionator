@@ -1,10 +1,29 @@
-<template ngFor [ngForOf]="imgs" let-i="index">
-  <ion-row *ngIf="(i % 4 === 0)">
-    <template ngFor let-cell [ngForOf]="imgs" let-j="index">
-      <ion-col center width-25 *ngIf="j >= i && j < i + 4">
-        <ion-icon gray class="del-btn" name="close-circle" *ngIf="editable" (click)="delImg(j)"></ion-icon>
-        <img src="{{cell.thumb}}" (click)="previewImg(j)"/>
-      </ion-col>
-    </template>
-  </ion-row>
-</template>
+<ion-grid [ngSwitch]="cols">
+  <!--<ion-row *ngFor="let row of imgs | list2gird:cols, let i = index">-->
+    <!--<template ngFor let-col [ngForOf]="row" let-j="index" let-k="i * cols + j">-->
+      <!--<ion-col center width-25 *ngSwitchWhen="4">-->
+        <!--<ion-icon gray class="del-btn" name="close-circle" *ngIf="editable" (click)="delImg(k)"></ion-icon>-->
+        <!--<img src="{{col.thumb}}" (click)="previewImg(k)"/>-->
+      <!--</ion-col>-->
+      <!--<ion-col center width-33 *ngSwitchWhen="3">-->
+        <!--<ion-icon gray class="del-btn" name="close-circle" *ngIf="editable" (click)="delImg(k)"></ion-icon>-->
+        <!--<img src="{{col.thumb}}" (click)="previewImg(k)"/>-->
+      <!--</ion-col>-->
+      <!--<ion-col center width-50 *ngSwitchWhen="2">-->
+        <!--<ion-icon gray class="del-btn" name="close-circle" *ngIf="editable" (click)="delImg(k)"></ion-icon>-->
+        <!--<img src="{{col.thumb}}" (click)="previewImg(k)"/>-->
+      <!--</ion-col>-->
+    <!--</template>-->
+  <!--</ion-row>-->
+
+  <template ngFor [ngForOf]="imgs" let-i="index">
+    <ion-row *ngIf="(i % cols === 0)">
+      <template ngFor let-col [ngForOf]="imgs" let-j="index">
+        <ion-col center width-25 *ngIf="j >= i && j < i + 4">
+          <ion-icon gray class="del-btn" name="close-circle" *ngIf="editable" (click)="delImg(j)"></ion-icon>
+          <img src="{{col.thumb}}" (click)="previewImg(j)"/>
+        </ion-col>
+      </template>
+    </ion-row>
+  </template>
+</ion-grid>

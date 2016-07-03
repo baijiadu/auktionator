@@ -12,7 +12,7 @@ const Config = {
   get host() { // 服务器地址
     return Config[Config.env + 'Host'];
   },
-  devHost: 'http://192.168.0.103:3000', // 开发环境服务器地址
+  devHost: 'http://192.168.0.101:3000', // 开发环境服务器地址
   stagingHost: 'http://www.baijiadu.com:3010', // 测试环境服务器地址
   prodHost: 'http://www.baijiadu.com:3020', // 正式环境服务器地址
   pageSize: 5, // 分页加载大小
@@ -25,8 +25,15 @@ const Config = {
   qiniu: {
     url: 'https://o89ix43hh.qnssl.com/',
     styles: {
-      'product.thumb': 'product.thumb'
+      'product.thumb': 'product.thumb',
+      'game.cover.lg': 'game.cover.lg',
+      'game.cover.sm': 'game.cover.sm',
     }
+  },
+  game: {
+    coverWidth: 480,
+    coverHeight: 240,
+    coverSpacing: 4,
   }
 };
 

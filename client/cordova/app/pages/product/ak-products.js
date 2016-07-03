@@ -8,13 +8,17 @@ import {Notification} from '../../providers/notification';
 import {UserService} from '../../providers/user/user.service';
 import {ProductService} from '../../providers/product/product.service';
 
+import {Str2DatePipe} from '../../pipes/str2date';
+import {ProductStatusPipe} from '../../pipes/product-status';
+
 import {ProductDetailPage} from './product-detail';
 
 @Component({
   templateUrl: 'build/pages/product/ak-products.html',
   //queries: {
   //  statusesSlide: new ViewChild('statusesSlide')
-  //}
+  //},
+  pipes: [Str2DatePipe, ProductStatusPipe],
 })
 export class AkProductsPage extends StatusesList {
   static get parameters() {
@@ -30,10 +34,10 @@ export class AkProductsPage extends StatusesList {
       statuses: [0],
     }, {
       name: 'online',
-      statuses: [1],
+      statuses: [1, 2],
     }, {
       name: 'ended',
-      statuses: [4, 10, 11, 12],
+      statuses: [5, 10, 11, 12],
     }], params.get('statusName'));
 
     this.nav = nav;
@@ -44,14 +48,12 @@ export class AkProductsPage extends StatusesList {
     this.user = this.userService.currentUser;
   }
 
-  delegateLoad(statuses, refresh) {
-    const lastOne = this.statusList[this.statusList.length - 1];
-    return this.productService.akProducts(this.user.id, statuses, !refresh && lastOne ? lastOne.id : null);
+  get pendingProductCount() {
+    return this.notification.akPendingProductCount;
   }
 
-  ionViewDidEnter() {
-    // 清除数量
-    this.notification.reset('akProductCount');
+  delegateLoad(statuses, page, refresh) {
+    return this.productService.akProducts(this.user.id, statuses, page);
   }
 
   auditStatus(slidingItem, product, status) {
@@ -66,5 +68,21 @@ export class AkProductsPage extends StatusesList {
 
   showDetail(product) {
     this.nav.push(ProductDetailPage, {product});
+  }
+
+  statusChanged() {
+    super.statusChanged();
+
+    switch (this.statusName) {
+      case 'pending':
+        this.notification.reset('akPendingProductCount');
+        break;
+      case 'online':
+        //this.notification.reset('akOnlineProductCount');
+        break;
+      case 'ended':
+        //this.notification.reset('akEndedProductCount');
+        break;
+    }
   }
 }

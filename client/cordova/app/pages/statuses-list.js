@@ -9,6 +9,7 @@ class StatusesList {
     this.statusesData.forEach((data) => {
       data.noMore = false;
       data.list = [];
+      data.page = 0;
     });
 
     //this.statusesSlideOptions = {
@@ -48,6 +49,14 @@ class StatusesList {
     this.statusData.noMore = noMore;
   }
 
+  get statusPage() {
+    return this.statusData.page;
+  }
+
+  set statusPage(page) {
+    this.statusData.page = page;
+  }
+
   doInfinite(infiniteScroll) {
     setTimeout(() => {
       this.loadList().then(list => infiniteScroll.complete(), err => infiniteScroll.complete());
@@ -62,12 +71,14 @@ class StatusesList {
     const statusData = this.statusData;
     const statuses = statusData ? statusData.statuses : null;
 
-    return this.delegateLoad(statuses, refresh).then(list => {
+    return this.delegateLoad(statuses, refresh ? 1 : this.statusPage + 1, refresh).then(list => {
       if (refresh) {
         this.statusList = [];
         this.statusNoMore = false;
+        this.statusPage = 0;
       }
 
+      this.statusPage++;
       this.statusList.push.apply(this.statusList, list);
       if (list.length < Config.pageSize) {
         this.statusNoMore = true;
@@ -97,7 +108,7 @@ class StatusesList {
   //  this.statusChanged();
   //}
 
-  delegateLoad(statuses, refresh) {
+  delegateLoad(statuses, page, refresh) {
     // 需要子类来重写
   }
 }

@@ -10,6 +10,7 @@ import {Notification} from './providers/notification'
 import {WhatsUpService} from './providers/whatsup/whatsup.service'
 import {ZoneService} from './providers/zone/zone.service'
 import {ProductService} from './providers/product/product.service'
+import {GameService} from './providers/game/game.service'
 
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
@@ -42,7 +43,7 @@ export class AuktionatorApp {
       // 登陆
       this.events.subscribe('user:logged', (data) => {
         const {id} = data[0];
-        jPushPlugin.setAlias(id);
+        jPushPlugin.setAlias('u_' + id);
       });
 
       // 注销
@@ -82,7 +83,11 @@ export class AuktionatorApp {
   }
 }
 
-ionicBootstrap(AuktionatorApp, [WhatsUpService, ZoneService, UserService, ProductService, Notification], {
+ionicBootstrap(AuktionatorApp, [WhatsUpService, ZoneService, UserService, ProductService, Notification, GameService], {
   tabbarPlacement: 'bottom',
   tabSubPages: true,
+  monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+  monthShortNames: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'],
+  //dayNames: [''],
+  //dayShortNames: ['dom', 'seg', 'ter', ... ],
 });

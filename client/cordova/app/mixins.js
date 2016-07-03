@@ -1,5 +1,7 @@
 import {Toast} from 'ionic-native';
 
+import Config from './config';
+
 let Mixins = {};
 Mixins.toast = function (msg, duration = 'short', position = 'bottom') {
   Toast.show(msg, duration, position).subscribe(toast => {}, error => {}, () => {});

@@ -1,5 +1,13 @@
 <ion-navbar *navbar>
   <ion-title>拍品详细</ion-title>
+  <ion-buttons end>
+    <button (click)="favorite()">
+      <ion-icon name="heart"></ion-icon>
+    </button>
+    <button (click)="share()">
+      <ion-icon name="share"></ion-icon>
+    </button>
+  </ion-buttons>
 </ion-navbar>
 
 <ion-content>
@@ -15,14 +23,15 @@
   <ion-card class="product-detail">
     <ion-item>
       <ion-avatar item-left>
-        <img class="avatar" src="{{product.owner?.avatar}}">
+        <img class="avatar" src="{{product.auktionator?.avatar}}">
       </ion-avatar>
-      <h2>{{product.owner?.username}}</h2>
+      <h2>{{product.auktionator?.nickname || product.auktionator?.username}}</h2>
     </ion-item>
 
     <ion-card-content>
-      <p class="content">{{product.content}}</p>
-      <grid-img [editable]="false" [imgs]="product.uploadImages"></grid-img>
+      <p>编号：{{product.proNo}}</p>
+      <p>名称：{{product.title}}</p>
+      <grid-img [editable]="false" [previewable]="true" [imgs]="product.uploadImages"></grid-img>
     </ion-card-content>
 
     <ion-item class="opt4">
@@ -37,38 +46,49 @@
       </ion-row>
     </ion-item>
 
-    <!--<ion-list inset [hidden]="product._bidInfo.length <= 0" class="opt5">-->
-      <!--<template ngFor #bi [ngForOf]="product._bidInfo" #i="index">-->
-        <!--<template [ngIf]="i < (product._bidInfoShowIndex || 3)">-->
-          <!--<ion-item>-->
-            <!--<ion-avatar item-left>-->
-              <!--<img src="{{bi.avatar}}">-->
-            <!--</ion-avatar>-->
-            <!--<h2>{{bi.username}}</h2>-->
-            <!--<h3>￥{{bi.price}}</h3>-->
-            <!--<p>{{bi.created | str2date | date: "MM/dd HH:mm:ss"}}</p>-->
-            <!--<div item-right [ngSwitch]="i === 0">-->
-              <!--<template [ngIf]="i === 0">-->
-                <!--<template [ngIf]="acApp.now - (product.blockingTime | str2date) < 0 && product.status === 'online'">-->
-                  <!--<div class="bid-status bid-highest"></div>-->
-                <!--</template>-->
-                <!--<template [ngIf]="acApp.now - (product.blockingTime | str2date) > 0 || product.status === 'over'">-->
-                  <!--<div class="bid-status bid-success"></div>-->
-                <!--</template>-->
-              <!--</template>-->
-              <!--<template [ngIf]="i != 0">-->
-                <!--<div class="bid-status bid-out"></div>-->
-              <!--</template>-->
-            <!--</div>-->
-          <!--</ion-item>-->
-        <!--</template>-->
-        <!--<template [ngIf]="i === (product._bidInfoShowIndex || 3)">-->
-          <!--<ion-list-header (click)="showMoreBidInfo(product)" text-center>查看更多（{{product._bidInfoShowIndex || 3}}/{{product._bidInfo?.length}}）</ion-list-header>-->
-        <!--</template>-->
-      <!--</template>-->
-      <!--<template [ngIf]="(product._bidInfoShowIndex || 3) >= product._bidInfo?.length">-->
-        <!--<ion-list-header text-center>共{{product._bidInfo?.length}}人出价</ion-list-header>-->
-      <!--</template>-->
-    <!--</ion-list>-->
+    <p class="content" padding>详细：{{product.content}}</p>
   </ion-card>
 </ion-content>
+
+<template [ngIf]="user">
+  <ion-toolbar position="bottom" *ngIf="user.id == product.ownerId" [ngSwitch]="product.status">
+    <p>{{product.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{product.status | productStatus}}</p>
+    <button *ngSwitchWhen="0">
+      取消
+    </button>
+    <button *ngSwitchWhen="3">
+      进入拍场
+    </button>
+    <button *ngSwitchWhen="4">
+      进入拍场
+    </button>
+    <button *ngSwitchWhen="5">
+      查看订单信息
+    </button>
+  </ion-toolbar>
+
+  <ion-toolbar position="bottom" *ngIf="user.id == product.auktionatorId" [ngSwitch]="product.status">
+    <p>{{product.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{product.status | productStatus}}</p>
+    <button *ngSwitchWhen="0">
+      同意
+    </button>
+    <button *ngSwitchWhen="0">
+      拒绝
+    </button>
+    <button *ngSwitchWhen="1">
+      选择拍场
+    </button>
+    <button *ngSwitchWhen="2">
+      切换拍场
+    </button>
+    <button *ngSwitchWhen="3">
+      进入拍场
+    </button>
+    <button *ngSwitchWhen="4">
+      进入拍场
+    </button>
+    <button *ngSwitchWhen="5">
+      查看订单信息
+    </button>
+  </ion-toolbar>
+</template>

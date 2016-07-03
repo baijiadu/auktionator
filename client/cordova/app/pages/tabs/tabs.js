@@ -72,26 +72,27 @@ export class TabsPage {
             const tab = this.mainTabs.getByIndex(TabsPage.MY_TAB_INDEX);
 
             if (tab.length() > 1) {
-              tab.popToRoot().then(() => tab.push(AkProductsPage, {statusName: 'pending'}));
+              tab.popToRoot().then(() => tab.push(AkProductsPage, {statusName: 'pending', notifyProductId: extras.pid}));
             } else {
-              tab.push(AkProductsPage, {statusName: 'pending'});
+              tab.push(AkProductsPage, {statusName: 'pending', notifyProductId: extras.pid});
             }
           });
           break;
         case '101': // 卖家收到拍品审核通过
         case '102': // 卖家收到拍品审核不通过
+        case '103': // 卖家收到拍品被上架
           this.mainTabs.select(TabsPage.MY_TAB_INDEX);
           setTimeout(() => {
-            const statusName = extras.code === '101' ? 'processing' : 'ended';
+            const statusNames = {'101':  'processing', '102':  'ended', '103': 'online'};
+            const statusName = statusNames[extras.code];
             const tab = this.mainTabs.getByIndex(TabsPage.MY_TAB_INDEX);
 
             if (tab.length() > 1) {
-              tab.popToRoot().then(() => tab.push(OwnerProductsPage, {statusName: statusName}));
+              tab.popToRoot().then(() => tab.push(OwnerProductsPage, {statusName: statusName, notifyProductId: extras.pid}));
             } else {
-              tab.push(OwnerProductsPage, {statusName: statusName});
+              tab.push(OwnerProductsPage, {statusName: statusName, notifyProductId: extras.pid});
             }
           });
-          break;
           break;
       }
     });

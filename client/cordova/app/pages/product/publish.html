@@ -1,28 +1,29 @@
 <ion-navbar *navbar>
-  <ion-buttons start *ngIf="isEdit">
+  <ion-buttons start>
     <button dark (click)="dismiss()">取消</button>
   </ion-buttons>
 
-  <ion-title *ngIf="isEdit">{{isEdit ? '编辑拍品' : '发布拍品'}}</ion-title>
-  <!--<ion-buttons end>-->
-    <!--<button (click)="onSubmit()">-->
-      <!--<ion-icon name="done-all"></ion-icon>-->
-      <!--提交-->
-    <!--</button>-->
-  <!--</ion-buttons>-->
+  <ion-title>{{isEdit ? '编辑拍品' : '发布拍品'}}</ion-title>
 </ion-navbar>
 
-<ion-content>
+<ion-content class="product-publish-page">
   <form #publishForm="ngForm" novalidate>
     <ion-item-group>
       <ion-list-header>拍品信息</ion-list-header>
-      <ion-item class="p-content">
-        <ion-textarea [(ngModel)]="product.content" ngControl="content" #content="ngForm" required minlength="20" maxlength="2000" placeholder="拍品描述"></ion-textarea>
+      <ion-item>
+        <ion-label>拍品名称</ion-label>
+        <ion-input [(ngModel)]="product.title" ngControl="title" type="text" #title="ngForm" required></ion-input>
       </ion-item>
-      <!--<p [hidden]="content.valid || content.pristine" danger padding-left>当前描述有人可能看不懂哦</p>-->
+
+      <ion-item class="p-content">
+        <ion-label>拍品描述</ion-label>
+        <ion-textarea [(ngModel)]="product.content" ngControl="content" #content="ngForm" required></ion-textarea>
+      </ion-item>
+
       <div padding>
-        <grid-img [editable]="true" [imgs]="product.uploadImages" (deleted)="delUploadImage($event)"></grid-img>
+        <grid-img [editable]="true" [imgs]="product.uploadImages" (onDeleted)="delUploadImage($event)"></grid-img>
       </div>
+
       <ion-item class="upload-item">
         <ion-thumbnail item-left>
           <input class="upload-file" type="file" (change)="pickImage($event)" multiple [disabled]="product.uploadImages.length >= 8"/>
@@ -31,27 +32,22 @@
         <h3>拍品效果图</h3>
         <p>已上传 {{product.uploadImages.length}}/{{uploadImageLimit}}</p>
       </ion-item>
-      <!--<p [hidden]="product.uploadImages.length > 0" danger padding-left>至少需要上传一张图哦</p>-->
-      <ion-item>
 
+      <ion-item>
         <ion-label>起拍价</ion-label>
         <ion-input [(ngModel)]="product.beginningPrice" ngControl="beginningPrice" type="number" #beginningPrice="ngForm" required></ion-input>
       </ion-item>
-      <!--<p [hidden]="beginningPrice.valid || beginningPrice.pristine" danger padding-left>起拍价不能为空哦</p>-->
+
       <ion-item>
         <ion-label>加价幅度</ion-label>
         <ion-input [(ngModel)]="product.increasePrice" ngControl="increasePrice" type="number" #increasePrice="ngForm" required></ion-input>
       </ion-item>
-      <!--<p [hidden]="increasePrice.valid || increasePrice.pristine" danger padding-left>加价幅度不能为空哦</p>-->
-    </ion-item-group>
 
-    <ion-item-group>
-      <!--<ion-item-divider></ion-item-divider>-->
-      <ion-list-header>拍卖师<span *ngIf="isEdit" dark>（不能修改）</span></ion-list-header>
-      <a ion-item detail-push (click)="selectAuktionator()" [hidden]="selectedAuktionator">
-        <!--<ion-icon name="person" item-left></ion-icon>-->
+      <button ion-item (click)="selectAuktionator()" [hidden]="selectedAuktionator">
+        <ion-icon name="person" item-left></ion-icon>
         选择拍卖师
-      </a>
+      </button>
+
       <button ion-item (click)="selectAuktionator()" [hidden]="!selectedAuktionator">
         <ion-avatar item-left>
           <img src="{{selectedAuktionator?.avatar}}"/>
@@ -71,15 +67,18 @@
       <ion-item>
         <ion-label>一口价</ion-label>
         <ion-input [(ngModel)]="product.maxPrice" ngControl="maxPrice" type="number" #maxPrice="ngForm" placeholder="0"></ion-input>
-        <ion-icon name="help" item-right></ion-icon>
+        <ion-icon name="help" item-right (click)="showMaxPricePopover($event)"></ion-icon>
       </ion-item>
-      <!--<p light padding-left>出价达到或超过此价格立即成交（无一口价请设0元）</p>-->
       <ion-item>
         <ion-label>保底价</ion-label>
         <ion-input [(ngModel)]="product.minPrice" ngControl="minPrice" type="number" #minPrice="ngForm" placeholder="0"></ion-input>
-        <ion-icon name="help" item-right></ion-icon>
+        <ion-icon name="help" item-right (click)="showMinPricePopover($event)"></ion-icon>
       </ion-item>
-      <!--<p light padding-left>提供此拍品的保底价格（无保底价请设0元）</p>-->
+      <ion-item>
+        <ion-label>有效期</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="product.deadTime" cancelText="取消" doneText="完成"></ion-datetime>
+        <ion-icon name="help" item-right (click)="showDeadTimePopover($event)"></ion-icon>
+      </ion-item>
     </ion-item-group>
 
     <ion-item-group>

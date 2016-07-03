@@ -33,11 +33,11 @@ export class UploadingPage {
   }
 
   startUpload() {
-    for (let i = 0; i < this.files.length; i++) {
-      ((file) => {
-        const key = Util.generateRandomStr() + '_' + new Date().getTime();
-        this.userService.qiniuUptoken(key).then(data => {
-          const uptoken = data.token;
+    this.userService.qiniuUptoken(this.files.length).then(results => {
+      for (let i = 0; i < this.files.length; i++) {
+        ((file, result) => {
+          const {key, token} = result;
+
           loadImage(
             file,
             canvas => {
@@ -47,7 +47,7 @@ export class UploadingPage {
               canvas.toBlob(blob => {
                 const size = blob.size;
 
-                QiniuUtil.uploadBlob(blob, key, uptoken).then(blkRet => {
+                QiniuUtil.uploadBlob(blob, key, token).then(blkRet => {
                   const normal = Config.qiniu.url + blkRet.key;
 
                   this.results.push({
@@ -84,9 +84,9 @@ export class UploadingPage {
               crossOrigin: true,
             }
           );
-        }, err => Mixins.toastAPIError(err));
-      })(this.files[i]);
-    }
+        })(this.files[i], results[i]);
+      }
+    }, err => Mixins.toastAPIError(err));
   }
 
   done() {

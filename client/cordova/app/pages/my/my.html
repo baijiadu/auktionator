@@ -8,7 +8,7 @@
 </ion-navbar>
 
 <ion-content>
-  <ion-list>
+  <ion-list [ngSwitch]="user?.identity">
     <a ion-item (click)="showUserInfo()" detail-push>
       <ion-thumbnail item-left>
         <img src="{{user?.avatar || 'img/default_avatar_128x128.png'}}">
@@ -17,7 +17,7 @@
       <p>积分：{{user?.score}}</p>
     </a>
 
-    <ion-item-group>
+    <ion-item-group *ngSwitchWhen="0">
       <ion-item-divider></ion-item-divider>
       <button ion-item>
         <ion-icon name="list-box" item-left></ion-icon>
@@ -27,18 +27,30 @@
         <ion-icon name="heart" item-left></ion-icon>
         我的收藏
       </button>
+      <button ion-item [navPush]="beSellerPage">
+        <ion-icon name="flame" item-left></ion-icon>
+        商家入驻
+      </button>
+      <button ion-item [navPush]="beAuktionatorPage">
+        <ion-icon name="hand" item-left></ion-icon>
+        成为拍卖师
+      </button>
     </ion-item-group>
 
     <ion-item-group *ngIf="user?.identity === 1">
       <ion-item-divider></ion-item-divider>
-      <button ion-item [navPush]="productPublishPage">
+      <button ion-item (click)="showProductPublishPage()">
         <ion-icon name="camera" item-left></ion-icon>
         发布拍品
       </button>
       <button ion-item [navPush]="ownerProductsPage">
         <ion-icon name="hammer" item-left></ion-icon>
         拍品管理
-        <ion-badge item-right danger [hidden]="notification.ownerProductCount <= 0">{{notification.ownerProductCount}}</ion-badge>
+        <ion-badge item-right danger [hidden]="ownerProductCount <= 0">{{ownerProductCount}}</ion-badge>
+      </button>
+      <button ion-item>
+        <ion-icon name="heart" item-left></ion-icon>
+        我的收藏
       </button>
     </ion-item-group>
 
@@ -47,31 +59,15 @@
       <button ion-item [navPush]="akProductsPage">
         <ion-icon name="hammer" item-left></ion-icon>
         拍品管理
-        <ion-badge item-right danger [hidden]="notification.akProductCount <= 0">{{notification.akProductCount}}</ion-badge>
+        <ion-badge item-right danger [hidden]="akProductCount <= 0">{{akProductCount}}</ion-badge>
       </button>
-      <button ion-item>
+      <button ion-item (click)="showGamePublishPage()">
+        <ion-icon name="create" item-left></ion-icon>
+        创建拍场
+      </button>
+      <button ion-item [navPush]="akGamesPage">
         <ion-icon name="hand" item-left></ion-icon>
         拍场管理
-      </button>
-      <button ion-item>
-        <ion-icon name="stats" item-left></ion-icon>
-        订单统计
-      </button>
-    </ion-item-group>
-
-    <ion-item-group>
-      <ion-item-divider></ion-item-divider>
-      <button ion-item *ngIf="user?.identity == 0" [navPush]="beSellerPage">
-        <ion-icon name="flame" item-left></ion-icon>
-        商家入驻
-      </button>
-      <button ion-item *ngIf="user?.identity !== 2" [navPush]="beAuktionatorPage">
-        <ion-icon name="hand" item-left></ion-icon>
-        成为拍卖师
-      </button>
-      <button ion-item>
-        <ion-icon name="help-circle" item-left></ion-icon>
-        使用帮助
       </button>
     </ion-item-group>
 
@@ -81,7 +77,22 @@
         <ion-icon name="person" item-left></ion-icon>
         用户管理
       </button>
+      <button ion-item>
+        <ion-icon name="person" item-left></ion-icon>
+        商家申请
+      </button>
+      <button ion-item>
+        <ion-icon name="person" item-left></ion-icon>
+        拍卖师申请
+      </button>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-item-divider></ion-item-divider>
+      <button ion-item>
+        <ion-icon name="help-circle" item-left></ion-icon>
+        使用帮助
+      </button>
     </ion-item-group>
   </ion-list>
-
 </ion-content>

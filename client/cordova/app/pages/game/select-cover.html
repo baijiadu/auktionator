@@ -1,0 +1,26 @@
+<ion-navbar *navbar>
+  <ion-buttons start>
+    <button dark (click)="dismiss()">取消</button>
+  </ion-buttons>
+
+  <ion-title>选择拍品</ion-title>
+</ion-navbar>
+
+<ion-content>
+  <ion-list *ngFor="let item of products">
+    <ion-list-header>
+      {{item.owner?.nickname || item.owner?.username}}
+    </ion-list-header>
+    <ion-grid padding>
+      <template ngFor [ngForOf]="item.uploadImages" let-i="index">
+        <ion-row *ngIf="(i % 4 === 0)">
+          <template ngFor let-cell [ngForOf]="item.uploadImages" let-j="index">
+            <ion-col center width-25 *ngIf="j >= i && j < i + 4">
+              <img src="{{cell.thumb}}" (click)="dismiss(cell.normal)"/>
+            </ion-col>
+          </template>
+        </ion-row>
+      </template>
+    </ion-grid>
+  </ion-list>
+</ion-content>

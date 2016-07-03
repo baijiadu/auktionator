@@ -1,0 +1,35 @@
+<ion-navbar *navbar>
+  <ion-buttons start>
+    <button dark (click)="dismiss()">返回</button>
+  </ion-buttons>
+  <ion-title>选择拍品</ion-title>
+  <ion-buttons end>
+    <button dark (click)="dismiss(checkedList)" [disabled]="checkedList.length <= 0">确定</button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-toolbar>
+  <ion-searchbar [(ngModel)]="keyword" (ionInput)="inputChanged($event)" (ionCancel)="cancelSearch($event)" placeholder="输入卖家名称进行查找" cancelButtonText="取消"></ion-searchbar>
+</ion-toolbar>
+
+<ion-content>
+  <ion-list>
+    <button ion-item *ngFor="let item of list">
+      <ion-checkbox (ionChange)="checkChanged($event, item)"></ion-checkbox>
+      <ion-thumbnail item-left>
+        <img src="{{item.thumb}}"/>
+      </ion-thumbnail>
+      <h2>{{item.owner?.username || item.owner?.nickname}}</h2>
+      <h3>{{item.content}}</h3>
+      <!--<p>{{item.created | str2date | date: "MM/dd HH:mm:ss"}}</p>-->
+      <p>{{item.created}} | {{item.status}}</p>
+    </button>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [hidden]="!infiniteEnabled">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="数据加载中...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

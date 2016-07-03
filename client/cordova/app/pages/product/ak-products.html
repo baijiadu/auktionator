@@ -9,6 +9,7 @@
     </ion-segment-button>
     <ion-segment-button value="pending">
       未处理
+      <ion-badge item-right danger [hidden]="pendingProductCount <= 0">{{pendingProductCount}}</ion-badge>
     </ion-segment-button>
     <ion-segment-button value="online">
       待上架
@@ -34,11 +35,11 @@
         <ion-thumbnail item-left>
           <img src="{{item.thumb}}"/>
         </ion-thumbnail>
-        <h2>{{item.owner?.username || item.owner?.nickname}}</h2>
-        <h3>{{item.content}}</h3>
-        <!--<p>{{item.created | str2date | date: "MM/dd HH:mm:ss"}}</p>-->
-        <p>{{item.created}} | {{item.status}}</p>
+        <h2>{{item.owner?.nickname || item.owner?.username}}</h2>
+        <h3>{{item.proNo}} | {{item.title}}</h3>
+        <p>{{item.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{item.status | productStatus}}</p>
       </ion-item>
+
       <ion-item-options *ngSwitchWhen="0" icon-left>
         <button secondary (click)="auditStatus(slidingItem, item, 1)">
           <ion-icon name="hammer"></ion-icon>
@@ -47,6 +48,20 @@
         <button danger (click)="auditStatus(slidingItem, item, 10)">
           <ion-icon name="contacts"></ion-icon>
           拒绝
+        </button>
+      </ion-item-options>
+
+      <ion-item-options *ngSwitchWhen="1" icon-left>
+        <button secondary (click)="selectGame(slidingItem, item)">
+          <ion-icon name="hammer"></ion-icon>
+          选择拍场
+        </button>
+      </ion-item-options>
+
+      <ion-item-options *ngSwitchWhen="2" icon-left>
+        <button secondary (click)="switchGame(slidingItem, item)">
+          <ion-icon name="hammer"></ion-icon>
+          切换拍场
         </button>
       </ion-item-options>
     </ion-item-sliding>

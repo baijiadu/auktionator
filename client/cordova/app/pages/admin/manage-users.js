@@ -36,9 +36,8 @@ export class ManageUsersPage extends StatusesList {
     return this.userService.currentUser;
   }
 
-  delegateLoad(statuses, refresh) {
-    const lastOne = this.statusList[this.statusList.length - 1];
-    return this.userService.loadUsersByIdentities(statuses, !refresh && lastOne ? lastOne.id : null);
+  delegateLoad(statuses, page, refresh) {
+    return this.userService.loadUsersByIdentities(statuses, page);
   }
 
   identityChanged(slidingItem, user, identity) {

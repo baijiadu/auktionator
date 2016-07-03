@@ -1,0 +1,37 @@
+.game-publish-page {
+  .covers {
+    ion-col {
+      padding: 5px;
+    }
+  }
+  .cover {
+    overflow: hidden;
+    text-align: center;
+    padding: 1px;
+    button {
+      margin: 0;
+      height: 100%;
+      border-style: dashed;
+    }
+    img {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+    }
+  }
+  .cover-lg {
+    height: 150px;
+  }
+  .cover-sm {
+    height: 70px;
+    & + .cover-sm {
+      margin-top: 10px;
+    }
+  }
+}
+.select-cover-popover {
+  .popover-content {
+    width: 80%;
+  }
+}

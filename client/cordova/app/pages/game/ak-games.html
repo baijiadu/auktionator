@@ -1,5 +1,5 @@
 <ion-navbar *navbar>
-  <ion-title>拍品管理</ion-title>
+  <ion-title>拍场管理</ion-title>
 </ion-navbar>
 
 <ion-toolbar padding>
@@ -7,21 +7,17 @@
     <ion-segment-button value="all">
       全部
     </ion-segment-button>
-    <ion-segment-button value="processing">
-      处理中
-      <ion-badge item-right danger [hidden]="processingProductCount <= 0">{{processingProductCount}}</ion-badge>
+    <ion-segment-button value="pending">
+      待发布
     </ion-segment-button>
     <ion-segment-button value="online">
-      进行中
-      <ion-badge item-right danger [hidden]="onlineProductCount <= 0">{{onlineProductCount}}</ion-badge>
+      已发布
     </ion-segment-button>
     <ion-segment-button value="ended">
       已结束
-      <ion-badge item-right danger [hidden]="endedProductCount <= 0">{{endedProductCount}}</ion-badge>
     </ion-segment-button>
   </ion-segment>
 </ion-toolbar>
-
 <ion-content *ngFor="let statusData of statusesData" [hidden]="statusData.name !== statusName">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
@@ -35,23 +31,13 @@
   <ion-list>
     <ion-item-sliding *ngFor="let item of statusData.list" [ngSwitch]="item.status" #slidingItem>
       <ion-item (click)="showDetail(item)">
-        <ion-thumbnail item-left>
-          <img src="{{item.thumb}}"/>
-        </ion-thumbnail>
-        <h2>{{item.auktionator?.nickname || item.auktionator?.username}}</h2>
-        <h3>{{item.proNo}} | {{item.title}}</h3>
-        <p>{{item.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{item.status | productStatus}}</p>
+        <img src="{{item.cover}}"/>
+        <h2>{{item.gameNo}} | {{item.title}}</h2>
+        <h3>{{item.dateNo}} {{item.begin}} ~ {{item.end}}时</h3>
+        <p>{{item.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{item.status | gameStatus}}</p>
       </ion-item>
-
-      <!--<ion-item-options *ngSwitchWhen="0" icon-left>-->
-        <!--<button secondary (click)="editProduct(slidingItem, item)">-->
-          <!--<ion-icon name="create"></ion-icon>-->
-          <!--编辑-->
-        <!--</button>-->
-      <!--</ion-item-options>-->
     </ion-item-sliding>
   </ion-list>
-
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [hidden]="!infiniteEnabled">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"

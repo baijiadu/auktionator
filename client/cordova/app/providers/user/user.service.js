@@ -76,11 +76,11 @@ export class UserService extends LoopbackAPI {
     return this.post(UserService.MATCH_VERIFY_CODE, {tel, code});
   }
 
-  qiniuUptoken(key) {
-    return this.post(UserService.QINIU_UPTOKEN, {key});
+  qiniuUptoken(count = 1) {
+    return this.post(UserService.QINIU_UPTOKEN, {count}).then(data => data.tokens, err => err);
   }
 
-  queryAuktionators(keyword = '', page = 1) {
+  searchAuktionators(keyword = '', page = 1) {
     let filter = {
       fields: {
         id: true,
@@ -120,7 +120,7 @@ export class UserService extends LoopbackAPI {
     return this.put(UserService.USER, attributes, {id});
   }
 
-  loadUsersByIdentities(identities = null, sinceId = null) {
+  loadUsersByIdentities(identities = null, page = 1) {
     let filter = {
       fields: {
         id: true,
@@ -130,18 +130,16 @@ export class UserService extends LoopbackAPI {
         tel: true,
         identity: true,
         created: true,
+        modified: true,
       },
       where: {},
       limit: Config.pageSize,
-      order: ['id ASC']
+      skip: (page - 1) * Config.pageSize,
+      order: ['modified ASC']
     };
 
     if (identities) {
       filter.where.identity = {inq: identities};
-    }
-
-    if (sinceId) {
-      filter.where.id = {lt: sinceId};
     }
     return this.get(UserService.USERS, null, filter);
   }
