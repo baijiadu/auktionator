@@ -1,4 +1,4 @@
-import {NavController, NavParams, Modal} from 'ionic-angular';
+import {NavController, NavParams, Modal, Alert} from 'ionic-angular';
 import {ViewChild, Component} from '@angular/core';
 
 import {StatusesList} from '../statuses-list';
@@ -32,21 +32,23 @@ export class OwnerProductsPage extends StatusesList {
       statuses: null,
     }, {
       name: 'processing',
-      statuses: [0, 1, 2],
+      statuses: [0, 1, 2, 6],
     }, {
       name: 'online',
       statuses: [3, 4],
     }, {
       name: 'ended',
-      statuses: [5, 10, 11, 12],
+      statuses: [5, 10, 11, 12, 14],
     }], params.get('statusName'));
 
     this.nav = nav;
     this.userService = userService;
     this.productService = productService;
     this.notification = notification;
+  }
 
-    this.user = this.userService.currentUser;
+  get user() {
+    return this.userService.currentUser;
   }
 
   get processingProductCount() {
@@ -76,6 +78,37 @@ export class OwnerProductsPage extends StatusesList {
         }
       });
       this.nav.present(modal);
+    }, err => Mixins.toastAPIError(err));
+  }
+
+  cancelItem(slidingItem, product) {
+    this.nav.present(Alert.create({
+      title: '拍品取消确认',
+      message: '取消拍品可能会影响到您的信誉度，确定要取消吗？',
+      buttons: [
+        {
+          text: '点错了',
+          handler: () => {
+            slidingItem.close();
+          }
+        },
+        {
+          text: '确定',
+          handler: () => {
+            this.updateStatus(slidingItem, product, 14);
+          }
+        }
+      ]
+    }));
+  }
+
+  updateStatus(slidingItem, product, status) {
+    slidingItem.close();
+    this.productService.updateAttribute(product.id, {status}).then(p => {
+      product.status = p.status;
+
+      if (this.statusName !== 'all') this.statusList.splice(this.statusList.indexOf(product), 1);
+      Mixins.toast('处理成功');
     }, err => Mixins.toastAPIError(err));
   }
 

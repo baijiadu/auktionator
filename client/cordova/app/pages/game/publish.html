@@ -3,10 +3,14 @@
     <button dark (click)="dismiss()">取消</button>
   </ion-buttons>
 
-  <ion-title>{{isEdit ? '编辑拍场' : '发布拍场'}}</ion-title>
+  <ion-title>{{isEdit ? '编辑拍场' : '创建拍场'}}</ion-title>
+
+  <ion-buttons end>
+    <button dark (click)="saveAsDraft()">存为草稿</button>
+  </ion-buttons>
 </ion-navbar>
 
-<ion-content>
+<ion-content class="game-publish-page">
   <form #publishForm="ngForm" novalidate>
     <ion-item-group>
       <ion-list-header>基本信息</ion-list-header>
@@ -75,7 +79,7 @@
 
     <ion-item-group>
       <div padding>
-        <button  block secondary type="submit" (click)="onSubmit()" [disabled]="!publishForm.form.valid">{{isEdit ? '提交修改' : '确认发布'}}</button>
+        <button  block secondary type="submit" (click)="onSubmit()" [disabled]="!publishForm.form.valid">确认发布</button>
       </div>
     </ion-item-group>
   </form>

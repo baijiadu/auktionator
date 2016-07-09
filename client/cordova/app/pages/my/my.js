@@ -58,7 +58,7 @@ export class MyPage {
     return this.notification.akPendingProductCount;
   }
 
-  showPublishPage() {
+  showProductPublishPage() {
     let modal = Modal.create(ProductPublishPage);
     modal.onDismiss(product => {
       if (product) {
@@ -75,8 +75,12 @@ export class MyPage {
     modal.onDismiss(game => {
       if (game) {
         this.events.publish('game:created', game);
+        if (game.status === 0) {// 编辑状态
+          Mixins.toast('拍场保存成功');
+        } else if (game.status === 1) {
+          Mixins.toast('拍场发布成功');
+        }
         this.nav.push(AkGamesPage, {statusName: 'pending'});
-        Mixins.toast('拍场发布成功');
       }
     });
     this.nav.present(modal);

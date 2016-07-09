@@ -1,5 +1,5 @@
 const Config = {
-  env: 'dev', // 当前环境
+  env: 'staging', // 当前环境
   get isDev() { // 是否为开发环境
     return Config.env === 'dev';
   },
@@ -12,7 +12,7 @@ const Config = {
   get host() { // 服务器地址
     return Config[Config.env + 'Host'];
   },
-  devHost: 'http://192.168.0.101:3000', // 开发环境服务器地址
+  devHost: 'http://192.168.0.102:3000', // 开发环境服务器地址
   stagingHost: 'http://www.baijiadu.com:3010', // 测试环境服务器地址
   prodHost: 'http://www.baijiadu.com:3020', // 正式环境服务器地址
   pageSize: 5, // 分页加载大小
@@ -26,6 +26,7 @@ const Config = {
     url: 'https://o89ix43hh.qnssl.com/',
     styles: {
       'product.thumb': 'product.thumb',
+      'product.cover': 'product.cover',
       'game.cover.lg': 'game.cover.lg',
       'game.cover.sm': 'game.cover.sm',
     }

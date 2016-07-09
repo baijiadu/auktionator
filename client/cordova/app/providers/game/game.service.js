@@ -30,14 +30,13 @@ export class GameService extends LoopbackAPI {
         scope: {
           fields: ['id', 'avatar', 'username', 'nickname'],
         }
-      }, {
-        relation: 'products',
-        scope: {
-          fields: ['id', 'content', 'thumb', 'uploadImages', 'beginningPrice', 'increasePrice', 'guaranteePrice', 'ownerId', 'auktionatorId'],
-        }
-      }],
+      }, 'products'],
     };
     return this.get(GameService.GAME_URL, {id}, filter);
+  }
+
+  editingGame(id) {
+    return this.get(GameService.GAME_URL, {id});
   }
 
   akGames(akId, statuses = null, page = 1) {
@@ -53,8 +52,6 @@ export class GameService extends LoopbackAPI {
         status: true,
         created: true,
         modified: true,
-        _sections: true,
-        auktionatorId: true,
       },
       where: {},
       limit: Config.pageSize,
@@ -68,11 +65,68 @@ export class GameService extends LoopbackAPI {
     return this.get(GameService.AK_GAMES_URL, {id: akId}, filter);
   }
 
+  // 搜索所有未发布（便加重）
+  searchAkEditingGames(akId, keyword = '', page = 1) {
+    let filter = {
+      fields: {
+        id: true,
+        gameNo: true,
+        title: true,
+        cover: true,
+        dateNo: true,
+        begin: true,
+        end: true,
+        created: true,
+        modified: true,
+      },
+      where: {status: 0},
+      limit: Config.pageSize,
+      skip: (page - 1) * Config.pageSize,
+      order: ['modified DESC'],
+    };
+
+    if (keyword) {
+      filter.where.title = {like: keyword};
+    }
+    return this.get(GameService.AK_GAMES_URL, {id: akId}, filter);
+  }
+
   updateAttribute(id, attributes = {}) {
     return this.put(GameService.PRODUCT_URL, attributes, {id});
+  }
+
+  homeGames() {
+    return this.get(GameService.HOME_GAMES_URL);
+  }
+
+  searchAllGames(keyword = '', page = 1) {
+    let fields = {
+      covers: false,
+      gameNo: false,
+    }, include = {
+      relation: 'auktionator',
+      scope: {
+        fields: ['id', 'username', 'nickname', 'avatar', 'score'],
+      }
+    };
+
+    let filter = {
+      fields: fields,
+      where: {status: {inq: [1, 2]}},
+      limit: Config.pageSize,
+      skip: (page - 1) * Config.pageSize,
+      order: ['modified DESC'],
+      include,
+    };
+
+    if (keyword) {
+      filter.where.title = {like: keyword};
+    }
+    return this.get(GameService.GAMES_URL, null, filter);
   }
 }
 
 GameService.GAMES_URL = '/ak-games';
 GameService.GAME_URL = '/ak-games/{id}';
 GameService.AK_GAMES_URL = '/ak-users/{id}/auktionatorGames';
+GameService.HOME_GAMES_URL = '/ak-games/home';

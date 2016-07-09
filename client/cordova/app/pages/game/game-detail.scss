@@ -1,0 +1,26 @@
+.game-detail-page {
+  .top-covers {
+    position: relative;
+    .top-btns {
+      position: absolute;
+      top: 0;
+      z-index: 1;
+      .toolbar-background {
+        display: none;
+      }
+    }
+    .title {
+      position: absolute;
+      bottom: 6px;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, .4);
+      color: #ffffff;
+      z-index: 1;
+      margin: 0;
+      padding: 5px 10px;
+    }
+  }
+  .section-thumbs {}
+}
+

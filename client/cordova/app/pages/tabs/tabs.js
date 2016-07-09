@@ -67,14 +67,17 @@ export class TabsPage {
 
       switch (extras.code) {
         case '100': // 拍卖师收到拍品审核请求
+        case '106': // 拍卖师收到拍品审核请求
           this.mainTabs.select(TabsPage.MY_TAB_INDEX);
           setTimeout(() => {
+            const statusNames = {'100':  'pending', '106':  'ended'};
+            const statusName = statusNames[extras.code];
             const tab = this.mainTabs.getByIndex(TabsPage.MY_TAB_INDEX);
 
             if (tab.length() > 1) {
-              tab.popToRoot().then(() => tab.push(AkProductsPage, {statusName: 'pending', notifyProductId: extras.pid}));
+              tab.popToRoot().then(() => tab.push(AkProductsPage, {statusName: statusName, notifyProductId: extras.pid}));
             } else {
-              tab.push(AkProductsPage, {statusName: 'pending', notifyProductId: extras.pid});
+              tab.push(AkProductsPage, {statusName: statusName, notifyProductId: extras.pid});
             }
           });
           break;

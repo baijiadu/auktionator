@@ -37,15 +37,15 @@
         </ion-thumbnail>
         <h2>{{item.owner?.nickname || item.owner?.username}}</h2>
         <h3>{{item.proNo}} | {{item.title}}</h3>
-        <p>{{item.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{item.status | productStatus}}</p>
+        <p>{{item.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{item.status | productStatus: user.identity}}</p>
       </ion-item>
 
       <ion-item-options *ngSwitchWhen="0" icon-left>
-        <button secondary (click)="auditStatus(slidingItem, item, 1)">
+        <button secondary (click)="confirmItem(slidingItem, item)">
           <ion-icon name="hammer"></ion-icon>
           同意
         </button>
-        <button danger (click)="auditStatus(slidingItem, item, 10)">
+        <button danger (click)="rejectItem(slidingItem, item)">
           <ion-icon name="contacts"></ion-icon>
           拒绝
         </button>
@@ -58,8 +58,15 @@
         </button>
       </ion-item-options>
 
+      <ion-item-options *ngSwitchWhen="6" icon-left>
+        <button secondary (click)="selectGame(slidingItem, item)">
+          <ion-icon name="hammer"></ion-icon>
+          选择拍场
+        </button>
+      </ion-item-options>
+
       <ion-item-options *ngSwitchWhen="2" icon-left>
-        <button secondary (click)="switchGame(slidingItem, item)">
+        <button secondary (click)="selectGame(slidingItem, item, true)">
           <ion-icon name="hammer"></ion-icon>
           切换拍场
         </button>

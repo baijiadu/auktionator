@@ -130,7 +130,7 @@ export class ProductService extends LoopbackAPI {
         auktionatorId: true,
       },
       where: {
-        status: {inq: [1, 2]}, // 已审核
+        status: {inq: [1, 2, 6]}, // 已审核
         id: {nin: selected}, // 排除已选择
       },
       limit: Config.pageSize,
@@ -177,9 +177,19 @@ export class ProductService extends LoopbackAPI {
   updateAttribute(id, attributes = {}) {
     return this.put(ProductService.PRODUCT_URL, attributes, {id});
   }
+
+  addIntoGame(id, gid) {
+    return this.put(ProductService.PRODUCT_GAME_ADD_URL, {}, {id, gid});
+  }
+
+  switchGame(id, gid) {
+    return this.put(ProductService.PRODUCT_GAME_ADD_URL, {}, {id, gid});
+  }
 }
 
 ProductService.PRODUCTS_URL = '/ak-products';
 ProductService.PRODUCT_URL = '/ak-products/{id}';
 ProductService.OWNER_PRODUCTS_URL = '/ak-users/{id}/ownerProducts';
 ProductService.AK_PRODUCTS_URL = '/ak-users/{id}/auktionatorProducts';
+ProductService.PRODUCT_GAME_ADD_URL = '/ak-products/{id}/game/{gid}/add';
+ProductService.PRODUCT_GAME_SWITCH_URL = '/ak-products/{id}/game/{gid}/switch';

@@ -1,7 +1,7 @@
 <ion-navbar *navbar>
   <ion-title>拍品详细</ion-title>
   <ion-buttons end>
-    <button (click)="favorite()">
+    <button (click)="favorite()" *ngIf="user?.identity === 0">
       <ion-icon name="heart"></ion-icon>
     </button>
     <button (click)="share()">
@@ -10,7 +10,7 @@
   </ion-buttons>
 </ion-navbar>
 
-<ion-content>
+<ion-content class="product-detail-page">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
@@ -20,7 +20,7 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-card class="product-detail">
+  <ion-card>
     <ion-item>
       <ion-avatar item-left>
         <img class="avatar" src="{{product.auktionator?.avatar}}">
@@ -50,45 +50,45 @@
   </ion-card>
 </ion-content>
 
-<template [ngIf]="user">
+<template [ngIf]="user && !readonly">
   <ion-toolbar position="bottom" *ngIf="user.id == product.ownerId" [ngSwitch]="product.status">
-    <p>{{product.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{product.status | productStatus}}</p>
-    <button *ngSwitchWhen="0">
+    <span>{{product.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{product.status | productStatus: user.identity}}</span>
+    <button *ngSwitchWhen="0" (click)="cancelProduct()">
       取消
     </button>
-    <button *ngSwitchWhen="3">
+    <button *ngSwitchWhen="3" (click)="enterGame()">
       进入拍场
     </button>
-    <button *ngSwitchWhen="4">
+    <button *ngSwitchWhen="4" (click)="enterGame()">
       进入拍场
     </button>
-    <button *ngSwitchWhen="5">
+    <button *ngSwitchWhen="5" (click)="showOrderPage()">
       查看订单信息
     </button>
   </ion-toolbar>
 
   <ion-toolbar position="bottom" *ngIf="user.id == product.auktionatorId" [ngSwitch]="product.status">
-    <p>{{product.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{product.status | productStatus}}</p>
-    <button *ngSwitchWhen="0">
+    <span>{{product.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{product.status | productStatus: user.identity}}</span>
+    <button *ngSwitchWhen="0" (click)="agreeProduct()">
       同意
     </button>
-    <button *ngSwitchWhen="0">
+    <button *ngSwitchWhen="0" (click)="rejectProduct()">
       拒绝
     </button>
-    <button *ngSwitchWhen="1">
+    <button *ngSwitchWhen="1" (click)="selectGame()">
       选择拍场
     </button>
-    <button *ngSwitchWhen="2">
+    <button *ngSwitchWhen="6" (click)="selectGame()">
+      选择拍场
+    </button>
+    <button *ngSwitchWhen="2" (click)="selectGame(true)">
       切换拍场
     </button>
-    <button *ngSwitchWhen="3">
+    <button *ngSwitchWhen="3" (click)="enterGame()">
       进入拍场
     </button>
-    <button *ngSwitchWhen="4">
+    <button *ngSwitchWhen="4" (click)="enterGame()">
       进入拍场
-    </button>
-    <button *ngSwitchWhen="5">
-      查看订单信息
     </button>
   </ion-toolbar>
 </template>

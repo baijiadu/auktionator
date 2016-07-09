@@ -9,6 +9,14 @@
 </ion-navbar>
 
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="下拉刷新"
+      refreshingSpinner="circles"
+      refreshingText="拼命加载中...">
+    </ion-refresher-content>
+  </ion-refresher>
   <div class="whats-up">
     <ion-slides [options]="whatsupOptions">
       <ion-slide *ngFor="let item of whatsUpService.tops" (click)="whatsupTapped(item)">
@@ -23,5 +31,70 @@
         <p>{{item.title}}</p>
       </ion-slide>
     </ion-slides>
+  </div>
+  <ion-list>
+    <ion-list-header>
+      <ion-icon name="thumbs-up"></ion-icon> 推荐拍场
+    </ion-list-header>
+    <ion-card *ngFor="let item of recommendGames" class="game-item" (click)="enterGameDetail(item)">
+      <ion-item>
+        <ion-avatar item-left>
+          <img class="avatar" src="{{item.auktionator?.avatar}}">
+        </ion-avatar>
+        <h2>{{item.auktionator?.nickname || item.auktionator?.username}} | {{item.auktionator?.score}}</h2>
+      </ion-item>
+      <ion-card-content>
+        <img src="{{item.cover}}">
+        <h2>{{item.title}}</h2>
+        <h3>{{item.dateNo}} {{item.begin}} ~ {{item.end}}时</h3>
+      </ion-card-content>
+    </ion-card>
+    <div style="text-align: center" padding *ngIf="recommendGames.length <= 0">
+      没有数据
+    </div>
+
+    <ion-list-header>
+      <ion-icon name="flame"></ion-icon> 进行中
+    </ion-list-header>
+    <ion-card *ngFor="let item of livingGames" class="game-item" (click)="enterGameDetail(item)">
+      <ion-item>
+        <ion-avatar item-left>
+          <img class="avatar" src="{{item.auktionator?.avatar}}">
+        </ion-avatar>
+        <h2>{{item.auktionator?.nickname || item.auktionator?.username}} | {{item.auktionator?.score}}</h2>
+      </ion-item>
+      <ion-card-content>
+        <img src="{{item.cover}}">
+        <h2>{{item.title}}</h2>
+        <h3>{{item.dateNo}} {{item.begin}} ~ {{item.end}}时</h3>
+      </ion-card-content>
+    </ion-card>
+    <div style="text-align: center" padding *ngIf="livingGames.length <= 0">
+      没有数据
+    </div>
+
+    <ion-list-header>
+      <ion-icon name="timer"></ion-icon> 未开始
+    </ion-list-header>
+    <ion-card *ngFor="let item of notStartedGames" class="game-item" (click)="enterGameDetail(item)">
+      <ion-item>
+        <ion-avatar item-left>
+          <img class="avatar" src="{{item.auktionator?.avatar}}">
+        </ion-avatar>
+        <h2>{{item.auktionator?.nickname || item.auktionator?.username}} | {{item.auktionator?.score}}</h2>
+      </ion-item>
+      <ion-card-content>
+        <img src="{{item.cover}}">
+        <h2>{{item.title}}</h2>
+        <h3>{{item.dateNo}} {{item.begin}} ~ {{item.end}}时</h3>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  <div style="text-align: center" padding *ngIf="notStartedGames.length <= 0">
+    没有数据
+  </div>
+
+  <div padding style="text-align: center">
+    <button outline round small (click)="showMoreGamesPage()">查看更多</button>
   </div>
 </ion-content>

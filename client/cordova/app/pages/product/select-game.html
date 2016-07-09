@@ -1,0 +1,33 @@
+<ion-navbar *navbar>
+  <ion-buttons start>
+    <button dark (click)="dismiss()">返回</button>
+  </ion-buttons>
+  <ion-title>选择拍场</ion-title>
+</ion-navbar>
+
+<ion-toolbar>
+  <ion-searchbar [(ngModel)]="keyword" (ionInput)="inputChanged($event)" (ionCancel)="cancelSearch($event)" placeholder="输入拍场名称进行查找" cancelButtonText="取消"></ion-searchbar>
+</ion-toolbar>
+
+<ion-content>
+  <ion-list>
+    <button ion-item *ngFor="let item of list" (click)="dismiss(item)">
+      <img src="{{item.cover}}"/>
+      <h2>{{item.gameNo}} | {{item.title}} <span *ngIf="currentGameId === item.id">【当前】</span></h2>
+      <h3>{{item.dateNo}} {{item.begin}} ~ {{item.end}}时</h3>
+      <p>{{item.modified | str2date | date: "yyyy/MM/dd HH:mm"}}</p>
+    </button>
+  </ion-list>
+
+  <div *ngIf="list.length <= 0">
+    没有找到相应拍场去创建
+    <button (click)="showGamePublishPage()">去创建</button>
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [hidden]="!infiniteEnabled">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="数据加载中...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

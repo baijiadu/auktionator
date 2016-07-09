@@ -1,4 +1,4 @@
-import {NavController, Modal, Loading, NavParams, ViewController} from 'ionic-angular';
+import {NavController, Modal, Loading, NavParams, ViewController, Alert} from 'ionic-angular';
 import {Component} from '@angular/core';
 
 import Mixins from '../../mixins';
@@ -38,6 +38,7 @@ export class GamePublishPage {
         begin: 18,
         end: 21,
         dateNo: this.nowDateNo,
+        covers: {},
       };
 
     this.dateRange = {
@@ -45,7 +46,8 @@ export class GamePublishPage {
       upper: this.game.end,
     };
 
-    this.covers = {}; // 封面
+    this.game.covers = this.game.covers || {}; // 封面详情
+    this.covers = this.game.covers;
     this.uploadImageLimit = Config.productPublishImageLimit;
   }
 
@@ -64,6 +66,32 @@ export class GamePublishPage {
     return !!this.game.id;
   }
 
+  saveAsDraft() {
+    const {_sections, title, content, dateNo, begin, end, cover} = this.game;
+    const {lg, sm1, sm2} = this.covers;
+
+    if (!title) return Mixins.toast('请设置拍场标题');
+    if (!content) return Mixins.toast('请填写拍场说明');
+    if (lg && (!sm1 || !sm2) || sm1 && (!lg || !sm2) || sm2 && (!lg || !sm1)) return Mixins.toast('请设置拍场封面');
+
+    let loading = Loading.create({
+      content: '保存中...'
+    });
+
+    this.game.status = 0;
+    this.nav.present(loading).then(() => {
+      if (!cover && lg && sm1 && sm2) {
+        // 合成封面
+        this.uploadCover().then((cover) => {
+          this.game.cover = cover;
+          this.upsertGame(loading);
+        }, (err) => Mixins.toast('合成封面异常'));
+      } else {
+        this.upsertGame(loading);
+      }
+    });
+  }
+
   onSubmit() {
     const {_sections, title, content, dateNo, begin, end, cover} = this.game;
     const {lg, sm1, sm2} = this.covers;
@@ -75,23 +103,38 @@ export class GamePublishPage {
     if (!_sections || _sections.length <= 0) return Mixins.toast('请选择至少一件拍品');
     if (!lg || !sm1 || !sm2) return Mixins.toast('请设置拍场封面');
 
-    let loading = Loading.create({
-      content: this.isEdit ? '提交中...' : '发布中...'
-    });
+    let confirm = Alert.create({
+      title: '拍场发布确认',
+      message: '拍场发布后将不能再修改相关信息，是否继续操作？',
+      buttons: [
+        {
+          text: '再看看',
+          handler: () => {}
+        },
+        {
+          text: '确认发布',
+          handler: () => {
+            let loading = Loading.create({
+              content: '发布中...'
+            });
 
-    this.nav.present(loading).then(() => {
-      if (!cover) {
-        // 合成封面
-        this.uploadCover().then((cover) => {
-          this.game.cover = cover;
-          this.upsertGame(loading);
-        }, (err) => {
-          Mixins.toast('合成封面异常');
-        });
-      } else {
-        this.upsertGame(loading);
-      }
+            this.game.status = 1;
+            this.nav.present(loading).then(() => {
+              if (!cover) {
+                // 合成封面
+                this.uploadCover().then((cover) => {
+                  this.game.cover = cover;
+                  this.upsertGame(loading);
+                }, (err) => Mixins.toast('合成封面异常'));
+              } else {
+                this.upsertGame(loading);
+              }
+            });
+          }
+        }
+      ]
     });
+    this.nav.present(confirm);
   }
 
   upsertGame(loading) {
@@ -145,7 +188,8 @@ export class GamePublishPage {
     var {id} = this.game._sections[i];
 
     this.nav.push(ProductDetailPage, {
-      product: {id}
+      product: {id},
+      readonly: true,
     });
   }
 
@@ -156,6 +200,9 @@ export class GamePublishPage {
     modal.onDismiss(cover => {
       if (cover) {
         this.covers[name] = cover;
+
+        // 一旦选择了封面，就需要重新合成封面
+        this.game.cover = null;
       }
     });
     this.nav.present(modal);

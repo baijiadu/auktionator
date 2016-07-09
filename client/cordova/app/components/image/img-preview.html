@@ -7,7 +7,7 @@
   </ion-buttons>
 </ion-toolbar>
 <ion-content>
-  <ion-slides pager [initialSlide]="initial">
+  <ion-slides pager [initialSlide]="initial" [options]="{lazyLoading: true}">
     <ion-slide *ngFor="let item of imgs">
       <img src="{{item.normal}}"/>
     </ion-slide>

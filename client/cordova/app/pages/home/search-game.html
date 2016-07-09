@@ -1,0 +1,37 @@
+<ion-navbar *navbar>
+  <ion-title>查找拍场</ion-title>
+  <ion-buttons end>
+    <button>
+      <ion-icon ios="ios-funnel-outline" md="md-funnel"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-toolbar>
+  <ion-searchbar [(ngModel)]="keyword" (ionInput)="inputChanged($event)" (ionCancel)="cancelSearch($event)" placeholder="输入拍场名称进行查找" cancelButtonText="取消"></ion-searchbar>
+</ion-toolbar>
+
+<ion-content>
+  <ion-list>
+    <ion-card *ngFor="let item of list" class="game-item" (click)="enterGameDetail(item)">
+      <ion-item>
+        <ion-avatar item-left>
+          <img class="avatar" src="{{item.auktionator?.avatar}}">
+        </ion-avatar>
+        <h2>{{item.auktionator?.nickname || item.auktionator?.username}} | {{item.auktionator?.score}}</h2>
+      </ion-item>
+      <ion-card-content>
+        <img src="{{item.cover}}">
+        <h2>{{item.title}}</h2>
+        <h3>{{item.dateNo}} {{item.begin}} ~ {{item.end}}时</h3>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [hidden]="!infiniteEnabled">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="数据加载中...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
