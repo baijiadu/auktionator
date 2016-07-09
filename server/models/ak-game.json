@@ -29,7 +29,12 @@
     },
     "cover": {
       "type": "string",
-      "description": "拍场封面图"
+      "description": "拍场封面图",
+      "default": "http://o90y24fg0.bkt.clouddn.com/default_game_cover.jpg"
+    },
+    "covers": {
+      "type": "object",
+      "description": "拍场封面图详细"
     },
     "begin": {
       "type": "number",
@@ -57,6 +62,12 @@
       "type": "number",
       "description": "拍品状态，包括：0（编辑状态，默认），1（已发布，未开始），2（进行中），3（已结束），10（被中断），20（其他情况）",
       "required": true,
+      "default": 0
+    },
+    "onlineNum": {
+      "type": "number",
+      "description": "在线人数",
+      "required": false,
       "default": 0
     }
   },
