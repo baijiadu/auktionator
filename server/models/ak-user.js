@@ -303,10 +303,10 @@ module.exports = function (AkUser) {
 
       var verifyCode = results.checkTelVerifyCode;
       // 发送短消息（暂时注释掉）
-      //alidayu.sendVerifyCode(tel, verifyCode.code, function (err) {
-      //  if (err) return done({status: 500, message: '获取验证码失败，请稍后重试', code: 103});
-      //  done(null, new Date().getTime());
-      //});
+      alidayu.sendVerifyCode(tel, verifyCode.code, function (err) {
+       if (err) return done({status: 500, message: '获取验证码失败，请稍后重试', code: 103});
+       done(null, new Date().getTime());
+      });
 
       // 穷，只能打log了
       console.log('短信验证码：', verifyCode.code);
@@ -372,34 +372,6 @@ module.exports = function (AkUser) {
     returns: {
       arg: 'ts',
       type: 'number'
-    }
-  });
-
-  AkUser.qiniuUptoken = function (count, done) {
-    var tokens = [], key;
-    for (var i = 0; i < count; i++) {
-      key = Util.generateRandomStr() + '_' + new Date().getTime();
-      tokens.push({
-        key: key,
-        token: qiniu.upToken(key),
-      });
-    }
-    done(null, tokens);
-  };
-  AkUser.remoteMethod('qiniuUptoken', {
-    http: {path: '/qiniu/uptoken', verb: 'post'},
-    accepts: [{
-      arg: 'count',
-      type: 'number',
-      required: false,
-      default: 1,
-    }],
-    description: '获取七牛上传token，可同时生成多个',
-    returns: {
-      arg: 'tokens',
-      type: [
-        "object"
-      ],
     }
   });
 };

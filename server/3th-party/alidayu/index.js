@@ -9,7 +9,7 @@ module.exports = function (appkey, appsecret, REST_URL) {
 
   return {
     sendVerifyCode: function (tel, code, cb) {
-      alidayu.client.execute('alibaba.aliqin.fc.sms.num.send', {
+      client.execute('alibaba.aliqin.fc.sms.num.send', {
         extend: '123456',
         sms_type: 'normal',
         sms_free_sign_name: '身份验证',
