@@ -1,14 +1,16 @@
-<ion-navbar *navbar>
-  <ion-buttons start>
-    <button dark (click)="dismiss()">取消</button>
-  </ion-buttons>
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button dark (click)="dismiss()">取消</button>
+    </ion-buttons>
 
-  <ion-title>{{isEdit ? '编辑拍场' : '创建拍场'}}</ion-title>
+    <ion-title>{{isEdit ? '编辑拍场' : '创建拍场'}}</ion-title>
 
-  <ion-buttons end>
-    <button dark (click)="saveAsDraft()">存为草稿</button>
-  </ion-buttons>
-</ion-navbar>
+    <ion-buttons end>
+      <button dark (click)="saveAsDraft()">存为草稿</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="game-publish-page">
   <form #publishForm="ngForm" novalidate>

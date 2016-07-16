@@ -1,26 +1,27 @@
-<ion-navbar *navbar>
-  <ion-title>拍品管理</ion-title>
-</ion-navbar>
-
-<ion-toolbar padding>
-  <ion-segment [(ngModel)]="statusName" (ionChange)="statusChanged()">
-    <ion-segment-button value="all">
-      全部
-    </ion-segment-button>
-    <ion-segment-button value="processing">
-      处理中
-      <ion-badge item-right danger [hidden]="processingProductCount <= 0">{{processingProductCount}}</ion-badge>
-    </ion-segment-button>
-    <ion-segment-button value="online">
-      进行中
-      <ion-badge item-right danger [hidden]="onlineProductCount <= 0">{{onlineProductCount}}</ion-badge>
-    </ion-segment-button>
-    <ion-segment-button value="ended">
-      已结束
-      <ion-badge item-right danger [hidden]="endedProductCount <= 0">{{endedProductCount}}</ion-badge>
-    </ion-segment-button>
-  </ion-segment>
-</ion-toolbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>拍品管理</ion-title>
+  </ion-navbar>
+  <ion-toolbar padding>
+    <ion-segment [(ngModel)]="statusName" (ionChange)="statusChanged()">
+      <ion-segment-button value="all">
+        全部
+      </ion-segment-button>
+      <ion-segment-button value="processing">
+        处理中
+        <ion-badge item-right danger [hidden]="processingProductCount <= 0">{{processingProductCount}}</ion-badge>
+      </ion-segment-button>
+      <ion-segment-button value="online">
+        进行中
+        <ion-badge item-right danger [hidden]="onlineProductCount <= 0">{{onlineProductCount}}</ion-badge>
+      </ion-segment-button>
+      <ion-segment-button value="ended">
+        已结束
+        <ion-badge item-right danger [hidden]="endedProductCount <= 0">{{endedProductCount}}</ion-badge>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content *ngFor="let statusData of statusesData" [hidden]="statusData.name !== statusName">
   <ion-refresher (ionRefresh)="doRefresh($event)">
@@ -43,13 +44,13 @@
         <p>{{item.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{item.status | productStatus: user.identity}}</p>
       </ion-item>
 
-      <ion-item-options *ngSwitchWhen="0" icon-left>
+      <ion-item-options *ngSwitchCase="0" icon-left>
         <button secondary (click)="cancelItem(slidingItem, item)">
           <ion-icon name="hammer"></ion-icon>
           取消
         </button>
       </ion-item-options>
-      <ion-item-options *ngSwitchWhen="13" icon-left>
+      <ion-item-options *ngSwitchCase="13" icon-left>
         <button secondary (click)="editProduct(slidingItem, item)">
           <ion-icon name="create"></ion-icon>
           编辑

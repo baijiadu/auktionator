@@ -7,6 +7,7 @@ const AKStorage = {
   THIRD_PARTY: 'AK_' + 'THIRD_PARTY',
   CURRENT_USER: 'AK_' + 'CURRENT_USER',
   NOTIFICATION_DATA: 'AK_' + 'NOTIFICATION_DATA',
+  HOME_DATA: 'AK_' + 'HOME_DATA',
 
   // 以下是接口
   // 获取所有第三方登录记录
@@ -33,28 +34,15 @@ const AKStorage = {
       })
     }
   },
-
-  // 保存当前用户信息
-  saveCurrentUser(user = null) {
-    if (user) local.setJson(AKStorage.CURRENT_USER, user);
-    else local.remove(AKStorage.CURRENT_USER);
+  load(key) {
+    if (store[key]) return Promise.resolve(store[key]);
+    return local.getJson(key).then(value => store[key] = value);
   },
-
-  // 获取用户历史信息
-  loadCurrentUser() {
-    if (store.currentUser) return Promise.resolve(store.currentUser);
-    return local.getJson(AKStorage.CURRENT_USER).then(value => store.currentUser = value);
+  save(key, value) {
+    store[key] = value;
+    if (value) local.setJson(key, value);
+    else local.remove(key);
   },
-
-  loadNotificationData() {
-    if (store.notificationData) return Promise.resolve(store.notificationData);
-    return local.getJson(AKStorage.NOTIFICATION_DATA).then(value => store.notificationData = value);
-  },
-
-  saveNotificationData(data = null) {
-    if (data) local.setJson(AKStorage.NOTIFICATION_DATA, data);
-    else local.remove(AKStorage.NOTIFICATION_DATA);
-  }
 };
 
 export default AKStorage;

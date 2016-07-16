@@ -1,13 +1,15 @@
-<ion-navbar *navbar>
-  <ion-buttons start>
-    <button dark (click)="dismiss()">返回</button>
-  </ion-buttons>
-  <ion-title>选择拍卖师</ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button dark (click)="dismiss()">返回</button>
+    </ion-buttons>
+    <ion-title>选择拍卖师</ion-title>
+  </ion-navbar>
 
-<ion-toolbar>
-  <ion-searchbar [(ngModel)]="keyword" (ionInput)="inputChanged($event)" (ionCancel)="cancelSearch($event)" placeholder="输入拍卖师名称进行查找" cancelButtonText="取消"></ion-searchbar>
-</ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="keyword" (ionInput)="inputChanged($event)" (ionCancel)="cancelSearch($event)" placeholder="输入拍卖师名称进行查找" cancelButtonText="取消"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
   <!--<ion-searchbar [(ngModel)]="keyword" (ionInput)="inputChanged($event)" (ionCancel)="cancelSearch($event)" placeholder="输入拍卖师名称进行查找" cancelButtonText="取消"></ion-searchbar>-->

@@ -1,20 +1,22 @@
-<ion-navbar *navbar>
-  <ion-buttons start>
-    <button dark (click)="dismiss()">返回</button>
-  </ion-buttons>
-  <ion-title>用户登录</ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button dark (click)="dismiss()">返回</button>
+    </ion-buttons>
+    <ion-title>用户登录</ion-title>
+  </ion-navbar>
 
-<ion-toolbar padding>
-  <ion-segment [(ngModel)]="actionType">
-    <ion-segment-button value="login">
-      登录
-    </ion-segment-button>
-    <ion-segment-button value="register">
-      注册
-    </ion-segment-button>
-  </ion-segment>
-</ion-toolbar>
+  <ion-toolbar padding>
+    <ion-segment [(ngModel)]="actionType">
+      <ion-segment-button value="login">
+        登录
+      </ion-segment-button>
+      <ion-segment-button value="register">
+        注册
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
   <div [hidden]="actionType !== 'login'">

@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import {Events} from 'ionic-angular';
 
 import Config from '../config';
@@ -14,9 +13,7 @@ export class Notification {
   constructor(events) {
     this.events = events;
 
-    AKStorage.loadNotificationData().then(data => {
-      this.__data = data || {};
-    });
+    AKStorage.load(AKStorage.NOTIFICATION_DATA).then(data => this.__data = data || {});
 
     this.events.subscribe('receiveNotification', (data) => {
       let jPushPlugin = window.plugins.jPushPlugin;
@@ -66,7 +63,7 @@ export class Notification {
 
     data[key] = value;
     this.__data = data;
-    AKStorage.saveNotificationData(data);
+    AKStorage.save(AKStorage.NOTIFICATION_DATA, data);
   }
 
   increase(key, value = 1) {

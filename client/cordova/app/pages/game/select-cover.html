@@ -1,10 +1,12 @@
-<ion-navbar *navbar>
-  <ion-buttons start>
-    <button dark (click)="dismiss()">取消</button>
-  </ion-buttons>
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button dark (click)="dismiss()">取消</button>
+    </ion-buttons>
 
-  <ion-title>选择拍品</ion-title>
-</ion-navbar>
+    <ion-title>选择拍品</ion-title>
+  </ion-navbar>
+</ion-header>
 
 <ion-content>
   <ion-list *ngFor="let item of products">

@@ -55,16 +55,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-wechat": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-wechat"
-        },
-        "is_top_level": true,
-        "variables": {
-            "WECHATAPPID": "wx3006fc97ebd84399"
-        }
-    },
     "cordova-plugin-image-picker": {
         "source": {
             "type": "registry",
@@ -105,6 +95,16 @@
         "is_top_level": true,
         "variables": {
             "API_KEY": "a94e0480938648913f966492"
+        }
+    },
+    "cordova-plugin-wechat": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-wechat"
+        },
+        "is_top_level": true,
+        "variables": {
+            "WECHATAPPID": "wx3006fc97ebd84399"
         }
     }
 }

@@ -1,15 +1,15 @@
 <ion-grid [ngSwitch]="cols">
   <!--<ion-row *ngFor="let row of imgs | list2gird:cols, let i = index">-->
     <!--<template ngFor let-col [ngForOf]="row" let-j="index" let-k="i * cols + j">-->
-      <!--<ion-col center width-25 *ngSwitchWhen="4">-->
+      <!--<ion-col center width-25 *ngSwitchCase="4">-->
         <!--<ion-icon gray class="del-btn" name="close-circle" *ngIf="editable" (click)="delImg(k)"></ion-icon>-->
         <!--<img src="{{col.thumb}}" (click)="previewImg(k)"/>-->
       <!--</ion-col>-->
-      <!--<ion-col center width-33 *ngSwitchWhen="3">-->
+      <!--<ion-col center width-33 *ngSwitchCase="3">-->
         <!--<ion-icon gray class="del-btn" name="close-circle" *ngIf="editable" (click)="delImg(k)"></ion-icon>-->
         <!--<img src="{{col.thumb}}" (click)="previewImg(k)"/>-->
       <!--</ion-col>-->
-      <!--<ion-col center width-50 *ngSwitchWhen="2">-->
+      <!--<ion-col center width-50 *ngSwitchCase="2">-->
         <!--<ion-icon gray class="del-btn" name="close-circle" *ngIf="editable" (click)="delImg(k)"></ion-icon>-->
         <!--<img src="{{col.thumb}}" (click)="previewImg(k)"/>-->
       <!--</ion-col>-->

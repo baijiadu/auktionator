@@ -1,4 +1,4 @@
-<ion-content class="game-detail-page">
+<ion-header class="game-detail-page">
   <div class="top-covers">
     <ion-slides [options]="{lazyLoading: true, paginationType: 'fraction'}">
       <ion-slide *ngFor="let item of currentProduct?.uploadImages, let i = index">
@@ -45,7 +45,7 @@
       </ion-segment-button>
     </ion-segment>
   </div>
-</ion-content>
+</ion-header>
 
 <ion-content class="game-detail-page">
   <div class="ak-info" [hidden]="tabName !== 'akInfo'">
@@ -70,30 +70,32 @@
   </div>
 </ion-content>
 
-<ion-toolbar class="ak-actions" position="bottom" *ngIf="user?.identity === 0">
-  <ion-input placeholder="来说两句吧..."></ion-input>
-  <ion-buttons end>
-    <button>
-      <ion-icon name="chatbubbles"></ion-icon>
-      发言
-    </button>
-    <button>
-      <ion-icon name="hand"></ion-icon>
-      出价
-    </button>
-  </ion-buttons>
-</ion-toolbar>
+<ion-footer>
+  <ion-toolbar class="ak-actions" *ngIf="user?.identity === 0">
+    <ion-input placeholder="来说两句吧..."></ion-input>
+    <ion-buttons end>
+      <button>
+        <ion-icon name="chatbubbles"></ion-icon>
+        发言
+      </button>
+      <button>
+        <ion-icon name="hand"></ion-icon>
+        出价
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 
-<ion-toolbar class="ak-actions" position="bottom" *ngIf="user?.identity === 2">
-  <ion-input placeholder="来说两句吧..."></ion-input>
-  <ion-buttons end>
-    <button>
-      <ion-icon name="chatbubbles"></ion-icon>
-      发言
-    </button>
-    <button>
-      <ion-icon name="timer"></ion-icon>
-      倒计时
-    </button>
-  </ion-buttons>
-</ion-toolbar>
+  <ion-toolbar class="ak-actions" *ngIf="user?.identity === 2">
+    <ion-input placeholder="来说两句吧..."></ion-input>
+    <ion-buttons end>
+      <button>
+        <ion-icon name="chatbubbles"></ion-icon>
+        发言
+      </button>
+      <button>
+        <ion-icon name="timer"></ion-icon>
+        倒计时
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

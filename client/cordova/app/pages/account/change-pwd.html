@@ -1,9 +1,12 @@
-<ion-navbar *navbar>
-  <ion-buttons start>
-    <button dark (click)="dismiss()">返回</button>
-  </ion-buttons>
-  <ion-title>登录</ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button dark (click)="dismiss()">返回</button>
+    </ion-buttons>
+    <ion-title>登录</ion-title>
+  </ion-navbar>
+</ion-header>
+
 <ion-content padding>
   <form #loginForm="ngForm" novalidate>
     <ion-item>

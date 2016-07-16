@@ -1,14 +1,16 @@
-<ion-navbar *navbar>
-  <ion-title>拍品详细</ion-title>
-  <ion-buttons end>
-    <button (click)="favorite()" *ngIf="user?.identity === 0">
-      <ion-icon name="heart"></ion-icon>
-    </button>
-    <button (click)="share()">
-      <ion-icon name="share"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>拍品详细</ion-title>
+    <ion-buttons end>
+      <button (click)="favorite()" *ngIf="user?.identity === 0">
+        <ion-icon name="heart"></ion-icon>
+      </button>
+      <button (click)="share()">
+        <ion-icon name="share"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="product-detail-page">
   <ion-refresher (ionRefresh)="doRefresh($event)">
@@ -50,45 +52,47 @@
   </ion-card>
 </ion-content>
 
-<template [ngIf]="user && !readonly">
-  <ion-toolbar position="bottom" *ngIf="user.id == product.ownerId" [ngSwitch]="product.status">
-    <span>{{product.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{product.status | productStatus: user.identity}}</span>
-    <button *ngSwitchWhen="0" (click)="cancelProduct()">
-      取消
-    </button>
-    <button *ngSwitchWhen="3" (click)="enterGame()">
-      进入拍场
-    </button>
-    <button *ngSwitchWhen="4" (click)="enterGame()">
-      进入拍场
-    </button>
-    <button *ngSwitchWhen="5" (click)="showOrderPage()">
-      查看订单信息
-    </button>
-  </ion-toolbar>
+<ion-footer>
+  <template [ngIf]="user && !readonly">
+    <ion-toolbar position="bottom" *ngIf="user.id == product.ownerId" [ngSwitch]="product.status">
+      <span>{{product.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{product.status | productStatus: user.identity}}</span>
+      <button *ngSwitchCase="0" (click)="cancelProduct()">
+        取消
+      </button>
+      <button *ngSwitchCase="3" (click)="enterGame()">
+        进入拍场
+      </button>
+      <button *ngSwitchCase="4" (click)="enterGame()">
+        进入拍场
+      </button>
+      <button *ngSwitchCase="5" (click)="showOrderPage()">
+        查看订单信息
+      </button>
+    </ion-toolbar>
 
-  <ion-toolbar position="bottom" *ngIf="user.id == product.auktionatorId" [ngSwitch]="product.status">
-    <span>{{product.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{product.status | productStatus: user.identity}}</span>
-    <button *ngSwitchWhen="0" (click)="agreeProduct()">
-      同意
-    </button>
-    <button *ngSwitchWhen="0" (click)="rejectProduct()">
-      拒绝
-    </button>
-    <button *ngSwitchWhen="1" (click)="selectGame()">
-      选择拍场
-    </button>
-    <button *ngSwitchWhen="6" (click)="selectGame()">
-      选择拍场
-    </button>
-    <button *ngSwitchWhen="2" (click)="selectGame(true)">
-      切换拍场
-    </button>
-    <button *ngSwitchWhen="3" (click)="enterGame()">
-      进入拍场
-    </button>
-    <button *ngSwitchWhen="4" (click)="enterGame()">
-      进入拍场
-    </button>
-  </ion-toolbar>
-</template>
+    <ion-toolbar position="bottom" *ngIf="user.id == product.auktionatorId" [ngSwitch]="product.status">
+      <span>{{product.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{product.status | productStatus: user.identity}}</span>
+      <button *ngSwitchCase="0" (click)="agreeProduct()">
+        同意
+      </button>
+      <button *ngSwitchCase="0" (click)="rejectProduct()">
+        拒绝
+      </button>
+      <button *ngSwitchCase="1" (click)="selectGame()">
+        选择拍场
+      </button>
+      <button *ngSwitchCase="6" (click)="selectGame()">
+        选择拍场
+      </button>
+      <button *ngSwitchCase="2" (click)="selectGame(true)">
+        切换拍场
+      </button>
+      <button *ngSwitchCase="3" (click)="enterGame()">
+        进入拍场
+      </button>
+      <button *ngSwitchCase="4" (click)="enterGame()">
+        进入拍场
+      </button>
+    </ion-toolbar>
+  </template>
+</ion-footer>

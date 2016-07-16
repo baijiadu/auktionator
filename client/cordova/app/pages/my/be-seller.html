@@ -1,10 +1,15 @@
-<ion-navbar *navbar>
-  <ion-title>商家入驻</ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>商家入驻</ion-title>
+  </ion-navbar>
+</ion-header>
 
 <ion-content padding>
   <h1>服务条款</h1>
 </ion-content>
-<ion-toolbar position="bottom" no-padding>
-  <button full (click)="approve()">同意并入驻</button>
-</ion-toolbar>
+
+<ion-footer>
+  <ion-toolbar no-padding>
+    <button full (click)="approve()">同意并入驻</button>
+  </ion-toolbar>
+</ion-footer>

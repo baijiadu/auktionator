@@ -1,23 +1,25 @@
-<ion-navbar *navbar>
-  <ion-title>用户管理</ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>用户管理</ion-title>
+  </ion-navbar>
 
-<ion-toolbar padding>
-  <ion-segment [(ngModel)]="statusName" (ionChange)="statusChanged()">
-    <ion-segment-button value="all">
-      全部
-    </ion-segment-button>
-    <ion-segment-button value="buyer">
-      买家
-    </ion-segment-button>
-    <ion-segment-button value="seller">
-      卖家
-    </ion-segment-button>
-    <ion-segment-button value="auktionator">
-      拍卖师
-    </ion-segment-button>
-  </ion-segment>
-</ion-toolbar>
+  <ion-toolbar padding>
+    <ion-segment [(ngModel)]="statusName" (ionChange)="statusChanged()">
+      <ion-segment-button value="all">
+        全部
+      </ion-segment-button>
+      <ion-segment-button value="buyer">
+        买家
+      </ion-segment-button>
+      <ion-segment-button value="seller">
+        卖家
+      </ion-segment-button>
+      <ion-segment-button value="auktionator">
+        拍卖师
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content *ngFor="let statusData of statusesData" [hidden]="statusData.name !== statusName">
   <ion-refresher (ionRefresh)="doRefresh($event)">
@@ -36,14 +38,14 @@
           <img src="{{item.avatar}}"/>
         </ion-avatar>
         <h2>{{item.nickname || item.username}}</h2>
-        <h3 *ngSwitchWhen="0">买家</h3>
-        <h3 *ngSwitchWhen="1">卖家</h3>
-        <h3 *ngSwitchWhen="2">拍卖师</h3>
-        <h3 *ngSwitchWhen="3">管理员</h3>
+        <h3 *ngSwitchCase="0">买家</h3>
+        <h3 *ngSwitchCase="1">卖家</h3>
+        <h3 *ngSwitchCase="2">拍卖师</h3>
+        <h3 *ngSwitchCase="3">管理员</h3>
         <p>{{item.tel}}</p>
       </ion-item>
 
-      <ion-item-options *ngSwitchWhen="0" icon-left>
+      <ion-item-options *ngSwitchCase="0" icon-left>
         <button primary (click)="identityChanged(slidingItem, item, 1)">
           <ion-icon name="cart"></ion-icon>
           卖家
@@ -58,7 +60,7 @@
         </button>
       </ion-item-options>
 
-      <ion-item-options *ngSwitchWhen="1" icon-left>
+      <ion-item-options *ngSwitchCase="1" icon-left>
         <button primary (click)="identityChanged(slidingItem, item, 0)">
           <ion-icon name="cart"></ion-icon>
           买家

@@ -30,7 +30,7 @@ export class LoginPage {
     this.weixinInstalled = false;
   }
 
-  ionViewDidEnter() {
+  ionViewLoaded() {
     Wechat.isInstalled(installed => {
       this.weixinInstalled = !!installed;
     }, reason => {
@@ -139,33 +139,34 @@ export class LoginPage {
         let loading = Loading.create({
           content: "跳转中..."
         });
-        this.nav.present(loading);
-
-        switch (platform) {
-          case 'weixin':
-            Wechat.auth('snsapi_userinfo', '_' + Date.now(), res => {
-              loading.dismiss();
-              this.userService.weixinAuth(res.code, tel).then(
-                user => {
-                  this.viewCtrl.dismiss(user);
-                  // 保存微信第三方登录相关信息
-                  AKStorage.upsertThirdParty({
-                    name: 'weixin',
-                    openid: user.wx_openid,
-                    unionid: user.wx_unionid,
-                  });
-                },
-                err => Mixins.toastAPIError(err));
-            }, reason => {
-              Mixins.toast(reason);
-            });
-            break;
-          case 'qq':
-            // TODO
-            break;
-          default:
-            break;
-        }
+        this.nav.present(loading).then(() => {
+          switch (platform) {
+            case 'weixin':
+              Wechat.auth('snsapi_userinfo', '_' + Date.now(), res => {
+                loading.dismiss().then(() => {
+                  this.userService.weixinAuth(res.code, tel).then(
+                    user => {
+                      this.viewCtrl.dismiss(user);
+                      // 保存微信第三方登录相关信息
+                      AKStorage.upsertThirdParty({
+                        name: 'weixin',
+                        openid: user.wx_openid,
+                        unionid: user.wx_unionid,
+                      });
+                    },
+                    err => Mixins.toastAPIError(err));
+                });
+              }, reason => {
+                Mixins.toast(reason);
+              });
+              break;
+            case 'qq':
+              // TODO
+              break;
+            default:
+              break;
+          }
+        });
       }
     });
   }

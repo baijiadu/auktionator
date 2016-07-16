@@ -18,7 +18,7 @@ export class UserService extends LoopbackAPI {
 
   set currentUser(user) {
     this.__currentUser = user;
-    AKStorage.saveCurrentUser(user);
+    AKStorage.save(AKStorage.CURRENT_USER, user);
   }
 
   constructor(http, events) {

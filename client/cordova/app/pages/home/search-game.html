@@ -1,15 +1,17 @@
-<ion-navbar *navbar>
-  <ion-title>查找拍场</ion-title>
-  <ion-buttons end>
-    <button>
-      <ion-icon ios="ios-funnel-outline" md="md-funnel"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>查找拍场</ion-title>
+    <ion-buttons end>
+      <button>
+        <ion-icon ios="ios-funnel-outline" md="md-funnel"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 
-<ion-toolbar>
-  <ion-searchbar [(ngModel)]="keyword" (ionInput)="inputChanged($event)" (ionCancel)="cancelSearch($event)" placeholder="输入拍场名称进行查找" cancelButtonText="取消"></ion-searchbar>
-</ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="keyword" (ionInput)="inputChanged($event)" (ionCancel)="cancelSearch($event)" placeholder="输入拍场名称进行查找" cancelButtonText="取消"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
   <ion-list>

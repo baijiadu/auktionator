@@ -1,11 +1,14 @@
-<ion-toolbar>
-  <ion-title>
-    图片预览
-  </ion-title>
-  <ion-buttons end>
-    <button dark (click)="dismiss()">关闭</button>
-  </ion-buttons>
-</ion-toolbar>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      图片预览
+    </ion-title>
+    <ion-buttons end>
+      <button dark (click)="dismiss()">关闭</button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
   <ion-slides pager [initialSlide]="initial" [options]="{lazyLoading: true}">
     <ion-slide *ngFor="let item of imgs">

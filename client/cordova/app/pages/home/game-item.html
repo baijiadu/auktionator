@@ -1,0 +1,13 @@
+<ion-card class="game-item">
+  <ion-item>
+    <ion-avatar item-left>
+      <img class="avatar" src="{{item.auktionator?.avatar}}">
+    </ion-avatar>
+    <h2>{{item.auktionator?.nickname || item.auktionator?.username}} | {{item.auktionator?.score}}</h2>
+  </ion-item>
+  <ion-card-content>
+    <img src="{{item.cover}}">
+    <h2>{{item.title}}</h2>
+    <h3>{{item.dateNo}} {{item.begin}} ~ {{item.end}}时</h3>
+  </ion-card-content>
+</ion-card>

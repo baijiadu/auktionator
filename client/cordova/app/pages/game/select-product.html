@@ -1,16 +1,18 @@
-<ion-navbar *navbar>
-  <ion-buttons start>
-    <button dark (click)="dismiss()">返回</button>
-  </ion-buttons>
-  <ion-title>选择拍品</ion-title>
-  <ion-buttons end>
-    <button dark (click)="dismiss(checkedList)" [disabled]="checkedList.length <= 0">确定</button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button dark (click)="dismiss()">返回</button>
+    </ion-buttons>
+    <ion-title>选择拍品</ion-title>
+    <ion-buttons end>
+      <button dark (click)="dismiss(checkedList)" [disabled]="checkedList.length <= 0">确定</button>
+    </ion-buttons>
+  </ion-navbar>
 
-<ion-toolbar>
-  <ion-searchbar [(ngModel)]="keyword" (ionInput)="inputChanged($event)" (ionCancel)="cancelSearch($event)" placeholder="输入卖家名称进行查找" cancelButtonText="取消"></ion-searchbar>
-</ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="keyword" (ionInput)="inputChanged($event)" (ionCancel)="cancelSearch($event)" placeholder="输入卖家名称进行查找" cancelButtonText="取消"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
   <ion-list>

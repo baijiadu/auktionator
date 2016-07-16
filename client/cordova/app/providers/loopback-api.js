@@ -55,11 +55,13 @@ export class LoopbackAPI {
   handleRequest(observable, resolve, reject) {
     return observable
       .map(res => res.json())
-      .do(res => this.handleSuccess(res))
-      .subscribe(data => {
-        resolve(data);
+      .subscribe(res => {
+        if (!Config.isProd) this.handleSuccess(res);
+
+        resolve(res);
       }, res => {
-        this.handleError(res);
+        if (!Config.isProd) this.handleError(res);
+
         if (res.type === 2) {
           // API访问成功错误
           reject(JSON.parse(res._body).error);

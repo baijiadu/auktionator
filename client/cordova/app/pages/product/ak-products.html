@@ -1,24 +1,26 @@
-<ion-navbar *navbar>
-  <ion-title>拍品管理</ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>拍品管理</ion-title>
+  </ion-navbar>
+  <ion-toolbar padding>
+    <ion-segment [(ngModel)]="statusName" (ionChange)="statusChanged()">
+      <ion-segment-button value="all">
+        全部
+      </ion-segment-button>
+      <ion-segment-button value="pending">
+        未处理
+        <ion-badge item-right danger [hidden]="pendingProductCount <= 0">{{pendingProductCount}}</ion-badge>
+      </ion-segment-button>
+      <ion-segment-button value="online">
+        待上架
+      </ion-segment-button>
+      <ion-segment-button value="ended">
+        已结束
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
 
-<ion-toolbar padding>
-  <ion-segment [(ngModel)]="statusName" (ionChange)="statusChanged()">
-    <ion-segment-button value="all">
-      全部
-    </ion-segment-button>
-    <ion-segment-button value="pending">
-      未处理
-      <ion-badge item-right danger [hidden]="pendingProductCount <= 0">{{pendingProductCount}}</ion-badge>
-    </ion-segment-button>
-    <ion-segment-button value="online">
-      待上架
-    </ion-segment-button>
-    <ion-segment-button value="ended">
-      已结束
-    </ion-segment-button>
-  </ion-segment>
-</ion-toolbar>
 <ion-content *ngFor="let statusData of statusesData" [hidden]="statusData.name !== statusName">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
@@ -40,7 +42,7 @@
         <p>{{item.modified | str2date | date: "yyyy/MM/dd HH:mm"}} | {{item.status | productStatus: user.identity}}</p>
       </ion-item>
 
-      <ion-item-options *ngSwitchWhen="0" icon-left>
+      <ion-item-options *ngSwitchCase="0" icon-left>
         <button secondary (click)="confirmItem(slidingItem, item)">
           <ion-icon name="hammer"></ion-icon>
           同意
@@ -51,21 +53,21 @@
         </button>
       </ion-item-options>
 
-      <ion-item-options *ngSwitchWhen="1" icon-left>
+      <ion-item-options *ngSwitchCase="1" icon-left>
         <button secondary (click)="selectGame(slidingItem, item)">
           <ion-icon name="hammer"></ion-icon>
           选择拍场
         </button>
       </ion-item-options>
 
-      <ion-item-options *ngSwitchWhen="6" icon-left>
+      <ion-item-options *ngSwitchCase="6" icon-left>
         <button secondary (click)="selectGame(slidingItem, item)">
           <ion-icon name="hammer"></ion-icon>
           选择拍场
         </button>
       </ion-item-options>
 
-      <ion-item-options *ngSwitchWhen="2" icon-left>
+      <ion-item-options *ngSwitchCase="2" icon-left>
         <button secondary (click)="selectGame(slidingItem, item, true)">
           <ion-icon name="hammer"></ion-icon>
           切换拍场

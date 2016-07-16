@@ -1,23 +1,26 @@
-<ion-navbar *navbar>
-  <ion-title>拍场管理</ion-title>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>拍场管理</ion-title>
+  </ion-navbar>
 
-<ion-toolbar padding>
-  <ion-segment [(ngModel)]="statusName" (ionChange)="statusChanged()">
-    <ion-segment-button value="all">
-      全部
-    </ion-segment-button>
-    <ion-segment-button value="pending">
-      待发布
-    </ion-segment-button>
-    <ion-segment-button value="online">
-      已发布
-    </ion-segment-button>
-    <ion-segment-button value="ended">
-      已结束
-    </ion-segment-button>
-  </ion-segment>
-</ion-toolbar>
+  <ion-toolbar padding>
+    <ion-segment [(ngModel)]="statusName" (ionChange)="statusChanged()">
+      <ion-segment-button value="all">
+        全部
+      </ion-segment-button>
+      <ion-segment-button value="pending">
+        待发布
+      </ion-segment-button>
+      <ion-segment-button value="online">
+        已发布
+      </ion-segment-button>
+      <ion-segment-button value="ended">
+        已结束
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content *ngFor="let statusData of statusesData" [hidden]="statusData.name !== statusName">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content

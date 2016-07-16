@@ -1,11 +1,13 @@
-<ion-navbar *navbar>
-  <ion-title>我的</ion-title>
-  <ion-buttons end>
-    <button [navPush]="settingsPage">
-      <ion-icon name="settings"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar>
+    <ion-title>我的</ion-title>
+    <ion-buttons end>
+      <button [navPush]="settingsPage">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content>
   <ion-list [ngSwitch]="user?.identity">
@@ -17,7 +19,7 @@
       <p>积分：{{user?.score}}</p>
     </a>
 
-    <ion-item-group *ngSwitchWhen="0">
+    <ion-item-group *ngSwitchCase="0">
       <ion-item-divider></ion-item-divider>
       <button ion-item>
         <ion-icon name="list-box" item-left></ion-icon>

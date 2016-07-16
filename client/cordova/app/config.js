@@ -1,5 +1,5 @@
 const Config = {
-  env: 'staging', // 当前环境
+  env: 'dev', // 当前环境
   get isDev() { // 是否为开发环境
     return Config.env === 'dev';
   },
