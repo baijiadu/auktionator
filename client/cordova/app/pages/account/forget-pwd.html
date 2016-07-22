@@ -1,23 +1,23 @@
-<ion-navbar>
-  <ion-buttons start>
-    <button dark (click)="dismiss()">返回</button>
-  </ion-buttons>
-  <ion-title>忘记密码</ion-title>
-</ion-navbar>
-<ion-content padding>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button dark (click)="dismiss()">返回</button>
+    </ion-buttons>
+    <ion-title>忘记密码</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
   <form #form="ngForm" novalidate>
     <ion-item>
       <ion-label>手机号：</ion-label>
       <ion-input [(ngModel)]="forgetPwd.tel" ngControl="tel" #tel="ngForm" type="tel" required minlength="11" maxlength="11"></ion-input>
     </ion-item>
-    <p [hidden]="tel.valid || tel.pristine" danger padding-left>手机号码很重要哦</p>
 
     <ion-item>
       <ion-label>验证码：</ion-label>
       <ion-input [(ngModel)]="forgetPwd.code" ngControl="code" #code="ngForm" type="number" required minlength="4" maxlength="4"></ion-input>
       <button item-right [disabled]="!tel.valid || verifyCodeProcessing" (click)="getVerifyCode()">{{!verifyCodeProcessing ? '获取验证码' : verifyCodeCounter + '秒后重试'}}</button>
     </ion-item>
-    <p [hidden]="code.valid || code.pristine" danger padding-left>验证码是4为纯数字哦</p>
 
     <ion-item no-lines>
       <button block type="submit" (click)="submit()" [disabled]="!form.form.valid">提交</button>

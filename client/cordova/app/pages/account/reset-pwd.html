@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button dark (click)="dismiss()">返回</button>
+    </ion-buttons>
+    <ion-title>重置密码</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form #form="ngForm" novalidate>
+    <ion-item>
+      <ion-label>密码：</ion-label>
+      <ion-input [(ngModel)]="resetPwd.pwd" ngControl="pwd" #pwd="ngForm" type="password" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>确认密码：</ion-label>
+      <ion-input [(ngModel)]="resetPwd.confirmPwd" ngControl="confirmPwd" #confirmPwd="ngForm" type="password" required></ion-input>
+    </ion-item>
+
+    <ion-item no-lines>
+      <button block type="submit" (click)="submit()" [disabled]="!form.form.valid">提交</button>
+    </ion-item>
+  </form>
+</ion-content>

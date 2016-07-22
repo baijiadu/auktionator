@@ -36,7 +36,7 @@
       </ion-item>
 
       <div class="links">
-        <button class="fr" clear small (click)="forgetPwd()">忘记密码</button>
+        <button class="fr" clear small (click)="showForgetPwdModal()">忘记密码</button>
       </div>
     </form>
     <ion-card class="third-party">
@@ -47,7 +47,7 @@
             <button success (click)="thirdPartyAuth('weixin')" [disabled]="!weixinInstalled">微信</button>
           </ion-col>
           <ion-col text-center>
-            <button warning (click)="thirdPartyAuth('qq')">QQ</button>
+            <button warning (click)="thirdPartyAuth('qq')" disabled>QQ</button>
           </ion-col>
         </ion-row>
       </ion-card-content>

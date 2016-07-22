@@ -2,8 +2,31 @@
   <ion-navbar>
     <ion-title>关注</ion-title>
   </ion-navbar>
+  <ion-toolbar>
+    <ion-toolbar padding>
+      <ion-segment [(ngModel)]="favoriteType">
+        <ion-segment-button value="ak">
+          拍卖师
+        </ion-segment-button>
+        <ion-segment-button value="game">
+          拍场
+        </ion-segment-button>
+        <ion-segment-button value="product">
+          拍品
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding class="favorite">
-
+<ion-content class="favorite">
+  <ion-content [hidden]="favoriteType !== 'ak'">
+    <h1>TODO拍卖师列表</h1>
+  </ion-content>
+  <ion-content [hidden]="favoriteType !== 'game'">
+    <h1>TODO拍场列表</h1>
+  </ion-content>
+  <ion-content [hidden]="favoriteType !== 'product'">
+    <h1>TODO拍品列表</h1>
+  </ion-content>
 </ion-content>

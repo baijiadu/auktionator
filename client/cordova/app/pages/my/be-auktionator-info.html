@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>完善资料</ion-title>
+    <ion-buttons end *ngIf="user.akInfo">
+      <button (click)="submit()">保存</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form #form="ngForm" novalidate>
+    <ion-item>
+      <ion-label>资质证书（TODO）：</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>真实姓名：</ion-label>
+      <ion-input [(ngModel)]="akInfo.realName" ngControl="realname" #realname="ngForm" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>身份证号：</ion-label>
+      <ion-input [(ngModel)]="akInfo.idNumber" ngControl="idNumber" #idNumber="ngForm" type="number" required minlength="18" maxlength="18"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>联系地址：</ion-label>
+      <ion-textarea [(ngModel)]="akInfo.address" ngControl="address" #address="ngForm" type="number" required></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>联系方式：</ion-label>
+      <ion-input [(ngModel)]="akInfo.tel" ngControl="tel" #tel="ngForm" type="tel" minlength="11" maxlength="11" required></ion-input>
+    </ion-item>
+
+    <ion-item no-lines *ngIf="!user.akInfo">
+      <button block type="submit" (click)="submit()" [disabled]="!form.form.valid">提交</button>
+    </ion-item>
+  </form>
+</ion-content>

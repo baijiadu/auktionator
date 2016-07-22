@@ -14,22 +14,22 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <div class="whats-up">
-    <ion-slides [options]="whatsupOptions">
-      <ion-slide *ngFor="let item of whatsups" (click)="whatsupTapped(item)">
+  <div class="carousels">
+    <ion-slides [options]="carouselsOptions">
+      <ion-slide *ngFor="let item of carousels" (click)="handleCarouselsClick(item)">
         <img src="{{item.thumb}}"/>
       </ion-slide>
     </ion-slides>
   </div>
 
-  <div class="zones" padding-top padding-bottom>
-    <ion-slides [options]="{slidesPerView: 4.5, freeMode: true}">
-      <ion-slide *ngFor="let item of zones">
+  <ion-grid class="icons" padding-top padding-bottom>
+    <ion-row>
+      <ion-col *ngFor="let item of icons">
         <img src="{{item.thumb}}"/>
         <p>{{item.title}}</p>
-      </ion-slide>
-    </ion-slides>
-  </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-list>
     <ion-list-header>
@@ -58,6 +58,6 @@
   </ion-list>
 
   <div padding style="text-align: center">
-    <button outline round small (click)="showMoreGamesPage()">查看更多</button>
+    <button outline round small (click)="showMoreGames()">更多拍场</button>
   </div>
 </ion-content>

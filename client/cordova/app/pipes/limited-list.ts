@@ -1,8 +1,8 @@
-import {Pipe, PipeTransform} from 'angular2/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({name: 'limitedList'})
 export class LimitedList implements PipeTransform {
-    transform(list:Array, args:number[]) : Array {
+    transform(list:Array<any>, args:number[]) : Array<any> {
         list = list || [];
 
         let start = args[0] || 1;

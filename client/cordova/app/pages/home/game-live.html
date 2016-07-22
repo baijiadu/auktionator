@@ -1,0 +1,111 @@
+<ion-header class="game-detail-page">
+  <div class="top-covers">
+    <ion-slides [options]="{lazyLoading: true, paginationType: 'fraction'}">
+      <ion-slide *ngFor="let item of currentProduct?.uploadImages, let i = index">
+        <img src="{{item.normal | qiniuStyles: 'product.cover'}}">
+      </ion-slide>
+    </ion-slides>
+    <p class="title">{{currentProduct.title}}</p>
+
+    <ion-toolbar class="top-btns">
+      <ion-buttons left>
+        <button (click)="back()" light>
+          <ion-icon name="arrow-back"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-buttons end>
+        <button (click)="favorite()" [hidden]="user?.identity !== 0" light>
+          <ion-icon name="heart"></ion-icon>
+        </button>
+        <button (click)="share()" light>
+          <ion-icon name="share"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </div>
+
+  <div class="section-thumbs">
+    <ion-slides [options]="{slidesPerView: 4.5, spaceBetween : 5, freeMode: true}">
+      <ion-slide *ngFor="let item of game._sections" (click)="switchSection(item)">
+        <img src="{{item.thumb}}"/>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <div class="info-tabs">
+    <ion-segment [(ngModel)]="tabName">
+      <ion-segment-button value="akInfo">
+        竞拍信息
+      </ion-segment-button>
+      <ion-segment-button value="chatInfo">
+        聊天信息
+      </ion-segment-button>
+      <ion-segment-button value="gameInfo">
+        拍场简介
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+</ion-header>
+
+<ion-content #mainContent class="game-detail-page">
+  <div class="ak-info" [hidden]="tabName !== 'akInfo'">
+    <p class="content" padding (click)="showProductDetail()">拍品详细：{{currentProduct.content}}</p>
+    <ion-item class="opt4">
+      <ion-row center class="r1">
+        <ion-col><button small clear dark block>起：￥{{currentProduct.beginningPrice}}元</button></ion-col>
+        <ion-col><button small clear dark block>加：￥{{currentProduct.increasePrice}}元</button></ion-col>
+        <ion-col><button small clear dark block>保：￥{{currentProduct.guaranteePrice}}元</button></ion-col>
+      </ion-row>
+      <ion-row center class="r2" *ngIf="currentProduct.dealPrice || currentProduct.referencePrice">
+        <ion-col *ngIf="currentProduct.maxPrice"><button small clear dark block>一口：￥{{currentProduct.maxPrice}}元</button></ion-col>
+        <ion-col *ngIf="currentProduct.minPrice"><button small clear dark block>保底：￥{{currentProduct.minPrice}}元</button></ion-col>
+      </ion-row>
+    </ion-item>
+  </div>
+  <div class="chat-info" [hidden]="tabName !== 'chatInfo'">
+    <p padding>敬请期待</p>
+  </div>
+  <div class="game-info" [hidden]="tabName !== 'gameInfo'">
+    <p class="content" padding>拍场说明：{{game.content}}</p>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ak-actions" *ngIf="user?.identity === 0">
+    <ion-input placeholder="来说两句吧..."></ion-input>
+    <ion-buttons end>
+      <button>
+        <ion-icon name="chatbubbles"></ion-icon>
+        发言
+      </button>
+      <button>
+        <ion-icon name="hand"></ion-icon>
+        出价
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="ak-actions" *ngIf="user?.identity === 1">
+    <ion-input placeholder="来说两句吧..."></ion-input>
+    <ion-buttons end>
+      <button>
+        <ion-icon name="chatbubbles"></ion-icon>
+        发言
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="ak-actions" *ngIf="user?.identity === 2">
+    <ion-input placeholder="来说两句吧..."></ion-input>
+    <ion-buttons end>
+      <button>
+        <ion-icon name="chatbubbles"></ion-icon>
+        发言
+      </button>
+      <button>
+        <ion-icon name="timer"></ion-icon>
+        倒计时
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

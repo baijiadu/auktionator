@@ -25,17 +25,15 @@
         <ion-icon name="list-box" item-left></ion-icon>
         我的订单
       </button>
-      <button ion-item>
-        <ion-icon name="heart" item-left></ion-icon>
-        我的收藏
-      </button>
-      <button ion-item [navPush]="beSellerPage">
+      <button *ngIf="!user?.akInfo" ion-item (click)="beSeller()">
         <ion-icon name="flame" item-left></ion-icon>
         商家入驻
+        <ion-note item-right *ngIf="user?.sellerInfo">资料审核中</ion-note>
       </button>
-      <button ion-item [navPush]="beAuktionatorPage">
+      <button *ngIf="!user?.sellerInfo" ion-item  (click)="beAuktionator()">
         <ion-icon name="hand" item-left></ion-icon>
         成为拍卖师
+        <ion-note item-right *ngIf="user?.akInfo">资料审核中</ion-note>
       </button>
     </ion-item-group>
 
@@ -73,9 +71,9 @@
       </button>
     </ion-item-group>
 
-    <ion-item-group *ngIf="user?.identity === 3" [navPush]="manageUsersPage">
+    <ion-item-group *ngIf="user?.identity === 3">
       <ion-item-divider></ion-item-divider>
-      <button ion-item>
+      <button ion-item [navPush]="manageUsersPage">
         <ion-icon name="person" item-left></ion-icon>
         用户管理
       </button>

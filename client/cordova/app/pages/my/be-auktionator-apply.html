@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>成为拍卖师信息</ion-title>
+    <ion-buttons end>
+      <button (click)="edit()">修改</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1>资质证书：TODO</h1>
+  <h1>真实姓名：{{user.akInfo?.realName}}</h1>
+  <h2>身份证号：{{user.akInfo?.idNumber}}</h2>
+  <h3>联系地址：{{user.akInfo?.address}}</h3>
+  <p>联系方式：{{user.akInfo?.tel}}</p>
+  <p>审核状态：{{applyInfo.status | applyStatus}}</p>
+  <p *ngIf="applyInfo.status == 10">失败原因：{{applyInfo.failReason}}</p>
+</ion-content>
