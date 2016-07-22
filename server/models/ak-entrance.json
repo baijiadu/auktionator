@@ -1,0 +1,49 @@
+{
+  "name": "AKEntrance",
+  "plural": "ak-entrances",
+  "base": "AKPersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "入口类型，包括轮播图（carousel）、图标文字（icon）",
+      "default": "carousel"
+    },
+    "title": {
+      "type": "string",
+      "description": "入口标题"
+    },
+    "subTitle": {
+      "type": "string",
+      "description": "入口副标题"
+    },
+    "thumb": {
+      "type": "string",
+      "required": true,
+      "description": "入口图片"
+    },
+    "targetData": {
+      "type": "object",
+      "required": true,
+      "description": "目标数据"
+    },
+    "targetType": {
+      "type": "string",
+      "required": true,
+      "description": "目标类型，如：http（单独页面）、page（APP内的页面）、cmd（命令）",
+      "default": "page"
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "入口是否可用",
+      "default": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

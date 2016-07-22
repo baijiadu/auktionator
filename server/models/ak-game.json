@@ -108,6 +108,12 @@
       "type": "hasMany",
       "model": "AKOrder",
       "foreignKey": "gameId"
+    },
+    "gameFollowers": {
+      "type": "hasMany",
+      "model": "AKUser",
+      "foreignKey": "followingId",
+      "through": "AKFollowGame"
     }
   },
   "acls": [],

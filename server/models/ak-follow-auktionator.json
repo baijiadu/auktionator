@@ -1,0 +1,30 @@
+{
+  "name": "AKFollowAuktionator",
+  "plural": "ak-follow-auktionators",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "created": {
+      "type": "date",
+      "defaultFn": "now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "follower": {
+      "type": "belongsTo",
+      "model": "AKUser",
+      "foreignKey": "followerId"
+    },
+    "following": {
+      "type": "belongsTo",
+      "model": "AKUser",
+      "foreignKey": "followingId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

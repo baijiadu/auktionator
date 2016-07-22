@@ -89,6 +89,14 @@
       "type": "number",
       "description": "积分",
       "default": 0
+    },
+    "sellerInfo": {
+      "type": "object",
+      "description": "商家信息，当身份为商家时"
+    },
+    "akInfo": {
+      "type": "object",
+      "description": "拍卖师信息，当身份为拍卖师时"
     }
   },
   "validations": [],
@@ -138,6 +146,35 @@
       "type": "hasMany",
       "model": "AKGameTicket",
       "foreignKey": "helpBuyerId"
+    },
+    "applies": {
+      "type": "hasMany",
+      "model": "AKApply",
+      "foreignKey": "applicantId"
+    },
+    "akFollowings": {
+      "type": "hasMany",
+      "model": "AKUser",
+      "foreignKey": "followerId",
+      "through": "AKFollowAuktionator"
+    },
+    "akFollowers": {
+      "type": "hasMany",
+      "model": "AKUser",
+      "foreignKey": "followingId",
+      "through": "AKFollowAuktionator"
+    },
+    "gameFollowings": {
+      "type": "hasMany",
+      "model": "AKGame",
+      "foreignKey": "followerId",
+      "through": "AKFollowGame"
+    },
+    "productFollowings": {
+      "type": "hasMany",
+      "model": "AKProduct",
+      "foreignKey": "followerId",
+      "through": "AKFollowProduct"
     }
   },
   "acls": [],

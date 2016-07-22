@@ -10,8 +10,7 @@ module.exports = function (server) {
 
   router.get('/home', function (req, res) {
     var AKGame = loopback.getModel('AKGame');
-    var AKWhatsUp = loopback.getModel('AKWhatsUp');
-    var AKZone = loopback.getModel('AKZone');
+    var AKEntrance = loopback.getModel('AKEntrance');
 
     var gameInclude = {
       relation: 'auktionator',
@@ -20,17 +19,24 @@ module.exports = function (server) {
       }
     };
     async.auto({
-      whatsups: function (cb) {
-        AKWhatsUp.find({
-          where: {enabled: true},
+      carousels: function (cb) {
+        AKEntrance.find({
+          where: {
+            type: 'carousel', // 轮播图
+            enabled: true,
+          },
           limit: 5,
-          order: 'id DESC'
+          order: 'created DESC'
         }, cb);
       },
-      zones: function (cb) {
-        AKZone.find({
-          where: {enabled: true},
-          order: 'id ASC'
+      icons: function (cb) {
+        AKEntrance.find({
+          where: {
+            type: 'icon', // 图标
+            enabled: true,
+          },
+          limit: 4,
+          order: 'created ASC'
         }, cb);
       },
       recommendGames: function (cb) {
@@ -61,8 +67,8 @@ module.exports = function (server) {
       if (err) return res.jsonError(err, 100);
 
       res.jsonSuccess({
-        whatsups: results.whatsups,
-        zones: results.zones,
+        carousels: results.carousels,
+        icons: results.icons,
         recommendGames: results.recommendGames,
         livingGames: results.livingGames,
         notStartedGames: results.notStartedGames,

@@ -106,6 +106,12 @@
       "model": "AKUser",
       "foreignKey": "productId",
       "through": "AKProductBid"
+    },
+    "productFollowers": {
+      "type": "hasMany",
+      "model": "AKUser",
+      "foreignKey": "followingId",
+      "through": "AKFollowProduct"
     }
   },
   "acls": [],

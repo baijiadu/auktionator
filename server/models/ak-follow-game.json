@@ -1,0 +1,30 @@
+{
+  "name": "AKFollowGame",
+  "plural": "ak-follow-games",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "created": {
+      "type": "date",
+      "defaultFn": "now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "follower": {
+      "type": "belongsTo",
+      "model": "AKUser",
+      "foreignKey": "followerId"
+    },
+    "following": {
+      "type": "belongsTo",
+      "model": "AKGame",
+      "foreignKey": "followingId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

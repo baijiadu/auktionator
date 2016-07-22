@@ -1,0 +1,35 @@
+{
+  "name": "AKApply",
+  "plural": "ak-applies",
+  "base": "AKPersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "type": {
+      "type": "string",
+      "required": true,
+      "description": "申请类别：ak（拍卖师）, seller（商家）"
+    },
+    "status": {
+      "type": "number",
+      "description": "申请状态，0（待审核），1（审核通过）、10（审核不通过）",
+      "required": true,
+      "default": 0
+    },
+    "failReason": {
+      "type": "string",
+      "description": "失败原因"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "applicant": {
+      "type": "belongsTo",
+      "model": "AKUser"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
